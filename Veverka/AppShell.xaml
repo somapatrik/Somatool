@@ -4,11 +4,19 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:Veverka"
+    xmlns:views="clr-namespace:Veverka.Views"
     Shell.FlyoutBehavior="Disabled">
 
-    <ShellContent
+    <!--<ShellContent
         Title="Home"
         ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+        Route="MainPage" />-->
+
+    <TabBar>
+        <Tab Title="PLC"
+            Icon="dotnet_bot.svg">
+            <ShellContent ContentTemplate="{DataTemplate views:MainPage}" Route="MainPage"/>
+        </Tab>
+    </TabBar>
 
 </Shell>

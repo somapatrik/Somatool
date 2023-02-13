@@ -1,6 +1,6 @@
 ﻿using Veverka.ViewModels;
 
-namespace Veverka;
+namespace Veverka.Views;
 
 public partial class MainPage : ContentPage
 {

@@ -4,6 +4,18 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
+    <Color x:Key="IndustrialOrange50">#FE5000</Color>
+    <Color x:Key="IndustrialOrange40">#E64900</Color>
+    <Color x:Key="IndustrialOrange30">#FF6219</Color>
+    <Color x:Key="IndustrialOrange20">#E8720C</Color>
+    <Color x:Key="IndustrialOrange10">#FF9E0D</Color>
+
+    <Color x:Key="IndustrialGreen20">#12B347</Color>
+    <Color x:Key="IndustrialGreen10">#0DFF5D</Color>
+
+    <Color x:Key="IndustrialBlue20">#126DB3</Color>
+    <Color x:Key="IndustrialBlue10">#0D97FF</Color>
+
     <Style TargetType="ActivityIndicator">
         <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
     </Style>

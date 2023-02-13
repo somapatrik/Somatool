@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Veverka.ViewModels
 {
-    public class MainViewModel :PrimeViewModel
+    public class MainViewModel : PrimeViewModel
     {
 
     }
