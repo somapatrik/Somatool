@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#512BD4</color>
-    <color name="colorPrimaryDark">#2B0B98</color>
+    <!-- Android top bar  -->
+    <color name="colorPrimary">#22272e</color>
+     <!-- Android top bar dark -->
+    <color name="colorPrimaryDark">#22272e</color>
+
     <color name="colorAccent">#2B0B98</color>
 </resources>

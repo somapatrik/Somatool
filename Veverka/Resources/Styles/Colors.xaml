@@ -4,7 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
-    <Color x:Key="Primary">#512BD4</Color>
+    <Color x:Key="Primary">#FE5000</Color>
     <Color x:Key="Secondary">#DFD8F7</Color>
     <Color x:Key="Tertiary">#2B0B98</Color>
     <Color x:Key="White">White</Color>
@@ -17,6 +17,28 @@
     <Color x:Key="Gray600">#404040</Color>
     <Color x:Key="Gray900">#212121</Color>
     <Color x:Key="Gray950">#141414</Color>
+    
+    <Color x:Key="IndustrialOrange50">#FE5000</Color>
+    <Color x:Key="IndustrialOrange60">#E64900</Color>
+    <Color x:Key="IndustrialOrange30">#FF6219</Color>
+    <Color x:Key="IndustrialOrange20">#E8720C</Color>
+    <Color x:Key="IndustrialOrange10">#FF9E0D</Color>
+
+    <Color x:Key="IndustrialGreen20">#12B347</Color>
+    <Color x:Key="IndustrialGreen10">#0DFF5D</Color>
+
+    <Color x:Key="IndustrialBlue20">#126DB3</Color>
+    <Color x:Key="IndustrialBlue10">#0D97FF</Color>
+
+    <Color x:Key="GithubDark">#24292f</Color>
+    <Color x:Key="GithubLight">#f6f8fa</Color>
+    <Color x:Key="GithubRed">#cf222e</Color>
+    <Color x:Key="GithubGreen">#2da44e</Color>
+    <Color x:Key="BootstrapWarning">#ffca2c</Color>
+    <Color x:Key="NexenColor">#9d1c9d</Color>
+    <Color x:Key="GithubDim">#22272e</Color>
+    <Color x:Key="SomaDarkLight">#434c57</Color>
+
     <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource Primary}"/>
     <SolidColorBrush x:Key="SecondaryBrush" Color="{StaticResource Secondary}"/>
     <SolidColorBrush x:Key="TertiaryBrush" Color="{StaticResource Tertiary}"/>
