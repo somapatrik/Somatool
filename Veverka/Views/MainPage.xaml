@@ -4,47 +4,73 @@
              xmlns:viewModels="clr-namespace:Veverka.ViewModels"
              xmlns:models="clr-namespace:Veverka.Models"
              x:Class="Veverka.Views.MainPage"
-             Shell.NavBarIsVisible="False"
+             Shell.NavBarIsVisible="True"
+             Title="Veverka"
              x:DataType="viewModels:MainViewModel">
 
-    <StackLayout>
+    <Grid>
 
-        <Frame BackgroundColor="{StaticResource GithubDim}" Padding="5">
-            <Label Text="Veverka" FontSize="48" TextColor="White" HorizontalOptions="Center"/>
-        </Frame>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
 
-        <ScrollView x:DataType="viewModels:MainViewModel">
+        <Grid Grid.Row="0" Margin="10" ColumnSpacing="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
 
-            <StackLayout Orientation="Vertical" Padding="10" Spacing="10">
+            <Button Grid.Column="0" Text="Create PLC" Command="{Binding CreatePlc}"/>
+            <Button Grid.Column="1" Text="Filter by group" Command="{Binding CreatePlc}"/>
 
-                <Button Text="Add PLC" Command="{Binding CreatePlc}"/>
+        </Grid>
+        
+        <StackLayout Grid.Row="1">
+                   
 
-
-            </StackLayout>
-
-        </ScrollView>
-
-        <RefreshView Command="{Binding Refresh}" IsRefreshing="{Binding IsBusy}">
+            <RefreshView Command="{Binding Refresh}" IsRefreshing="{Binding IsBusy}" >
 
             <CollectionView ItemsSource="{Binding Plcs}" 
                             SelectionMode="None"
                             SelectedItem="{Binding SelectedPlc}">
 
-                <CollectionView.ItemTemplate>
+                    <CollectionView.ItemTemplate>
 
                     <DataTemplate x:DataType="models:S7Plc">
-                        <Label Text="{Binding Name}" TextColor="Black"/>
+
+                        <Frame Margin="10,5">
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+
+                                <Label Text="{Binding Name}"/>
+                                <Label Grid.Column="1" Text="{Binding IP}" HorizontalTextAlignment="End"/>
+                                <Label Grid.Row="1" Text="{Binding Description}"/>
+
+                            </Grid>
+
+                        </Frame>
+
                     </DataTemplate>
 
                 </CollectionView.ItemTemplate>
+                
 
             </CollectionView>
+           
+            </RefreshView>
+        </StackLayout>
 
-        </RefreshView>
+    </Grid>
 
-
-    </StackLayout>
-    
-    
 
 </ContentPage>

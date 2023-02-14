@@ -32,18 +32,14 @@ namespace Veverka.Services
                 return;
 
             Database = new SQLiteAsyncConnection(DatabasePath, Flags);
-            var result = await Database.CreateTableAsync<S7Plc>();
+
+            await Database.CreateTableAsync<S7Plc>();
+            await Database.CreateTableAsync<PlcGroup>();
         }
 
 
         #endregion
 
-
-        /// <summary>
-        /// Create new PLC
-        /// </summary>
-        /// <param name="plc"></param>
-        /// <returns></returns>
         public static async Task CreatePlc(S7Plc plc)
         {
             await Database.InsertAsync(plc);
@@ -52,6 +48,16 @@ namespace Veverka.Services
         public static async Task<List<S7Plc>> GetAllPlcs()
         {
             return await Database.Table<S7Plc>().ToListAsync();
+        }
+
+        public static async Task CreatePlcGroup(PlcGroup group)
+        {
+            await Database.InsertAsync(group);
+        }
+
+        public static async Task<List<PlcGroup>> GetAllPlcGroups()
+        {
+            return await Database.Table<PlcGroup>().ToListAsync();
         }
 
     }

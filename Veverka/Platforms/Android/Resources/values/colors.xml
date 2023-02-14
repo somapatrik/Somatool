@@ -3,7 +3,7 @@
     <!-- Android top bar  -->
     <color name="colorPrimary">#22272e</color>
      <!-- Android top bar dark -->
-    <color name="colorPrimaryDark">#22272e</color>
+    <color name="colorPrimaryDark">#000000</color>
 
     <color name="colorAccent">#2B0B98</color>
 </resources>

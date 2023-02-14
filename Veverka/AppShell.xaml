@@ -17,11 +17,11 @@
             Icon="dotnet_bot.svg">
             <ShellContent ContentTemplate="{DataTemplate views:MainPage}" Route="MainPage"/>
         </Tab>
-        <!--<Tab Title="Locations"
+        <Tab Title="Locations"
             Icon="dotnet_bot.svg">
             <ShellContent ContentTemplate="{DataTemplate views:MainPage}" Route="MainPage"/>
         </Tab>
-        <Tab Title="Locations"
+        <!--<Tab Title="Locations"
             Icon="dotnet_bot.svg">
             <ShellContent ContentTemplate="{DataTemplate views:MainPage}" Route="MainPage"/>
         </Tab>
