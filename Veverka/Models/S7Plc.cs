@@ -13,5 +13,7 @@ namespace Veverka.Models
         public int ID { get; set; }
         public string Name { get; set; }
         public string IP { get; set; }
+        public string Description { get; set; }
+        public int Group_ID { get; set; }
     }
 }

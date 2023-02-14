@@ -7,9 +7,9 @@
 
     <ScrollView x:DataType="viewModels:MainViewModel">
 
-        <StackLayout Orientation="Vertical">
+        <StackLayout Orientation="Vertical" Padding="10">
             
-            <Button Text="Create PLC" 
+            <Button Text="Add PLC" 
                     Command="{Binding CreatePlc}"/>
 
         </StackLayout>

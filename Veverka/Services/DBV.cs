@@ -1,14 +1,18 @@
-﻿using System;
+﻿using SQLite;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Veverka.Models;
 
 namespace Veverka.Services
 {
     public static class DBV
     {
         #region DB settings
+
+        static SQLiteAsyncConnection Database;
 
         public static string DatabaseFilename = "TodoSQLite.db3";
 
@@ -22,9 +26,28 @@ namespace Veverka.Services
 
         public static string DatabasePath =>  Path.Combine(FileSystem.AppDataDirectory, DatabaseFilename);
 
+        public static async Task InitDB()
+        {
+            if (Database != null)
+                return;
+
+            Database = new SQLiteAsyncConnection(DatabasePath, Flags);
+            var result = await Database.CreateTableAsync<S7Plc>();
+        }
+
+
         #endregion
 
 
+        /// <summary>
+        /// Create new PLC
+        /// </summary>
+        /// <param name="plc"></param>
+        /// <returns></returns>
+        public static async Task CreatePayment(S7Plc plc)
+        {
+            await Database.InsertAsync(plc);
+        }
 
     }
 }

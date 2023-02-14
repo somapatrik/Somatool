@@ -2,23 +2,37 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Veverka.Views.EditS7PlcPage"
-             Title="EditS7PlcPage"
+             Title="Create PLC"
              Shell.NavBarIsVisible="False">
-    
-    <StackLayout Orientation="Vertical" Padding="20,10" Spacing="10">
 
-        <Frame BackgroundColor="{StaticResource Gray600}" BorderColor="Transparent" CornerRadius="10" Padding="7">
-            <StackLayout Orientation="Vertical" Spacing="10">
-            <Entry Placeholder="Name" HorizontalTextAlignment="Center" FontSize="Medium" TextColor="White"/>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
 
-            <Entry Placeholder="IP" HorizontalTextAlignment="Center" FontSize="Medium"/>
+        <ScrollView>
+            <StackLayout Orientation="Vertical" Padding="20,10" Spacing="10" VerticalOptions="CenterAndExpand">
 
-            <Entry Placeholder="Name" HorizontalTextAlignment="Center" FontSize="Medium"/>
-            </StackLayout>
-        </Frame>
+                <Label Text="Name" FontSize="Medium"/>
+                <Entry  HorizontalTextAlignment="Center" FontSize="Medium"/>
+                
+                <Label Text="IP"/>
+                <Entry HorizontalTextAlignment="Center" FontSize="Medium"/>
 
-        <Button Text="Save"/>
+                <Label Text="Description"/>
+                <Entry HorizontalTextAlignment="Center" FontSize="Medium" />
 
-    </StackLayout>
-    
+                <Label Text="Group"/>
+                <Picker HorizontalTextAlignment="Center" FontSize="Medium"/>
+
+
+
+        </StackLayout>
+        </ScrollView>
+
+        <Button Grid.Row="1" Text="Save" Padding="10" />
+
+    </Grid>
+
 </ContentPage>
