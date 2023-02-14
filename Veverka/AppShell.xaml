@@ -17,6 +17,26 @@
             Icon="dotnet_bot.svg">
             <ShellContent ContentTemplate="{DataTemplate views:MainPage}" Route="MainPage"/>
         </Tab>
+        <!--<Tab Title="Locations"
+            Icon="dotnet_bot.svg">
+            <ShellContent ContentTemplate="{DataTemplate views:MainPage}" Route="MainPage"/>
+        </Tab>
+        <Tab Title="Locations"
+            Icon="dotnet_bot.svg">
+            <ShellContent ContentTemplate="{DataTemplate views:MainPage}" Route="MainPage"/>
+        </Tab>
+        <Tab Title="Locations"
+            Icon="dotnet_bot.svg">
+            <ShellContent ContentTemplate="{DataTemplate views:MainPage}" Route="MainPage"/>
+        </Tab>
+        <Tab Title="PC"
+            Icon="dotnet_bot.svg">
+            <ShellContent ContentTemplate="{DataTemplate views:MainPage}" Route="MainPage"/>
+        </Tab>
+        <Tab Title="Settings"
+            Icon="dotnet_bot.svg">
+            <ShellContent ContentTemplate="{DataTemplate views:MainPage}" Route="MainPage"/>
+        </Tab>-->
     </TabBar>
 
 </Shell>

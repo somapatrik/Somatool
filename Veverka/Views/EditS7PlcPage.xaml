@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:Veverka.ViewModels"
              x:Class="Veverka.Views.EditS7PlcPage"
              Title="Create PLC"
-             Shell.NavBarIsVisible="False">
+             Shell.NavBarIsVisible="False"
+             x:DataType="viewModels:EditS7PlcViewModel">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -12,16 +14,20 @@
         </Grid.RowDefinitions>
 
         <ScrollView>
-            <StackLayout Orientation="Vertical" Padding="20,10" Spacing="10" VerticalOptions="CenterAndExpand">
+            <StackLayout  
+                         Orientation="Vertical" 
+                         Padding="20,10" 
+                         Spacing="10" 
+                         VerticalOptions="CenterAndExpand">
 
                 <Label Text="Name" FontSize="Medium"/>
-                <Entry  HorizontalTextAlignment="Center" FontSize="Medium"/>
+                <Entry Text="{Binding Name}" HorizontalTextAlignment="Center" FontSize="Medium"/>
                 
                 <Label Text="IP"/>
-                <Entry HorizontalTextAlignment="Center" FontSize="Medium"/>
+                <Entry Text="{Binding IP}" HorizontalTextAlignment="Center" FontSize="Medium"/>
 
                 <Label Text="Description"/>
-                <Entry HorizontalTextAlignment="Center" FontSize="Medium" />
+                <Entry Text="{Binding Description}" HorizontalTextAlignment="Center" FontSize="Medium" />
 
                 <Label Text="Group"/>
                 <Picker HorizontalTextAlignment="Center" FontSize="Medium"/>
@@ -31,7 +37,7 @@
         </StackLayout>
         </ScrollView>
 
-        <Button Grid.Row="1" Text="Save" Padding="10" />
+        <Button Grid.Row="1" Text="Save" Command="{Binding SavePlc}" Padding="10" />
 
     </Grid>
 

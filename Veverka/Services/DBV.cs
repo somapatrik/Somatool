@@ -44,9 +44,14 @@ namespace Veverka.Services
         /// </summary>
         /// <param name="plc"></param>
         /// <returns></returns>
-        public static async Task CreatePayment(S7Plc plc)
+        public static async Task CreatePlc(S7Plc plc)
         {
             await Database.InsertAsync(plc);
+        }
+
+        public static async Task<List<S7Plc>> GetAllPlcs()
+        {
+            return await Database.Table<S7Plc>().ToListAsync();
         }
 
     }

@@ -2,18 +2,49 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:Veverka.ViewModels"
+             xmlns:models="clr-namespace:Veverka.Models"
              x:Class="Veverka.Views.MainPage"
-             Shell.NavBarIsVisible="False">
+             Shell.NavBarIsVisible="False"
+             x:DataType="viewModels:MainViewModel">
 
-    <ScrollView x:DataType="viewModels:MainViewModel">
+    <StackLayout>
 
-        <StackLayout Orientation="Vertical" Padding="10">
-            
-            <Button Text="Add PLC" 
-                    Command="{Binding CreatePlc}"/>
+        <Frame BackgroundColor="{StaticResource GithubDim}" Padding="5">
+            <Label Text="Veverka" FontSize="48" TextColor="White" HorizontalOptions="Center"/>
+        </Frame>
 
-        </StackLayout>
-        
-    </ScrollView>
+        <ScrollView x:DataType="viewModels:MainViewModel">
+
+            <StackLayout Orientation="Vertical" Padding="10" Spacing="10">
+
+                <Button Text="Add PLC" Command="{Binding CreatePlc}"/>
+
+
+            </StackLayout>
+
+        </ScrollView>
+
+        <RefreshView Command="{Binding Refresh}" IsRefreshing="{Binding IsBusy}">
+
+            <CollectionView ItemsSource="{Binding Plcs}" 
+                            SelectionMode="None"
+                            SelectedItem="{Binding SelectedPlc}">
+
+                <CollectionView.ItemTemplate>
+
+                    <DataTemplate x:DataType="models:S7Plc">
+                        <Label Text="{Binding Name}" TextColor="Black"/>
+                    </DataTemplate>
+
+                </CollectionView.ItemTemplate>
+
+            </CollectionView>
+
+        </RefreshView>
+
+
+    </StackLayout>
+    
+    
 
 </ContentPage>
