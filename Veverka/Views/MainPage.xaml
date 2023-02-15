@@ -8,6 +8,11 @@
              Title="Veverka"
              x:DataType="viewModels:MainViewModel">
 
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Create PLC" Command="{Binding CreatePlc}"/>
+        <ToolbarItem Text="Create group" Command="{Binding CreateGroup}"/>
+    </ContentPage.ToolbarItems>
+
     <Grid>
 
         <Grid.RowDefinitions>
@@ -15,20 +20,25 @@
             <RowDefinition/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-
-        <Grid Grid.Row="0" Margin="10" ColumnSpacing="10">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-
-            <Button Grid.Column="0" Text="Create PLC" Command="{Binding CreatePlc}"/>
-            <Button Grid.Column="1" Text="Filter by group" Command="{Binding CreatePlc}"/>
-
-        </Grid>
         
         <StackLayout Grid.Row="1">
-                   
+
+            <CollectionView ItemsSource="{Binding Groups}" 
+                            SelectionMode="None"
+                            SelectedItem="{Binding SelectedGroup}"
+                            ItemsLayout="HorizontalList"
+                            Margin="10,0,0,0">
+
+                <CollectionView.ItemTemplate>
+
+                    <DataTemplate x:DataType="models:PlcGroup">
+
+                        <Button Text="{Binding Name}" Margin="3,0"/>
+
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+            </CollectionView>
 
             <RefreshView Command="{Binding Refresh}" IsRefreshing="{Binding IsBusy}" >
 

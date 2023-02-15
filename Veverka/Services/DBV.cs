@@ -50,6 +50,17 @@ namespace Veverka.Services
             return await Database.Table<S7Plc>().ToListAsync();
         }
 
+
+        public static async Task<PlcGroup> GetGroupByName(string Name)
+        {
+            return await Database.Table<PlcGroup>().Where(g => g.Name == Name).FirstOrDefaultAsync();
+        }
+
+        public static async Task<PlcGroup> GetGroupByID(int ID)
+        {
+            return await Database.Table<PlcGroup>().Where(g => g.ID == ID).FirstOrDefaultAsync();
+        }
+
         public static async Task CreatePlcGroup(PlcGroup group)
         {
             await Database.InsertAsync(group);
