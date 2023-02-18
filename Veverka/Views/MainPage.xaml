@@ -13,6 +13,26 @@
         <ToolbarItem Text="Create group" Command="{Binding CreateGroup}"/>
     </ContentPage.ToolbarItems>
 
+    <ContentPage.Resources>
+        <Style TargetType="Button">
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal" />
+                        <VisualState x:Name="Selected">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor"
+                                        Value="LightSkyBlue" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
+    </ContentPage.Resources>
+
+
+
     <Grid>
 
         <Grid.RowDefinitions>
@@ -24,16 +44,32 @@
         <StackLayout Grid.Row="1">
 
             <CollectionView ItemsSource="{Binding Groups}" 
-                            SelectionMode="None"
-                            SelectedItem="{Binding SelectedGroup}"
+                            SelectionMode="Multiple"
+                            SelectedItems="{Binding SelectedGroups}"
                             ItemsLayout="HorizontalList"
-                            Margin="10,0,0,0">
+                            Margin="10,10,0,10">
 
                 <CollectionView.ItemTemplate>
 
                     <DataTemplate x:DataType="models:PlcGroup">
 
-                        <Button Text="{Binding Name}" Margin="3,0"/>
+                        <Label Text="{Binding Name}" Margin="0,0,10,0">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="red"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="blue"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Label>
 
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
@@ -42,42 +78,43 @@
 
             <RefreshView Command="{Binding Refresh}" IsRefreshing="{Binding IsBusy}" >
 
-            <CollectionView ItemsSource="{Binding Plcs}" 
+                <CollectionView ItemsSource="{Binding Plcs}" 
                             SelectionMode="None"
                             SelectedItem="{Binding SelectedPlc}">
 
                     <CollectionView.ItemTemplate>
 
-                    <DataTemplate x:DataType="models:S7Plc">
+                        <DataTemplate x:DataType="models:S7Plc">
 
-                        <Frame Margin="10,5">
+                            <Frame Margin="10,5">
 
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                </Grid.RowDefinitions>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
 
-                                <Label Text="{Binding Name}"/>
-                                <Label Grid.Column="1" Text="{Binding IP}" HorizontalTextAlignment="End"/>
-                                <Label Grid.Row="1" Text="{Binding Description}"/>
+                                    <Label Text="{Binding Name}" FontAttributes="Bold"/>
+                                    <Label Grid.Column="1" Text="{Binding IP}" HorizontalTextAlignment="End"/>
+                                    <Label Grid.Row="1" Text="{Binding Description}"/>
 
-                            </Grid>
+                                </Grid>
 
-                        </Frame>
+                            </Frame>
 
-                    </DataTemplate>
+                        </DataTemplate>
 
-                </CollectionView.ItemTemplate>
-                
+                    </CollectionView.ItemTemplate>
 
-            </CollectionView>
-           
+
+                </CollectionView>
+
             </RefreshView>
+            
         </StackLayout>
 
     </Grid>

@@ -1,4 +1,5 @@
 ﻿//using Android.Accounts;
+//using Android.OS;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -26,25 +27,52 @@ namespace Veverka.ViewModels
         private S7Plc _SelectedGroup;
         public S7Plc SelectedGroup { get => _SelectedGroup; set => SetProperty(ref _SelectedGroup, value); }
 
+        private List<PlcGroup> _SelectedGroups;
+        public List<PlcGroup> SelectedGroups 
+        { 
+            get => _SelectedGroups; 
+            set => SetProperty(ref _SelectedGroups, value); 
+        }
+
         private bool _IsBusy;
         public bool IsBusy { get => _IsBusy; set => SetProperty(ref _IsBusy, value); }
 
         public ICommand Refresh { private set; get; }
         public ICommand CreatePlc { private set; get; }
         public ICommand CreateGroup { private set; get; }
+        public ICommand ToogleGroup { private set; get; }
 
         public MainViewModel()
         {
-            
-            
-            
-            
-
+            //SelectedGroups = new();// List<PlcGroup>();
+           
             CreatePlc = new Command(CreatePlcHandler);
             CreateGroup = new Command(CreateGroupHandler);
             Refresh = new Command(RefreshHandler);
 
-            IsBusy = true;
+            ToogleGroup = new Command<PlcGroup>((Group) => ToogleGroupHandler(Group));
+
+            // IsBusy = true;
+        }
+
+        private void ToogleGroupHandler(PlcGroup sender)
+        {
+            //PlcGroup clicked = (PlcGroup)sender;
+
+            if (SelectedGroups.Contains(sender))
+            {
+                SelectedGroups.Remove(sender);
+            }
+            else
+            {
+                SelectedGroups.Add(sender);
+            }
+        }
+
+        public async void OnAppearing()
+        {
+            await LoadPlcs();
+            await LoadGroups();
         }
 
         private async void CreateGroupHandler()
@@ -57,6 +85,7 @@ namespace Veverka.ViewModels
                 if (await DBV.GetGroupByName(cleanName) == null)
                 {
                     await DBV.CreatePlcGroup(new PlcGroup() { Name = cleanName });
+                    await LoadGroups();
                 }
                 else
                 {
@@ -75,20 +104,25 @@ namespace Veverka.ViewModels
         {
             IsBusy = true;
 
-            LoadGroups();
-
-            Plcs = new ObservableCollection<S7Plc>();
-            List<S7Plc> all = await DBV.GetAllPlcs();
-            //all = all.OrderByDescending(x => x.LastUse).ToList();
-            all.ForEach(x => Plcs.Add(x));
+            await LoadGroups();
+            await LoadPlcs();
 
             IsBusy = false;
         }
 
-        private async void LoadGroups()
+        private async Task LoadPlcs()
+        {
+            Plcs = new ObservableCollection<S7Plc>();
+            List<S7Plc> all = await DBV.GetAllPlcs();
+            //all = all.OrderByDescending(x => x.LastUse).ToList();
+            all.ForEach(x => Plcs.Add(x));
+        }
+
+        private async Task LoadGroups()
         {
             Groups = new ObservableCollection<PlcGroup>();
             List<PlcGroup> allGroups = await DBV.GetAllPlcGroups();
+            allGroups = allGroups.OrderByDescending(x => x.Name).ToList();
             allGroups.ForEach(x => Groups.Add(x));
         }
     }

@@ -1,4 +1,5 @@
-﻿using SQLite;
+﻿
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,6 +51,15 @@ namespace Veverka.Services
             return await Database.Table<S7Plc>().ToListAsync();
         }
 
+        public static async Task<S7Plc> GetPlcByIP(string IP)
+        {
+            return await Database.Table<S7Plc>().Where(x => x.IP == IP).FirstOrDefaultAsync();
+        }
+
+        public static async Task<S7Plc> GetPlcByName(string Name)
+        {
+            return await Database.Table<S7Plc>().Where(x => x.Name == Name).FirstOrDefaultAsync();
+        }
 
         public static async Task<PlcGroup> GetGroupByName(string Name)
         {

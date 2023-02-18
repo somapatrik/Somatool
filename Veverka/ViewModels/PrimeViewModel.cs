@@ -30,5 +30,6 @@ namespace Veverka.ViewModels
 
             changed.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
     }
 }
