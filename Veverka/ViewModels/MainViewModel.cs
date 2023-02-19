@@ -24,11 +24,11 @@ namespace Veverka.ViewModels
         private ObservableCollection<PlcGroup> _Groups;
         public ObservableCollection<PlcGroup> Groups { get => _Groups; set => SetProperty(ref _Groups, value); }
 
-        private S7Plc _SelectedGroup;
-        public S7Plc SelectedGroup { get => _SelectedGroup; set => SetProperty(ref _SelectedGroup, value); }
+        private PlcGroup _SelectedGroup;
+        public PlcGroup SelectedGroup { get => _SelectedGroup; set => SetProperty(ref _SelectedGroup, value); }
 
-        private List<PlcGroup> _SelectedGroups;
-        public List<PlcGroup> SelectedGroups 
+        private ObservableCollection<PlcGroup> _SelectedGroups;
+        public ObservableCollection<PlcGroup> SelectedGroups 
         { 
             get => _SelectedGroups; 
             set => SetProperty(ref _SelectedGroups, value); 
@@ -40,33 +40,27 @@ namespace Veverka.ViewModels
         public ICommand Refresh { private set; get; }
         public ICommand CreatePlc { private set; get; }
         public ICommand CreateGroup { private set; get; }
-        public ICommand ToogleGroup { private set; get; }
+        public ICommand SelectGroup { private set; get; }
 
         public MainViewModel()
         {
-            //SelectedGroups = new();// List<PlcGroup>();
+            //SelectedGroups = new ObservableCollection<PlcGroup>();
            
             CreatePlc = new Command(CreatePlcHandler);
             CreateGroup = new Command(CreateGroupHandler);
             Refresh = new Command(RefreshHandler);
 
-            ToogleGroup = new Command<PlcGroup>((Group) => ToogleGroupHandler(Group));
+            SelectGroup = new Command(SelectGroupHandler);
 
             // IsBusy = true;
         }
 
-        private void ToogleGroupHandler(PlcGroup sender)
+        private void SelectGroupHandler(object sender)
         {
-            //PlcGroup clicked = (PlcGroup)sender;
+            PlcGroup sel = (PlcGroup)sender;
+            if (!SelectedGroups.Contains(sel))
+                SelectedGroups.Add(sel);
 
-            if (SelectedGroups.Contains(sender))
-            {
-                SelectedGroups.Remove(sender);
-            }
-            else
-            {
-                SelectedGroups.Add(sender);
-            }
         }
 
         public async void OnAppearing()

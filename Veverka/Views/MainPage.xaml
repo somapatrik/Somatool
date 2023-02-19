@@ -13,26 +13,6 @@
         <ToolbarItem Text="Create group" Command="{Binding CreateGroup}"/>
     </ContentPage.ToolbarItems>
 
-    <ContentPage.Resources>
-        <Style TargetType="Button">
-            <Setter Property="VisualStateManager.VisualStateGroups">
-                <VisualStateGroupList>
-                    <VisualStateGroup x:Name="CommonStates">
-                        <VisualState x:Name="Normal" />
-                        <VisualState x:Name="Selected">
-                            <VisualState.Setters>
-                                <Setter Property="BackgroundColor"
-                                        Value="LightSkyBlue" />
-                            </VisualState.Setters>
-                        </VisualState>
-                    </VisualStateGroup>
-                </VisualStateGroupList>
-            </Setter>
-        </Style>
-    </ContentPage.Resources>
-
-
-
     <Grid>
 
         <Grid.RowDefinitions>
@@ -46,6 +26,8 @@
             <CollectionView ItemsSource="{Binding Groups}" 
                             SelectionMode="Multiple"
                             SelectedItems="{Binding SelectedGroups}"
+                            SelectionChangedCommand="{Binding SelectGroup}"
+                            
                             ItemsLayout="HorizontalList"
                             Margin="10,10,0,10">
 
@@ -53,23 +35,8 @@
 
                     <DataTemplate x:DataType="models:PlcGroup">
 
-                        <Label Text="{Binding Name}" Margin="0,0,10,0">
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup x:Name="CommonStates">
-                                    <VisualState x:Name="Normal">
-                                        <VisualState.Setters>
-                                            <Setter Property="BackgroundColor" Value="red"/>
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                    <VisualState x:Name="Selected">
-                                        <VisualState.Setters>
-                                            <Setter Property="BackgroundColor" Value="blue"/>
-                                        </VisualState.Setters>
-                                    </VisualState>
+                        <Label Margin="0,0,5,0" Text="{Binding Name}" Padding="5"/>
 
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-                        </Label>
 
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
