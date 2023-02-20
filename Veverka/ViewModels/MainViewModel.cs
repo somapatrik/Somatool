@@ -27,8 +27,8 @@ namespace Veverka.ViewModels
         private PlcGroup _SelectedGroup;
         public PlcGroup SelectedGroup { get => _SelectedGroup; set => SetProperty(ref _SelectedGroup, value); }
 
-        private ObservableCollection<PlcGroup> _SelectedGroups;
-        public ObservableCollection<PlcGroup> SelectedGroups 
+        private List<PlcGroup> _SelectedGroups;
+        public List<PlcGroup> SelectedGroups 
         { 
             get => _SelectedGroups; 
             set => SetProperty(ref _SelectedGroups, value); 
@@ -42,9 +42,11 @@ namespace Veverka.ViewModels
         public ICommand CreateGroup { private set; get; }
         public ICommand SelectGroup { private set; get; }
 
+        public ICommand SelectItem { private set; get; }
+
         public MainViewModel()
         {
-            //SelectedGroups = new ObservableCollection<PlcGroup>();
+            SelectedGroups = new List<PlcGroup>();
            
             CreatePlc = new Command(CreatePlcHandler);
             CreateGroup = new Command(CreateGroupHandler);
@@ -52,15 +54,23 @@ namespace Veverka.ViewModels
 
             SelectGroup = new Command(SelectGroupHandler);
 
+            SelectItem = new Command(SelectItemHandler);
+
             // IsBusy = true;
+        }
+
+        private void SelectItemHandler(object sender)
+        {
+            PlcGroup clicked = (PlcGroup)sender;
+            if (SelectedGroup == clicked)
+                SelectedGroup = null;
+            else
+                SelectedGroup = clicked;
         }
 
         private void SelectGroupHandler(object sender)
         {
-            PlcGroup sel = (PlcGroup)sender;
-            if (!SelectedGroups.Contains(sel))
-                SelectedGroups.Add(sel);
-
+            PlcGroup clicked = (PlcGroup)sender;
         }
 
         public async void OnAppearing()
