@@ -27,12 +27,12 @@ namespace Veverka.ViewModels
         private PlcGroup _SelectedGroup;
         public PlcGroup SelectedGroup { get => _SelectedGroup; set => SetProperty(ref _SelectedGroup, value); }
 
-        private List<PlcGroup> _SelectedGroups;
-        public List<PlcGroup> SelectedGroups 
-        { 
-            get => _SelectedGroups; 
-            set => SetProperty(ref _SelectedGroups, value); 
-        }
+        //private List<PlcGroup> _SelectedGroups;
+        //public List<PlcGroup> SelectedGroups 
+        //{ 
+        //    get => _SelectedGroups; 
+        //    set => SetProperty(ref _SelectedGroups, value); 
+        //}
 
         private bool _IsBusy;
         public bool IsBusy { get => _IsBusy; set => SetProperty(ref _IsBusy, value); }
@@ -40,19 +40,19 @@ namespace Veverka.ViewModels
         public ICommand Refresh { private set; get; }
         public ICommand CreatePlc { private set; get; }
         public ICommand CreateGroup { private set; get; }
-        public ICommand SelectGroup { private set; get; }
+       // public ICommand SelectGroup { private set; get; }
 
         public ICommand SelectItem { private set; get; }
 
         public MainViewModel()
         {
-            SelectedGroups = new List<PlcGroup>();
+            //SelectedGroups = new List<PlcGroup>();
            
             CreatePlc = new Command(CreatePlcHandler);
             CreateGroup = new Command(CreateGroupHandler);
             Refresh = new Command(RefreshHandler);
 
-            SelectGroup = new Command(SelectGroupHandler);
+           // SelectGroup = new Command(SelectGroupHandler);
 
             SelectItem = new Command(SelectItemHandler);
 
@@ -62,15 +62,11 @@ namespace Veverka.ViewModels
         private void SelectItemHandler(object sender)
         {
             PlcGroup clicked = (PlcGroup)sender;
+
             if (SelectedGroup == clicked)
                 SelectedGroup = null;
             else
                 SelectedGroup = clicked;
-        }
-
-        private void SelectGroupHandler(object sender)
-        {
-            PlcGroup clicked = (PlcGroup)sender;
         }
 
         public async void OnAppearing()

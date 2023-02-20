@@ -7,7 +7,7 @@ public partial class AppShell : Shell
 	public AppShell()
 	{
 		InitializeComponent();
-		InitDB();
+		//InitDB();
     }
 
 	public async void InitDB()

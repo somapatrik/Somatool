@@ -12,7 +12,7 @@
         <ToolbarItem Text="Create PLC" Command="{Binding CreatePlc}"/>
         <ToolbarItem Text="Create group" Command="{Binding CreateGroup}"/>
     </ContentPage.ToolbarItems>
-
+    
     <Grid>
 
         <Grid.RowDefinitions>
@@ -29,8 +29,6 @@
                             ItemsSource="{Binding Groups}" 
                             SelectionMode="Single"
                             SelectedItem="{Binding SelectedGroup}"
-
-                                 
                             ItemsLayout="HorizontalList"
                             Margin="10,10,0,10">
 
@@ -38,12 +36,33 @@
 
                     <DataTemplate x:DataType="models:PlcGroup">
 
-                        <Label Margin="0,0,5,0" Text="{Binding Name}" Padding="5">
-                            <Label.GestureRecognizers>
+                        <Frame Margin="0,0,5,0" Padding="10,5" HasShadow="False" CornerRadius="10" MinimumWidthRequest="70">
+                            
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroupList>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal" >
+                                            <VisualState.Setters>
+                                                <Setter Property="Style" Value="{DynamicResource unselectedGroup}" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="Selected">
+                                            <VisualState.Setters>
+                                                <Setter Property="Style" Value="{StaticResource selectedGroup}" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateGroupList>
+                            </VisualStateManager.VisualStateGroups>
+                            
+                            <Frame.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding SelectItem, Source={RelativeSource AncestorType={x:Type viewModels:MainViewModel}}}"
                                                       CommandParameter="{Binding .}"/>
-                            </Label.GestureRecognizers>
-                        </Label>
+                            </Frame.GestureRecognizers>
+                            
+                            <Label Text="{Binding Name}" HorizontalTextAlignment="Center"/>
+                            
+                        </Frame>
 
 
                     </DataTemplate>
