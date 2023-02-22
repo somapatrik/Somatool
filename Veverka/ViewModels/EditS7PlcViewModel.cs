@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,12 +24,31 @@ namespace Veverka.ViewModels
         private string _Description;
         public string Description { get => _Description; set => SetProperty(ref _Description, value); }
 
+        private ObservableCollection<PlcGroup> _Groups;
+        public ObservableCollection<PlcGroup> Groups { get => _Groups; set => SetProperty(ref _Groups, value); }
+
+
+        private PlcGroup _SelectedGroup;
+        public PlcGroup SelectedGroup { get => _SelectedGroup; set => SetProperty(ref _SelectedGroup, value); }
+
 
         public ICommand SavePlc { private set; get; }
 
         public EditS7PlcViewModel()
         {
             BindCommands();
+            LoadGroups();
+        }
+
+        private async void LoadGroups()
+        {
+            Groups = new ObservableCollection<PlcGroup>
+            {
+                new PlcGroup() { ID = 0, Name = "<None>" }
+            };
+
+            (await DBV.GetAllPlcGroups()).ForEach(g => Groups.Add(g));
+
         }
 
         private void BindCommands()
@@ -42,7 +62,8 @@ namespace Veverka.ViewModels
             {
                 Name = Name,
                 IP = IP,
-                Description = Description
+                Description = Description,
+                Group_ID = SelectedGroup == null ? 0 : SelectedGroup.ID
             };
 
             await DBV.CreatePlc(savePlc);

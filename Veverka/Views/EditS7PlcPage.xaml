@@ -30,7 +30,11 @@
                 <Entry Text="{Binding Description}" HorizontalTextAlignment="Center" FontSize="Medium" />
 
                 <Label Text="Group"/>
-                <Picker HorizontalTextAlignment="Center" FontSize="Medium"/>
+                <Picker HorizontalTextAlignment="Center" 
+                        FontSize="Medium" 
+                        ItemsSource="{Binding Groups}" 
+                        ItemDisplayBinding="{Binding Name}"
+                        SelectedItem="{Binding SelectedGroup}"/>
 
 
 
