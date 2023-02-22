@@ -36,34 +36,39 @@
 
                     <DataTemplate x:DataType="models:PlcGroup">
 
-                        <Frame Margin="0,0,5,0" Padding="10,5" HasShadow="False" CornerRadius="10" MinimumWidthRequest="70">
-                            
+                        <StackLayout>
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroupList>
                                     <VisualStateGroup x:Name="CommonStates">
                                         <VisualState x:Name="Normal" >
                                             <VisualState.Setters>
-                                                <Setter Property="Style" Value="{DynamicResource unselectedGroup}" />
+                                                <Setter Property="BackgroundColor" Value="Transparent"/>
+                                                <Setter TargetName="groupFrame" Property="Frame.Style" Value="{StaticResource GroupFrame}" />
+                                                <Setter TargetName="groupLabel"  Property="Label.Style" Value="{StaticResource GroupLabel}" />
                                             </VisualState.Setters>
                                         </VisualState>
                                         <VisualState x:Name="Selected">
                                             <VisualState.Setters>
-                                                <Setter Property="Style" Value="{StaticResource selectedGroup}" />
+                                                <Setter Property="BackgroundColor" Value="Transparent"/>
+                                                <Setter TargetName="groupFrame"  Property="Frame.Style" Value="{StaticResource GroupFrameSelected}" />
+                                                <Setter TargetName="groupLabel"  Property="Label.Style" Value="{StaticResource GroupLabelSelected}" />
                                             </VisualState.Setters>
                                         </VisualState>
                                     </VisualStateGroup>
                                 </VisualStateGroupList>
                             </VisualStateManager.VisualStateGroups>
+
+                            <Frame x:Name="groupFrame" Margin="0,0,5,0" Padding="10,5" HasShadow="False" CornerRadius="10" MinimumWidthRequest="70">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding SelectItem, Source={RelativeSource AncestorType={x:Type viewModels:MainViewModel}}}"
+                                                          CommandParameter="{Binding .}"/>
+                                </Frame.GestureRecognizers>
                             
-                            <Frame.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding SelectItem, Source={RelativeSource AncestorType={x:Type viewModels:MainViewModel}}}"
-                                                      CommandParameter="{Binding .}"/>
-                            </Frame.GestureRecognizers>
-                            
-                            <Label Text="{Binding Name}" HorizontalTextAlignment="Center"/>
+                            <Label x:Name="groupLabel" Text="{Binding Name}" HorizontalTextAlignment="Center"/>
                             
                         </Frame>
-
+                            
+                        </StackLayout>
 
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
