@@ -13,7 +13,6 @@
         <ToolbarItem Text="Create group" Command="{Binding CreateGroup}"/>
     </ContentPage.ToolbarItems>
     
-    
 
     <RefreshView Command="{Binding Refresh}" IsRefreshing="{Binding IsBusy}" >
 
@@ -106,8 +105,6 @@
                 </CollectionView>
 
         </StackLayout>
-
-
 
     </RefreshView>
 

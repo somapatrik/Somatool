@@ -6,43 +6,86 @@
              Title="Create PLC"
              Shell.NavBarIsVisible="False"
              x:DataType="viewModels:EditS7PlcViewModel">
-
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="auto"/>
-        </Grid.RowDefinitions>
-
+    
         <ScrollView>
-            <StackLayout  
-                         Orientation="Vertical" 
-                         Padding="20,10" 
-                         Spacing="10" 
-                         VerticalOptions="CenterAndExpand">
+            
+            <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="2*"/>
+            </Grid.RowDefinitions>
 
-                <Label Text="Name" FontSize="Medium"/>
-                <Entry Text="{Binding Name}" HorizontalTextAlignment="Center" FontSize="Medium"/>
-                
-                <Label Text="IP"/>
-                <Entry Text="{Binding IP}" HorizontalTextAlignment="Center" FontSize="Medium"/>
+            <StackLayout Grid.Row="1"
+                                 Orientation="Vertical" 
+                                 Padding="20,10" 
+                                 Spacing="10" 
+                                 VerticalOptions="StartAndExpand">
+
+                        <Label Text="Name"/>
+                        <Entry Text="{Binding Name}" HorizontalTextAlignment="Center" MaxLength="10"/>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    
+                    <Label Text="IP"/>
+
+                    <StackLayout Grid.Column="1" Orientation="Horizontal" Spacing="3">
+                        <Frame BackgroundColor="{StaticResource GithubGreen}" Padding="5,0">
+                            <Label Text="IP Ping" TextColor="White"/>
+                        </Frame>
+                    </StackLayout>
+                    
+                    <Entry Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding IP}" HorizontalTextAlignment="Center" MaxLength="15"/>
+                </Grid>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Label Text="Rack"/>
+
+                    <StackLayout Grid.Column="1" Orientation="Horizontal" Spacing="3">
+                        <Frame BackgroundColor="{StaticResource GithubGreen}" Padding="5,0">
+                            <Label Text="IP Ping" TextColor="White"/>
+                        </Frame>
+                    </StackLayout>
+
+                    <Entry Grid.Row="1" Grid.ColumnSpan="2"  HorizontalTextAlignment="Center" MaxLength="15"/>
+                </Grid>
+
+
+
+
+
 
                 <Label Text="Description"/>
-                <Entry Text="{Binding Description}" HorizontalTextAlignment="Center" FontSize="Medium" />
+                        <Entry Text="{Binding Description}" HorizontalTextAlignment="Center" MaxLength="30"/>
 
-                <Label Text="Group"/>
-                <Picker HorizontalTextAlignment="Center" 
-                        FontSize="Medium" 
-                        ItemsSource="{Binding Groups}" 
-                        ItemDisplayBinding="{Binding Name}"
-                        SelectedItem="{Binding SelectedGroup}"/>
+                        <Label Text="Group"/>
+                        <Picker HorizontalTextAlignment="Center" 
+                                ItemsSource="{Binding Groups}" 
+                                ItemDisplayBinding="{Binding Name}"
+                                SelectedItem="{Binding SelectedGroup}"/>
+
+                        <Button Grid.Row="1" Text="Create" Command="{Binding SavePlc}"/>
 
 
+                </StackLayout>
 
-        </StackLayout>
+            </Grid>
         </ScrollView>
-
-        <Button Grid.Row="1" Text="Save" Command="{Binding SavePlc}" Padding="10" />
-
-    </Grid>
-
+    
 </ContentPage>

@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Net;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -18,8 +21,27 @@ namespace Veverka.ViewModels
         private string _Name;
         public string Name { get => _Name; set => SetProperty(ref _Name, value); }
 
+        private bool _pingIP;
+        public bool pingIP 
+        { 
+            get => _pingIP;
+            set
+            {
+                SetProperty(ref _pingIP, value);
+                tryPing();
+            }
+        }
+
+
         private string _IP;
-        public string IP { get => _IP; set => SetProperty(ref _IP, value); }
+        public string IP 
+        { 
+            get => _IP;
+            set
+            {
+                SetProperty(ref _IP, value);
+            }
+        }
 
         private string _Description;
         public string Description { get => _Description; set => SetProperty(ref _Description, value); }
@@ -53,7 +75,15 @@ namespace Veverka.ViewModels
 
         private void BindCommands()
         {
-            SavePlc = new Command(SavePlcHandler);
+            SavePlc = new Command(SavePlcHandler, CanSave);
+        }
+
+        private bool CanSave()
+        {
+            //Name check
+            bool checkName = !string.IsNullOrEmpty(Name);
+
+            return true;
         }
 
         private async void SavePlcHandler()
@@ -68,6 +98,21 @@ namespace Veverka.ViewModels
 
             await DBV.CreatePlc(savePlc);
             await Shell.Current.GoToAsync("..");
+        }
+
+        private async void tryPing()
+        {
+            IPAddress verifyIP;
+
+            if (!string.IsNullOrEmpty(IP) && IPAddress.TryParse(IP,out verifyIP))
+            {
+                Ping pingSender = new Ping();
+                PingOptions options = new PingOptions();
+                options.DontFragment = true;
+
+                PingReply pingReply = await pingSender.SendPingAsync(verifyIP,200);
+                pingIP = pingReply.Status == IPStatus.Success;
+            }
         }
     }
 }
