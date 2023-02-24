@@ -25,14 +25,14 @@ namespace Veverka.ViewModels
         public ObservableCollection<PlcGroup> Groups { get => _Groups; set => SetProperty(ref _Groups, value); }
 
         private PlcGroup _SelectedGroup;
-        public PlcGroup SelectedGroup { get => _SelectedGroup; set => SetProperty(ref _SelectedGroup, value); }
-
-        //private List<PlcGroup> _SelectedGroups;
-        //public List<PlcGroup> SelectedGroups 
-        //{ 
-        //    get => _SelectedGroups; 
-        //    set => SetProperty(ref _SelectedGroups, value); 
-        //}
+        public PlcGroup SelectedGroup 
+        { 
+            get => _SelectedGroup;
+            set
+            {
+                SetProperty(ref _SelectedGroup, value);
+            }
+        }
 
         private bool _IsBusy;
         public bool IsBusy { get => _IsBusy; set => SetProperty(ref _IsBusy, value); }
@@ -40,26 +40,17 @@ namespace Veverka.ViewModels
         public ICommand Refresh { private set; get; }
         public ICommand CreatePlc { private set; get; }
         public ICommand CreateGroup { private set; get; }
-       // public ICommand SelectGroup { private set; get; }
-
-        public ICommand SelectItem { private set; get; }
+        public ICommand SelectGroup { private set; get; }
 
         public MainViewModel()
-        {
-            //SelectedGroups = new List<PlcGroup>();
-           
+        {           
             CreatePlc = new Command(CreatePlcHandler);
             CreateGroup = new Command(CreateGroupHandler);
             Refresh = new Command(RefreshHandler);
-
-           // SelectGroup = new Command(SelectGroupHandler);
-
-            SelectItem = new Command(SelectItemHandler);
-
-            // IsBusy = true;
+            SelectGroup = new Command(SelectGroupHandler);
         }
 
-        private void SelectItemHandler(object sender)
+        private async void SelectGroupHandler(object sender)
         {
             PlcGroup clicked = (PlcGroup)sender;
 
@@ -67,12 +58,15 @@ namespace Veverka.ViewModels
                 SelectedGroup = null;
             else
                 SelectedGroup = clicked;
+
+            await RefreshPlcs();
         }
 
-        public async void OnAppearing()
+        public void OnAppearing()
         {
-            await LoadPlcs();
-            await LoadGroups();
+            IsBusy = true;
+           // await LoadGroups();
+           // await RefreshPlcs();
         }
 
         private async void CreateGroupHandler()
@@ -105,25 +99,39 @@ namespace Veverka.ViewModels
             IsBusy = true;
 
             await LoadGroups();
-            await LoadPlcs();
+            await RefreshPlcs();
 
             IsBusy = false;
         }
 
-        private async Task LoadPlcs()
+        private async Task RefreshPlcs()
         {
             Plcs = new ObservableCollection<S7Plc>();
-            List<S7Plc> all = await DBV.GetAllPlcs();
-            //all = all.OrderByDescending(x => x.LastUse).ToList();
+            List<S7Plc> all = new List<S7Plc>();
+
+            if (SelectedGroup == null)
+                all = await DBV.GetAllPlcs();
+            else
+                all = await DBV.GetAllPlcs(SelectedGroup.ID);
+
+            all = all.OrderBy(x => x.Name).ToList();
             all.ForEach(x => Plcs.Add(x));
         }
 
         private async Task LoadGroups()
         {
+            int preSelected = 0;
+            if (SelectedGroup != null)
+                preSelected = SelectedGroup.ID;
+
             Groups = new ObservableCollection<PlcGroup>();
             List<PlcGroup> allGroups = await DBV.GetAllPlcGroups();
+
             allGroups = allGroups.OrderByDescending(x => x.Name).ToList();
             allGroups.ForEach(x => Groups.Add(x));
+
+            if (preSelected != 0)
+                SelectedGroup = Groups.FirstOrDefault(g => g.ID == preSelected);
         }
     }
 }

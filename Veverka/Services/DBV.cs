@@ -25,7 +25,7 @@ namespace Veverka.Services
             // enable multi-threaded database access
             SQLite.SQLiteOpenFlags.SharedCache;
 
-        public static string DatabasePath =>  Path.Combine(FileSystem.AppDataDirectory, DatabaseFilename);
+        public static string DatabasePath => Path.Combine(FileSystem.AppDataDirectory, DatabaseFilename);
 
         public static async Task InitDB()
         {
@@ -41,6 +41,8 @@ namespace Veverka.Services
 
         #endregion
 
+        #region PLC
+
         public static async Task CreatePlc(S7Plc plc)
         {
             await Database.InsertAsync(plc);
@@ -49,6 +51,11 @@ namespace Veverka.Services
         public static async Task<List<S7Plc>> GetAllPlcs()
         {
             return await Database.Table<S7Plc>().ToListAsync();
+        }
+
+        public static async Task<List<S7Plc>> GetAllPlcs(int Group_ID)
+        {
+            return await Database.Table<S7Plc>().Where(p => p.Group_ID == Group_ID).ToListAsync();
         }
 
         public static async Task<S7Plc> GetPlcByIP(string IP)
@@ -61,6 +68,8 @@ namespace Veverka.Services
             return await Database.Table<S7Plc>().Where(x => x.Name == Name).FirstOrDefaultAsync();
         }
 
+        #endregion
+
         public static async Task<PlcGroup> GetGroupByName(string Name)
         {
             return await Database.Table<PlcGroup>().Where(g => g.Name == Name).FirstOrDefaultAsync();
@@ -70,6 +79,7 @@ namespace Veverka.Services
         {
             return await Database.Table<PlcGroup>().Where(g => g.ID == ID).FirstOrDefaultAsync();
         }
+
 
         public static async Task CreatePlcGroup(PlcGroup group)
         {
