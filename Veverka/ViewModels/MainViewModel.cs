@@ -118,6 +118,7 @@ namespace Veverka.ViewModels
             all.ForEach(x => Plcs.Add(x));
         }
 
+        // TODO: Maybe load only if different?
         private async Task LoadGroups()
         {
             int preSelected = 0;

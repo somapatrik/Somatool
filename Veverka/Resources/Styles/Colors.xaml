@@ -39,6 +39,11 @@
     <Color x:Key="GithubDim">#22272e</Color>
     <Color x:Key="SomaDarkLight">#434c57</Color>
 
+    <Color x:Key="RedStrong">#FF2525</Color>
+    <Color x:Key="SteelStrong">#169999</Color>
+    <Color x:Key="GreenStrong">#1ECC1E</Color>
+    <Color x:Key="OrangeStrong">#FF8825</Color>
+
     <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource Primary}"/>
     <SolidColorBrush x:Key="SecondaryBrush" Color="{StaticResource Secondary}"/>
     <SolidColorBrush x:Key="TertiaryBrush" Color="{StaticResource Tertiary}"/>

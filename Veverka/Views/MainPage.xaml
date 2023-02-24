@@ -17,58 +17,62 @@
 
     <RefreshView Command="{Binding Refresh}" IsRefreshing="{Binding IsBusy}" >
 
-        <StackLayout Grid.Row="1">  
+        <StackLayout Grid.Row="1">
 
-            <CollectionView x:Name="MyCollectionView"
-                                ItemsSource="{Binding Groups}" 
-                                SelectionMode="Single"
-                                SelectedItem="{Binding SelectedGroup}"
-                                ItemsLayout="HorizontalList"
-                                Margin="10,10,0,10">
+            <Frame Style="{StaticResource FrameTop}">
 
-                    <CollectionView.ItemTemplate>
+                <CollectionView x:Name="MyCollectionView"
+                                    ItemsSource="{Binding Groups}" 
+                                    SelectionMode="Single"
+                                    SelectedItem="{Binding SelectedGroup}"
+                                    ItemsLayout="HorizontalList"
+                                    Margin="10,10,0,10">
 
-                        <DataTemplate x:DataType="models:PlcGroup">
+                        <CollectionView.ItemTemplate>
 
-                            <StackLayout>
-                                <VisualStateManager.VisualStateGroups>
-                                    <VisualStateGroupList>
-                                        <VisualStateGroup x:Name="CommonStates">
-                                            <VisualState x:Name="Normal" >
-                                                <VisualState.Setters>
-                                                    <Setter Property="BackgroundColor" Value="Transparent"/>
-                                                    <Setter TargetName="groupFrame" Property="Frame.Style" Value="{StaticResource GroupFrame}" />
-                                                    <Setter TargetName="groupLabel"  Property="Label.Style" Value="{StaticResource GroupLabel}" />
-                                                </VisualState.Setters>
-                                            </VisualState>
-                                            <VisualState x:Name="Selected">
-                                                <VisualState.Setters>
-                                                    <Setter Property="BackgroundColor" Value="Transparent"/>
-                                                    <Setter TargetName="groupFrame"  Property="Frame.Style" Value="{StaticResource GroupFrameSelected}" />
-                                                    <Setter TargetName="groupLabel"  Property="Label.Style" Value="{StaticResource GroupLabelSelected}" />
-                                                </VisualState.Setters>
-                                            </VisualState>
-                                        </VisualStateGroup>
-                                    </VisualStateGroupList>
-                                </VisualStateManager.VisualStateGroups>
+                            <DataTemplate x:DataType="models:PlcGroup">
 
-                                <Frame x:Name="groupFrame" Margin="0,0,5,0" Padding="10,5" HasShadow="False" CornerRadius="10" MinimumWidthRequest="70">
-                                    <Frame.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding SelectGroup, Source={RelativeSource AncestorType={x:Type viewModels:MainViewModel}}}"
-                                                              CommandParameter="{Binding .}"/>
-                                    </Frame.GestureRecognizers>
+                                <StackLayout>
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroupList>
+                                            <VisualStateGroup x:Name="CommonStates">
+                                                <VisualState x:Name="Normal" >
+                                                    <VisualState.Setters>
+                                                        <Setter Property="BackgroundColor" Value="Transparent"/>
+                                                        <Setter TargetName="groupFrame" Property="Frame.Style" Value="{StaticResource GroupFrame}" />
+                                                        <Setter TargetName="groupLabel"  Property="Label.Style" Value="{StaticResource GroupLabel}" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                                <VisualState x:Name="Selected">
+                                                    <VisualState.Setters>
+                                                        <Setter Property="BackgroundColor" Value="Transparent"/>
+                                                        <Setter TargetName="groupFrame"  Property="Frame.Style" Value="{StaticResource GroupFrameSelected}" />
+                                                        <Setter TargetName="groupLabel"  Property="Label.Style" Value="{StaticResource GroupLabelSelected}" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                            </VisualStateGroup>
+                                        </VisualStateGroupList>
+                                    </VisualStateManager.VisualStateGroups>
 
-                                    <Label x:Name="groupLabel" Text="{Binding Name}" HorizontalTextAlignment="Center"/>
+                                    <Frame x:Name="groupFrame" MinimumWidthRequest="100">
+                                        <Frame.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding SelectGroup, Source={RelativeSource AncestorType={x:Type viewModels:MainViewModel}}}"
+                                                                  CommandParameter="{Binding .}"/>
+                                        </Frame.GestureRecognizers>
 
-                                </Frame>
+                                        <Label x:Name="groupLabel" Text="{Binding Name}" HorizontalTextAlignment="Center"/>
 
-                            </StackLayout>
+                                    </Frame>
 
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
+                                </StackLayout>
 
-                </CollectionView>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
 
+                    </CollectionView>
+  
+            </Frame>
+            
             <CollectionView ItemsSource="{Binding Plcs}" 
                                 SelectionMode="None"
                                 SelectedItem="{Binding SelectedPlc}">
@@ -77,27 +81,24 @@
 
                         <DataTemplate x:DataType="models:S7Plc">
 
-                            <Frame Margin="10,5">
-
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition/>
-                                        <RowDefinition/>
-                                    </Grid.RowDefinitions>
-
+                        <Frame CornerRadius="0" Margin="0,0,0,1" HasShadow="True">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                       
                                     <Label Text="{Binding Name}" FontAttributes="Bold"/>
                                     <Label Grid.Column="1" Text="{Binding IP}" HorizontalTextAlignment="End"/>
                                     <Label Grid.Row="1" Text="{Binding Description}"/>
 
-                                </Grid>
-
-                            </Frame>
-
-                        </DataTemplate>
+                        </Grid>
+                        </Frame>
+                    </DataTemplate>
 
                     </CollectionView.ItemTemplate>
 
