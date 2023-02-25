@@ -91,7 +91,7 @@ namespace Veverka.ViewModels
         private async void CreatePlcHandler()
         {
             EditS7PlcPage edit = new EditS7PlcPage();
-            await Shell.Current.Navigation.PushModalAsync(edit);
+            await Shell.Current.Navigation.PushAsync(edit);
         }
 
         private async void RefreshHandler()

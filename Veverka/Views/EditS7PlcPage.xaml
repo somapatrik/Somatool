@@ -11,19 +11,25 @@
             
             <Grid>
             <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="2*"/>
             </Grid.RowDefinitions>
 
             <StackLayout Grid.Row="1"
                                  Orientation="Vertical" 
                                  Padding="20,10" 
                                  Spacing="10" 
-                                 VerticalOptions="StartAndExpand">
+                                 VerticalOptions="CenterAndExpand">
 
                         <Label Text="Name"/>
                         <Entry Text="{Binding Name}" HorizontalTextAlignment="Center" MaxLength="10"/>
 
+
+                    <Frame BackgroundColor="{StaticResource GithubGreen}" Padding="5,0" HorizontalOptions="End">
+                        <Label Text="IP Ping" TextColor="White"/>
+                    </Frame>
+
+                    <!-- IP -->
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -35,41 +41,33 @@
                     </Grid.RowDefinitions>
                     
                     <Label Text="IP"/>
-
-                    <StackLayout Grid.Column="1" Orientation="Horizontal" Spacing="3">
-                        <Frame BackgroundColor="{StaticResource GithubGreen}" Padding="5,0">
-                            <Label Text="IP Ping" TextColor="White"/>
-                        </Frame>
-                    </StackLayout>
                     
                     <Entry Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding IP}" HorizontalTextAlignment="Center" MaxLength="15"/>
                 </Grid>
 
+                <Frame Grid.Column="1" BackgroundColor="{StaticResource GithubGreen}" Padding="5,0" HorizontalOptions="End">
+                    <Label Text="S7 Connect" TextColor="White"/>
+                </Frame>
+
+                <!-- Rack Slot -->
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
+                            
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
 
                     <Label Text="Rack"/>
+                    <Label Grid.Column="1" Text="Slot"/>
 
-                    <StackLayout Grid.Column="1" Orientation="Horizontal" Spacing="3">
-                        <Frame BackgroundColor="{StaticResource GithubGreen}" Padding="5,0">
-                            <Label Text="IP Ping" TextColor="White"/>
-                        </Frame>
-                    </StackLayout>
+                    <Entry Grid.Row="1" Grid.Column="0"  HorizontalTextAlignment="Center" Keyboard="Numeric" />
+                    <Entry Grid.Row="1" Grid.Column="1"  HorizontalTextAlignment="Center" Keyboard="Numeric"/>
 
-                    <Entry Grid.Row="1" Grid.ColumnSpan="2"  HorizontalTextAlignment="Center" MaxLength="15"/>
                 </Grid>
-
-
-
-
-
 
                 <Label Text="Description"/>
                         <Entry Text="{Binding Description}" HorizontalTextAlignment="Center" MaxLength="30"/>
