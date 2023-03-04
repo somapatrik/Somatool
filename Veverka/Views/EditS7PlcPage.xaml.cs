@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using Veverka.Models;
 using Veverka.ViewModels;
 
 namespace Veverka.Views;

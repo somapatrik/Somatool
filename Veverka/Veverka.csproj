@@ -80,6 +80,9 @@
 	  <MauiXaml Update="Views\EditS7PlcPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\S7ProfilePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 
 	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionVeverkaHideInfoBar="True" XamarinHotReloadUnhandledDeviceExceptionVeverkaHideInfoBar="True" /></VisualStudio></ProjectExtensions>

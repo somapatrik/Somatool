@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Veverka.Views.S7ProfilePage"
+             Title="{Binding PLC.Name}">
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+
+        <Grid>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Label Text="{Binding PLC.Name}"/>
+            <Label Grid.Column="1" Text="{Binding PLC.IP}"/>
+            <Label Grid.Row="1" Grid.Column="1" Text="{Binding PLC.IP}"/>
+            
+        </Grid>
+
+        <Grid Grid.Row="1">
+            
+        </Grid>
+
+    </Grid>
+    
+</ContentPage>

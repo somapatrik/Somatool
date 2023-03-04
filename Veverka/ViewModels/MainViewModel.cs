@@ -41,6 +41,7 @@ namespace Veverka.ViewModels
         public ICommand CreatePlc { private set; get; }
         public ICommand CreateGroup { private set; get; }
         public ICommand SelectGroup { private set; get; }
+        public ICommand PlcOpen { private set; get; }
 
         public MainViewModel()
         {           
@@ -48,6 +49,12 @@ namespace Veverka.ViewModels
             CreateGroup = new Command(CreateGroupHandler);
             Refresh = new Command(RefreshHandler);
             SelectGroup = new Command(SelectGroupHandler);
+            PlcOpen = new Command(PlcOpenHandler);
+        }
+
+        private async void PlcOpenHandler(object sender)
+        {
+            await Shell.Current.Navigation.PushAsync(new S7ProfilePage((S7Plc)sender));
         }
 
         private async void SelectGroupHandler(object sender)
