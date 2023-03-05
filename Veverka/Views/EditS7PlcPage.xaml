@@ -25,9 +25,20 @@
                         <Entry Text="{Binding Name}" HorizontalTextAlignment="Center" MaxLength="10"/>
 
 
-                    <Frame BackgroundColor="{StaticResource GithubGreen}" Padding="5,0" HorizontalOptions="End">
-                        <Label Text="IP Ping" TextColor="White"/>
-                    </Frame>
+                    <Frame BackgroundColor="{StaticResource GithubRed}" Padding="5,0" HorizontalOptions="End">
+                    <Frame.Triggers>
+                        <DataTrigger TargetType="Frame" Binding="{Binding pingIP}" Value="true">
+                            <Setter Property="BackgroundColor" Value="{StaticResource GithubGreen}"/>
+                        </DataTrigger>
+                    </Frame.Triggers>
+                    <Label Text="Unreachable IP" TextColor="White">
+                        <Label.Triggers>
+                            <DataTrigger TargetType="Label" Binding="{Binding pingIP}" Value="true">
+                                <Setter Property="Text" Value="Reachable IP"/>
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
+                </Frame>
 
                     <!-- IP -->
                 <Grid>
@@ -45,7 +56,7 @@
                     <Entry Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding IP}" HorizontalTextAlignment="Center" MaxLength="15"/>
                 </Grid>
 
-                <Frame Grid.Column="1" BackgroundColor="{StaticResource GithubGreen}" Padding="5,0" HorizontalOptions="End">
+                <Frame Grid.Column="1" BackgroundColor="{StaticResource GithubRed}" Padding="5,0" HorizontalOptions="End">
                     <Label Text="S7 Connect" TextColor="White"/>
                 </Frame>
 

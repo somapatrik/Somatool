@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Maui.Graphics.Text;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -19,7 +20,7 @@ namespace Veverka.ViewModels
         public S7Plc Plc { get => _plc; set => SetProperty(ref _plc, value); }
 
         private string _Name;
-        public string Name { get => _Name; set => SetProperty(ref _Name, value); }
+        public string Name { get => _Name; set { SetProperty(ref _Name, value); RefreshCans(); } }
 
         private bool _pingIP;
         public bool pingIP 
@@ -28,7 +29,6 @@ namespace Veverka.ViewModels
             set
             {
                 SetProperty(ref _pingIP, value);
-                tryPing();
             }
         }
 
@@ -40,7 +40,19 @@ namespace Veverka.ViewModels
             set
             {
                 SetProperty(ref _IP, value);
+                if (!string.IsNullOrEmpty(_IP) && TryIP())
+                    tryPing();
+                else
+                    pingIP = false;
+
+                RefreshCans();
             }
+        }
+
+        private bool _isIP;
+        public bool isIP
+        {
+            get => _isIP; set => SetProperty(ref _isIP, value);
         }
 
         private string _Description;
@@ -62,6 +74,17 @@ namespace Veverka.ViewModels
             LoadGroups();
         }
 
+        private bool TryIP()
+        {
+            isIP = false;
+
+            if (!string.IsNullOrEmpty(IP)) 
+            { 
+                isIP = IPAddress.TryParse(IP, out _);
+            }
+            return isIP;
+        }
+
         private async void LoadGroups()
         {
             Groups = new ObservableCollection<PlcGroup>
@@ -80,10 +103,15 @@ namespace Veverka.ViewModels
 
         private bool CanSave()
         {
-            //Name check
             bool checkName = !string.IsNullOrEmpty(Name);
+            bool checkIP = isIP;
 
-            return true;
+            return checkIP && checkName;
+        }
+
+        private void RefreshCans()
+        {
+            ((Command)SavePlc).ChangeCanExecute();
         }
 
         private async void SavePlcHandler()
@@ -102,17 +130,14 @@ namespace Veverka.ViewModels
 
         private async void tryPing()
         {
-            IPAddress verifyIP;
+            Ping pingSender = new Ping();
+            PingOptions options = new PingOptions();
+            options.DontFragment = true;
 
-            if (!string.IsNullOrEmpty(IP) && IPAddress.TryParse(IP,out verifyIP))
-            {
-                Ping pingSender = new Ping();
-                PingOptions options = new PingOptions();
-                options.DontFragment = true;
+            IPAddress pingAdr = IPAddress.Parse(IP);
+            PingReply pingReply = await pingSender.SendPingAsync(pingAdr,200);
+            pingIP = pingReply.Status == IPStatus.Success;
 
-                PingReply pingReply = await pingSender.SendPingAsync(verifyIP,200);
-                pingIP = pingReply.Status == IPStatus.Success;
-            }
         }
     }
 }
