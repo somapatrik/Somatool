@@ -18,8 +18,25 @@
 
         <StackLayout Grid.Row="1">
 
+            <!--<Grid BackgroundColor="{StaticResource GithubDark}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Frame BackgroundColor="{StaticResource IndustrialOrange50}" CornerRadius="0"/>
+
+                <Frame Grid.Column="0" Grid.ColumnSpan="2" BackgroundColor="{StaticResource IndustrialOrange50}" Padding="7" CornerRadius="10">
+                    <Label Text="{Binding MyIP}" HorizontalTextAlignment="End" TextColor="White"/>
+                </Frame>
+            </Grid>-->
+
             <!-- Group menu -->
-            <Frame Style="{StaticResource FrameTop}">
+            <Frame Style="{StaticResource FrameTop}" Margin="0,.1,0,0">
 
                 <CollectionView x:Name="MyCollectionView"
                                     ItemsSource="{Binding Groups}" 

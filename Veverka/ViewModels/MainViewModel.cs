@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -37,6 +38,10 @@ namespace Veverka.ViewModels
         private bool _IsBusy;
         public bool IsBusy { get => _IsBusy; set => SetProperty(ref _IsBusy, value); }
 
+        private string _MyIP;
+        public string MyIP { get => _MyIP; set => SetProperty(ref _MyIP, value); }
+
+
         public ICommand Refresh { private set; get; }
         public ICommand CreatePlc { private set; get; }
         public ICommand CreateGroup { private set; get; }
@@ -50,7 +55,14 @@ namespace Veverka.ViewModels
             Refresh = new Command(RefreshHandler);
             SelectGroup = new Command(SelectGroupHandler);
             PlcOpen = new Command(PlcOpenHandler);
+            //LoadMyIP();
         }
+
+        //private void LoadMyIP()
+        //{
+        //    string hostName = Dns.GetHostName();
+        //    MyIP = Dns.GetHostByName(hostName).AddressList[0].ToString();
+        //}
 
         private async void PlcOpenHandler(object sender)
         {

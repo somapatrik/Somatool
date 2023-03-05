@@ -74,17 +74,6 @@ namespace Veverka.ViewModels
             LoadGroups();
         }
 
-        private bool TryIP()
-        {
-            isIP = false;
-
-            if (!string.IsNullOrEmpty(IP)) 
-            { 
-                isIP = IPAddress.TryParse(IP, out _);
-            }
-            return isIP;
-        }
-
         private async void LoadGroups()
         {
             Groups = new ObservableCollection<PlcGroup>
@@ -126,6 +115,17 @@ namespace Veverka.ViewModels
 
             await DBV.CreatePlc(savePlc);
             await Shell.Current.GoToAsync("..");
+        }
+
+        private bool TryIP()
+        {
+            isIP = false;
+
+            if (!string.IsNullOrEmpty(IP))
+            {
+                isIP = IPAddress.TryParse(IP, out _);
+            }
+            return isIP;
         }
 
         private async void tryPing()
