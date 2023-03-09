@@ -36,6 +36,7 @@ namespace Veverka.Services
 
             await Database.CreateTableAsync<S7Plc>();
             await Database.CreateTableAsync<PlcGroup>();
+            await Database.CreateTableAsync<S7Address>();
         }
 
 
@@ -70,6 +71,7 @@ namespace Veverka.Services
 
         #endregion
 
+        #region PLC Group
         public static async Task<PlcGroup> GetGroupByName(string Name)
         {
             return await Database.Table<PlcGroup>().Where(g => g.Name == Name).FirstOrDefaultAsync();
@@ -90,6 +92,17 @@ namespace Veverka.Services
         {
             return await Database.Table<PlcGroup>().ToListAsync();
         }
+
+        #endregion
+
+        #region S7 Address
+
+        public static async Task CreateAddress(S7Address address)
+        {
+            await Database.InsertAsync(address);
+        }
+
+        #endregion)
 
     }
 }

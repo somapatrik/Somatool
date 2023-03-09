@@ -4,6 +4,10 @@
              x:Class="Veverka.Views.S7ProfilePage"
              Title="{Binding PLC.Name}">
 
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="New address" Command="{Binding NewAddress}"/>
+    </ContentPage.ToolbarItems>
+
     <Grid>
 
         <Grid.RowDefinitions>
