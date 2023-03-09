@@ -102,6 +102,11 @@ namespace Veverka.Services
             await Database.InsertAsync(address);
         }
 
+        public static async Task<List<S7Address>> GetAddresses(int PLC_ID)
+        {
+            return await Database.Table<S7Address>().Where(a => a.PLC_ID == PLC_ID).ToListAsync();
+        }
+
         #endregion)
 
     }
