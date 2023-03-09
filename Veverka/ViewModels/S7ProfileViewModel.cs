@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Veverka.Classes;
 using Veverka.Models;
+using Veverka.Services;
 
 namespace Veverka.ViewModels
 {
@@ -34,7 +35,16 @@ namespace Veverka.ViewModels
 
         public async void LoadAddressesHandler()
         {
-            
+            IsBusy = true;
+            /*List<S7Address> s7Addresses = new List<S7Address>();
+            s7Addresses = await DBV.GetAddresses(PLC.ID);*/
+
+            ObservableCollection<S7Address> loadAdrresses = new ObservableCollection<S7Address>();
+
+            (await DBV.GetAddresses(PLC.ID)).ForEach(loadAdrresses.Add);
+            Addresses = loadAdrresses;
+
+            IsBusy = false;
         }
 
         public async void NewAddressHandler()
@@ -47,10 +57,10 @@ namespace Veverka.ViewModels
                 S7Address s7Address = new S7Address()
                 {
                     PLC_ID = PLC.ID,
-                     RawAddress = formatter.Address
+                    RawAddress = formatter.Address
                 };
 
-
+                await DBV.CreateAddress(s7Address);
 
             }
         }

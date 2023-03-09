@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:Veverka.ViewModels"
+             xmlns:models="clr-namespace:Veverka.Models"
              x:Class="Veverka.Views.S7ProfilePage"
              Title="{Binding PLC.Name}">
 
@@ -10,39 +11,55 @@
     </ContentPage.ToolbarItems>
 
     <RefreshView x:DataType="viewModels:S7ProfileViewModel" 
-                 IsRefreshing="{Binding isBusy}"
+                 IsRefreshing="{Binding IsBusy}"
                  Command="{Binding LoadAddresses}">
-
-        <Grid>
-
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-
+        
+        <StackLayout Orientation="Vertical">
             <Grid>
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
+                    <RowDefinition/>
                 </Grid.RowDefinitions>
 
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
+                <Grid>
 
-                <Label Text="{Binding PLC.Name}"/>
-                <Label Grid.Column="1" Text="{Binding PLC.IP}"/>
-                <Label Grid.Row="1" Grid.Column="1" Text="Status"/>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Text="{Binding PLC.Name}"/>
+                    <Label Grid.Column="1" Text="{Binding PLC.IP}"/>
+                    <Label Grid.Row="1" Grid.Column="1" Text="Status"/>
             
+                </Grid>
+
             </Grid>
 
-            <Grid Grid.Row="1">
-            
-            </Grid>
+            <CollectionView x:Name="MyCollectionView"
+                            ItemsSource="{Binding Addresses}" 
+                            SelectionMode="None">
 
-        </Grid>
+                <CollectionView.ItemTemplate>
+
+                    <DataTemplate x:DataType="models:S7Address">
+
+                        <Label Text="{Binding RawAddress}"/>
+
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+            </CollectionView>
+
+        </StackLayout>
+
+
 
     </RefreshView>
 
