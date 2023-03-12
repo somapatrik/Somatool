@@ -21,11 +21,12 @@
                                  Spacing="10" 
                                  VerticalOptions="CenterAndExpand">
 
-                        <Label Text="Name"/>
-                        <Entry Text="{Binding Name}" HorizontalTextAlignment="Center" MaxLength="10"/>
+                <!-- Name -->
+                <Label Text="Name"/>
+                <Entry Text="{Binding Name}" HorizontalTextAlignment="Center" MaxLength="20"/>
 
-
-                    <Frame BackgroundColor="{StaticResource GithubRed}" Padding="5,0" HorizontalOptions="End">
+                <!-- Unreachable -->
+                <Frame BackgroundColor="{StaticResource GithubRed}" Padding="5,0" HorizontalOptions="End">
                     <Frame.Triggers>
                         <DataTrigger TargetType="Frame" Binding="{Binding pingIP}" Value="true">
                             <Setter Property="BackgroundColor" Value="{StaticResource GithubGreen}"/>
@@ -40,7 +41,7 @@
                     </Label>
                 </Frame>
 
-                    <!-- IP -->
+                <!-- IP -->
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -53,9 +54,12 @@
                     
                     <Label Text="IP"/>
                     
-                    <Entry Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding IP}" HorizontalTextAlignment="Center" MaxLength="15"/>
+                    <Entry Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding IP}" HorizontalTextAlignment="Center"
+                           Keyboard="Telephone"
+                           MaxLength="15"/>
                 </Grid>
 
+                <!-- S7 Connection -->
                 <Frame Grid.Column="1" BackgroundColor="{StaticResource GithubRed}" Padding="5,0" HorizontalOptions="End">
                     <Label Text="S7 Connect" TextColor="White"/>
                 </Frame>
@@ -80,19 +84,21 @@
 
                 </Grid>
 
+                <!-- Description -->
                 <Label Text="Description"/>
-                        <Entry Text="{Binding Description}" HorizontalTextAlignment="Center" MaxLength="30"/>
+                <Entry Text="{Binding Description}" HorizontalTextAlignment="Center" MaxLength="30"/>
 
-                        <Label Text="Group"/>
-                        <Picker HorizontalTextAlignment="Center" 
-                                ItemsSource="{Binding Groups}" 
-                                ItemDisplayBinding="{Binding Name}"
-                                SelectedItem="{Binding SelectedGroup}"/>
+                <!-- Group -->
+                <Label Text="Group"/>
+                <Picker HorizontalTextAlignment="Center" 
+                        ItemsSource="{Binding Groups}" 
+                        ItemDisplayBinding="{Binding Name}"
+                        SelectedItem="{Binding SelectedGroup}"/>
 
-                        <Button Grid.Row="1" Text="Create" Command="{Binding SavePlc}"/>
 
-
-                </StackLayout>
+                <Button Grid.Row="1" Text="Create" Command="{Binding SavePlc}"/>
+                
+            </StackLayout>
 
             </Grid>
         </ScrollView>

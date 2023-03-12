@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:viewModels="clr-namespace:Veverka.ViewModels"
              xmlns:models="clr-namespace:Veverka.Models"
              x:Class="Veverka.Views.S7ProfilePage"
@@ -41,6 +42,8 @@
                 </Grid>
 
             </Grid>
+
+            <Button Text="+" Command="{Binding AddAddress}"/>
 
             <CollectionView x:Name="MyCollectionView"
                             ItemsSource="{Binding Addresses}" 

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:viewModels="clr-namespace:Veverka.ViewModels"
+             x:Class="Veverka.Views.AddressPopup" 
+             x:DataType="viewModels:AddressPopupViewModel">
+
+
+
+    <StackLayout Orientation="Vertical" Spacing="5" Padding="5">
+
+        <Label Text="Memory" FontSize="Medium"/>
+
+        <CollectionView ItemsSource="{Binding MemoryTypes}"
+                        SelectedItem="{Binding SelectedMemoryType}"
+                        SelectionMode="Single"
+                        ItemsLayout="HorizontalGrid">
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+
+                    <Frame x:Name="memoryFrame">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SelectMemory, Source={RelativeSource AncestorType={x:Type viewModels:AddressPopupViewModel}}}"
+                                                                  CommandParameter="{Binding .}"/>
+                        </Frame.GestureRecognizers>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroupList>
+                                <VisualStateGroup x:Name="CommonStates">
+
+                                    <VisualState x:Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter TargetName="memoryLabel"  Property="Label.Style" Value="{StaticResource MemorySelected}" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+
+                                    <VisualState x:Name="Normal" >
+                                        <VisualState.Setters>
+                                            <Setter TargetName="memoryLabel"  Property="Label.Style" Value="{StaticResource MemoryUnselected}" />
+                                        </VisualState.Setters>
+
+
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateGroupList>
+                        </VisualStateManager.VisualStateGroups>
+
+                        <Label x:Name="memoryLabel" Text="{Binding .}" />
+                    </Frame>
+
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+
+
+
+
+        <Label Text="Size" FontSize="Medium"/>
+
+        <CollectionView ItemsSource="{Binding MemorySizes}"
+                        SelectedItem="{Binding SelectedMemorySize}"
+                        SelectionMode="Single"
+                        ItemsLayout="VerticalGrid, 2">
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+
+                    <Frame>
+                        <Label Text="{Binding .}" Style="{StaticResource MemoryUnselected}"/>
+                    </Frame>
+
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+
+        <Button Text="Confirm"/>
+
+
+    </StackLayout>
+
+
+</toolkit:Popup>

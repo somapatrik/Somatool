@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommunityToolkit.Maui.Views;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -8,6 +9,7 @@ using System.Windows.Input;
 using Veverka.Classes;
 using Veverka.Models;
 using Veverka.Services;
+using Veverka.Views;
 
 namespace Veverka.ViewModels
 {
@@ -25,12 +27,21 @@ namespace Veverka.ViewModels
         public ICommand LoadAddresses { private set; get; }
         public ICommand NewAddress { private set; get; }
 
+        public ICommand AddAddress { private set; get; }
+
         public S7ProfileViewModel(S7Plc plc)
         {
             PLC = plc;
             
             NewAddress = new Command(NewAddressHandler);
             LoadAddresses = new Command(LoadAddressesHandler);
+            AddAddress = new Command(AddressPopup);
+        }
+
+        public async void AddressPopup()
+        {
+            var popup = new AddressPopup();
+            await Shell.Current.ShowPopupAsync(popup);
         }
 
         public async void LoadAddressesHandler()
