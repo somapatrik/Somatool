@@ -10,6 +10,10 @@
 
     <StackLayout Orientation="Vertical" Spacing="5" Padding="5">
 
+        <Label Text="Name" FontSize="Medium"/>
+
+        <Entry Keyboard="Text" HorizontalTextAlignment="Center"/>
+
         <Label Text="Memory" FontSize="Medium"/>
 
         <CollectionView ItemsSource="{Binding MemoryTypes}"
@@ -20,7 +24,7 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate>
 
-                    <Frame x:Name="memoryFrame">
+                    <Frame>
                         <Frame.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding SelectMemory, Source={RelativeSource AncestorType={x:Type viewModels:AddressPopupViewModel}}}"
                                                                   CommandParameter="{Binding .}"/>
@@ -56,21 +60,44 @@
 
         </CollectionView>
 
-
-
-
         <Label Text="Size" FontSize="Medium"/>
 
         <CollectionView ItemsSource="{Binding MemorySizes}"
                         SelectedItem="{Binding SelectedMemorySize}"
                         SelectionMode="Single"
-                        ItemsLayout="VerticalGrid, 2">
+                        ItemsLayout="HorizontalGrid, 1">
 
             <CollectionView.ItemTemplate>
                 <DataTemplate>
 
                     <Frame>
-                        <Label Text="{Binding .}" Style="{StaticResource MemoryUnselected}"/>
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SelectSize, Source={RelativeSource AncestorType={x:Type viewModels:AddressPopupViewModel}}}"
+                                                                  CommandParameter="{Binding .}"/>
+                        </Frame.GestureRecognizers>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroupList>
+                                <VisualStateGroup x:Name="CommonStates">
+
+                                    <VisualState x:Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="Style" Value="{StaticResource MemoryFrameSelected}"/>
+                                            <Setter TargetName="sizeLabel"  Property="Label.Style" Value="{StaticResource MemorySelected}" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+
+                                    <VisualState x:Name="Normal" >
+                                        <VisualState.Setters>
+                                            <Setter Property="Style" Value="{StaticResource MemoryFrameUnselected}"/>
+                                            <Setter TargetName="sizeLabel"  Property="Label.Style" Value="{StaticResource MemoryUnselected}" />
+                                        </VisualState.Setters>
+
+
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateGroupList>
+                        </VisualStateManager.VisualStateGroups>
+                        <Label x:Name="sizeLabel" Text="{Binding .}" Style="{StaticResource MemoryUnselected}"/>
                     </Frame>
 
                 </DataTemplate>
@@ -78,7 +105,11 @@
 
         </CollectionView>
 
-        <Button Text="Confirm"/>
+        <Label Text="Offset" FontSize="Medium"/>
+
+        <Entry Keyboard="Numeric" HorizontalTextAlignment="Center"/>
+
+        <Button Text="OK"/>
 
 
     </StackLayout>

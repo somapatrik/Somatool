@@ -34,10 +34,17 @@ namespace Veverka.ViewModels
         }
 
         public ICommand SelectMemory { private set; get; }
+        public ICommand SelectSize { private set; get; }
 
         public AddressPopupViewModel()
         {
             SelectMemory = new Command(SelectMemoryHandler);
+            SelectSize = new Command(SelectSizeHandler);
+        }
+        private void SelectSizeHandler(object sender)
+        {
+
+            SelectedMemorySize = (string)sender;
         }
 
         private void SelectMemoryHandler(object sender)
