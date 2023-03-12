@@ -4,6 +4,15 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
+    <Style x:Key="MemoryFrameUnselected" TargetType="Frame">
+        <Setter Property="BackgroundColor" Value="White"/>
+        <Setter Property="Margin" Value="5"/>
+    </Style>
+
+    <Style x:Key="MemoryFrameSelected" TargetType="Frame" BasedOn="{StaticResource MemoryFrameUnselected}">
+        <Setter Property="BackgroundColor" Value="{StaticResource IndustrialOrange50}"/>
+    </Style>
+
     <Style x:Key="MemoryUnselected" TargetType="Label">
         <Setter Property="FontSize" Value="Large"/>
         <Setter Property="FontAttributes" Value="Bold"/>
@@ -11,12 +20,8 @@
         <Setter Property="HorizontalTextAlignment" Value="Center"/>
     </Style>
 
-    <Style x:Key="MemorySelected" TargetType="Label">
-        <Setter Property="FontSize" Value="Large"/>
-        <Setter Property="FontAttributes" Value="Italic"/>
-        <Setter Property="Margin" Value="5"/>
-        <Setter Property="TextColor" Value="{StaticResource IndustrialOrange50}"/>
-        <Setter Property="HorizontalTextAlignment" Value="Center"/>
+    <Style x:Key="MemorySelected" TargetType="Label" BasedOn="{StaticResource MemoryUnselected}">
+        <Setter Property="TextColor" Value="White"/>
     </Style>
 
     <Style x:Key="GroupLabel" TargetType="Label">

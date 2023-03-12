@@ -15,7 +15,7 @@
         <CollectionView ItemsSource="{Binding MemoryTypes}"
                         SelectedItem="{Binding SelectedMemoryType}"
                         SelectionMode="Single"
-                        ItemsLayout="HorizontalGrid">
+                        ItemsLayout="HorizontalList">
 
             <CollectionView.ItemTemplate>
                 <DataTemplate>
@@ -31,12 +31,14 @@
 
                                     <VisualState x:Name="Selected">
                                         <VisualState.Setters>
+                                            <Setter Property="Style" Value="{StaticResource MemoryFrameSelected}"/>
                                             <Setter TargetName="memoryLabel"  Property="Label.Style" Value="{StaticResource MemorySelected}" />
                                         </VisualState.Setters>
                                     </VisualState>
 
                                     <VisualState x:Name="Normal" >
                                         <VisualState.Setters>
+                                            <Setter Property="Style" Value="{StaticResource MemoryFrameUnselected}"/>
                                             <Setter TargetName="memoryLabel"  Property="Label.Style" Value="{StaticResource MemoryUnselected}" />
                                         </VisualState.Setters>
 
