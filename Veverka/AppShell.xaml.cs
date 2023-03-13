@@ -7,11 +7,12 @@ public partial class AppShell : Shell
 	public AppShell()
 	{
 		InitializeComponent();
-		//InitDB();
+		LoadDB();
     }
 
-	public async void InitDB()
+	public async void LoadDB()
 	{
 		await DBV.InitDB();
 	}
+
 }

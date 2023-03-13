@@ -34,8 +34,8 @@ namespace Veverka.Services
 
             Database = new SQLiteAsyncConnection(DatabasePath, Flags);
 
-            await Database.CreateTableAsync<S7Plc>();
             await Database.CreateTableAsync<PlcGroup>();
+            await Database.CreateTableAsync<S7Plc>();
             await Database.CreateTableAsync<S7Address>();
         }
 
@@ -56,6 +56,7 @@ namespace Veverka.Services
 
         public static async Task<List<S7Plc>> GetAllPlcs(int Group_ID)
         {
+            await InitDB();
             return await Database.Table<S7Plc>().Where(p => p.Group_ID == Group_ID).ToListAsync();
         }
 
@@ -74,11 +75,13 @@ namespace Veverka.Services
         #region PLC Group
         public static async Task<PlcGroup> GetGroupByName(string Name)
         {
+            await InitDB();
             return await Database.Table<PlcGroup>().Where(g => g.Name == Name).FirstOrDefaultAsync();
         }
 
         public static async Task<PlcGroup> GetGroupByID(int ID)
         {
+            await InitDB();
             return await Database.Table<PlcGroup>().Where(g => g.ID == ID).FirstOrDefaultAsync();
         }
 
@@ -104,6 +107,8 @@ namespace Veverka.Services
 
         public static async Task<List<S7Address>> GetAddresses(int PLC_ID)
         {
+            await InitDB();
+
             return await Database.Table<S7Address>().Where(a => a.PLC_ID == PLC_ID).ToListAsync();
         }
 
