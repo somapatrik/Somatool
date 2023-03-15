@@ -12,14 +12,15 @@
 
         <Label Text="Name" FontSize="Medium"/>
 
-        <Entry Keyboard="Text" HorizontalTextAlignment="Center"/>
+        <Entry Keyboard="Text" FontSize="Medium" HorizontalTextAlignment="Center"/>
 
         <Label Text="Memory" FontSize="Medium"/>
 
         <CollectionView ItemsSource="{Binding MemoryTypes}"
                         SelectedItem="{Binding SelectedMemoryType}"
                         SelectionMode="Single"
-                        ItemsLayout="HorizontalList">
+                        ItemsLayout="HorizontalGrid"
+                        HorizontalOptions="CenterAndExpand">
 
             <CollectionView.ItemTemplate>
                 <DataTemplate>
@@ -65,7 +66,7 @@
         <CollectionView ItemsSource="{Binding MemorySizes}"
                         SelectedItem="{Binding SelectedMemorySize}"
                         SelectionMode="Single"
-                        ItemsLayout="HorizontalGrid, 1">
+                        ItemsLayout="VerticalGrid, 2">
 
             <CollectionView.ItemTemplate>
                 <DataTemplate>
@@ -105,11 +106,36 @@
 
         </CollectionView>
 
-        <Label Text="Offset" FontSize="Medium"/>
+        <Grid>
+            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
 
-        <Entry Keyboard="Numeric" HorizontalTextAlignment="Center"/>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
 
-        <Button Text="OK"/>
+            <Label Grid.Row="0" Grid.Column="1" Text="Bit" FontSize="Medium"/>
+
+            <Entry Grid.Row="1" Grid.Column="1" Keyboard="Numeric"
+                   Text="{Binding Bit}"
+               HorizontalTextAlignment="Center"
+               FontSize="Medium"
+               IsEnabled="{Binding IsBit}"/>
+
+            <Label Grid.Row="0" Grid.Column="0" Text="Offset" FontSize="Medium"/>
+
+            <Entry Grid.Row="1" Grid.Column="0" Text="{Binding Offset}" 
+                Keyboard="Numeric" 
+                HorizontalTextAlignment="Center"
+                FontSize="Medium"/>
+    
+        </Grid>
+        
+        <Button Text="OK" Command="{Binding Confirm}"/>
 
 
     </StackLayout>

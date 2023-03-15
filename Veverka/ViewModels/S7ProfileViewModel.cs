@@ -26,7 +26,6 @@ namespace Veverka.ViewModels
 
         public ICommand LoadAddresses { private set; get; }
         public ICommand NewAddress { private set; get; }
-
         public ICommand AddAddress { private set; get; }
 
         public S7ProfileViewModel(S7Plc plc)
