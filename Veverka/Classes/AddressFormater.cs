@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sharp7;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -119,6 +120,12 @@ namespace Veverka.Classes
             get { return _DBNumber; }
         }
 
+        public S7Area Area;
+        public int Start;
+        public int Amount;
+        public S7WordLength WordLen;
+        public int BufferSize;
+
         public string Address
         {
             set
@@ -143,6 +150,7 @@ namespace Veverka.Classes
                         GetStringLen();
                     }
 
+                    FormaterToInfo();
                 }
                 else
                 {
@@ -301,6 +309,54 @@ namespace Veverka.Classes
             else
                 _Valid = false;
 
+        }
+
+        private void FormaterToInfo()
+        {
+            if (IsInput)
+                Area = S7Area.PE;
+            else if (IsOutput)
+                Area = S7Area.PA;
+            else if (IsMerker)
+                Area = S7Area.MK;
+            else if (IsDB)
+                Area = S7Area.DB;
+
+            if (IsBit)
+            {
+                WordLen = S7WordLength.Bit;
+                BufferSize = 1;
+            }
+            else if (IsByte)
+            {
+                WordLen = S7WordLength.Byte;
+                BufferSize = 1;
+            }
+            else if (IsWord)
+            {
+                WordLen = S7WordLength.Word;
+                BufferSize = 2;
+            }
+            else if (IsDouble)
+            {
+                WordLen = S7WordLength.DWord;
+                BufferSize = 4;
+            }
+            else if (IsString)
+            {
+                WordLen = S7WordLength.Byte;
+                BufferSize = StringLen;
+            }
+
+            if (IsString)
+                Amount = StringLen;
+            else
+                Amount = 1;
+
+            if (IsBit)
+                Start = (Byte * 8) + Bit;
+            else
+                Start = Byte;
         }
 
     }

@@ -28,6 +28,17 @@ namespace Veverka.ViewModels
 
         #region Input field
 
+        private string _Name;
+        public string Name
+        {
+            get => _Name;
+            set
+            {
+                SetProperty(ref _Name, value);
+                RefreshCan();
+            }
+        }
+
         private string _SelectedMemoryType;
         public string SelectedMemoryType
         {
@@ -35,6 +46,7 @@ namespace Veverka.ViewModels
             set
             {
                 SetProperty(ref _SelectedMemoryType, value);
+                IsDB = _SelectedMemoryType.ToUpper() == "DB";
                 RefreshCan();
             }
         }
@@ -47,7 +59,6 @@ namespace Veverka.ViewModels
             {
                 SetProperty(ref _SelectedMemorySize, value);
                 IsBit = _SelectedMemorySize.ToUpper() == "BIT";
-                IsDB = _SelectedMemorySize.ToUpper() == "DB";
                 RefreshCan();
             }
         }
@@ -70,6 +81,17 @@ namespace Veverka.ViewModels
             set
             {
                 SetProperty(ref _Bit, value);
+                RefreshCan();
+            }
+        }
+
+        private int _DB;
+        public int DB
+        {
+            get => _DB;
+            set
+            {
+                SetProperty(ref _DB, value);
                 RefreshCan();
             }
         }
@@ -117,7 +139,10 @@ namespace Veverka.ViewModels
                 && !string.IsNullOrEmpty(SelectedMemorySize)
                 && Offset >= 0;
 
-            return (IsBit && Bit >= 0 && Bit >= 0 && selectedAll) || (!IsBit && selectedAll);
+            bool bitCheck = IsBit ? Bit >= 0 && Bit <= 7 : true;
+            bool dbCheck = IsDB ? DB >= 0 : true;
+
+            return selectedAll && bitCheck && dbCheck;
                 
         }
 
@@ -148,8 +173,22 @@ namespace Veverka.ViewModels
                 case "DOUBLE":
                     addressSizeShort += "D";
                     break;
-
             }
+
+            if (IsDB) 
+            { 
+                address += DB.ToString() + ".DB" + addressSizeShort + Offset.ToString();
+                if (IsBit)
+                    address += "." + Bit.ToString();
+            }
+            else
+            {
+                address += addressSizeShort + Offset.ToString();
+                if (IsBit)
+                    address += "." + Bit.ToString();
+            }
+
+            outAddress = address;
 
         }
     }

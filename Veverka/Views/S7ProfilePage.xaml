@@ -8,7 +8,7 @@
              Title="{Binding PLC.Name}">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="New address" Command="{Binding NewAddress}"/>
+        <ToolbarItem Text="New address" Command="{Binding AddAddress}"/>
     </ContentPage.ToolbarItems>
 
     <RefreshView x:DataType="viewModels:S7ProfileViewModel" 
@@ -35,15 +35,13 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <Label Text="{Binding PLC.Name}"/>
+                    <Button Text="Read" Command="{Binding Read}"/>
                     <Label Grid.Column="1" Text="{Binding PLC.IP}"/>
                     <Label Grid.Row="1" Grid.Column="1" Text="Status"/>
-            
+
                 </Grid>
 
             </Grid>
-
-            <Button Text="+" Command="{Binding AddAddress}"/>
 
             <CollectionView x:Name="MyCollectionView"
                             ItemsSource="{Binding Addresses}" 
@@ -53,7 +51,23 @@
 
                     <DataTemplate x:DataType="models:S7Address">
 
-                        <Label Text="{Binding RawAddress}"/>
+                        <Frame Padding="5" Margin="0,0,0,3">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
+
+                                <Label Text="{Binding DisplayName}"/>
+                                <Label Grid.Row="1" Text="{Binding RawAddress}" FontAttributes="Bold"/>
+
+                            </Grid>
+                        </Frame>
 
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

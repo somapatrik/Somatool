@@ -1,4 +1,7 @@
 ﻿using CommunityToolkit.Maui.Views;
+using Java.Net;
+using Javax.Security.Auth;
+using Sharp7;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -25,29 +28,50 @@ namespace Veverka.ViewModels
         public ObservableCollection<S7Address> Addresses { get => _Addresses; set => SetProperty(ref _Addresses, value); }
 
         public ICommand LoadAddresses { private set; get; }
-        public ICommand NewAddress { private set; get; }
         public ICommand AddAddress { private set; get; }
+
+        public ICommand Read { private set; get; }
+
+        public S7Client PlcClient;
 
         public S7ProfileViewModel(S7Plc plc)
         {
             PLC = plc;
-            
-            NewAddress = new Command(NewAddressHandler);
+
+            PlcClient = new S7Client();
             LoadAddresses = new Command(LoadAddressesHandler);
             AddAddress = new Command(AddressPopup);
+            Read = new Command(ReadHandler);
+
+            //IsBusy = true;
         }
 
         public async void AddressPopup()
         {
             var popup = new AddressPopup();
-            await Shell.Current.ShowPopupAsync(popup);
+            AddressPopupViewModel addressViewModel = (AddressPopupViewModel) await Shell.Current.ShowPopupAsync(popup);
+            
+            if (addressViewModel != null) 
+            { 
+                AddressFormatter formatter = new AddressFormatter() { Address = addressViewModel.outAddress };
+                
+                if (formatter.IsValid)
+                {
+                    S7Address s7Address = new S7Address()
+                    {
+                        PLC_ID = PLC.ID,
+                        DisplayName = addressViewModel.Name,
+                        RawAddress = formatter.Address
+                    };
+
+                    await DBV.CreateAddress(s7Address);
+                }
+            }
         }
 
         public async void LoadAddressesHandler()
         {
             IsBusy = true;
-            /*List<S7Address> s7Addresses = new List<S7Address>();
-            s7Addresses = await DBV.GetAddresses(PLC.ID);*/
 
             ObservableCollection<S7Address> loadAdrresses = new ObservableCollection<S7Address>();
 
@@ -57,22 +81,16 @@ namespace Veverka.ViewModels
             IsBusy = false;
         }
 
-        public async void NewAddressHandler()
+        private void ConnectPlc()
         {
-            string newAddress = await Shell.Current.DisplayPromptAsync("New address", "");
-            AddressFormatter formatter = new AddressFormatter() { Address = newAddress};
-
-            if (formatter.IsValid)
-            {
-                S7Address s7Address = new S7Address()
-                {
-                    PLC_ID = PLC.ID,
-                    RawAddress = formatter.Address
-                };
-
-                await DBV.CreateAddress(s7Address);
-
-            }
+            PlcClient.ConnectTo(PLC.IP, 0, 2);
         }
+
+        private void ReadHandler()
+        {
+            ConnectPlc();
+
+        }
+
     }
 }

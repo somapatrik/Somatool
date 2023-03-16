@@ -12,6 +12,7 @@ namespace Veverka.Models
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
         public int PLC_ID { get; set; }
+        public string DisplayName { get; set; }
         public string RawAddress { get; set; }
         public string DataFormat { get; set; }
     }

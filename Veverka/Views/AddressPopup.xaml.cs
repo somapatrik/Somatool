@@ -12,4 +12,9 @@ public partial class AddressPopup : Popup
 		InitializeComponent();
 		BindingContext = _viewModel = new AddressPopupViewModel();
 	}
+
+    private void Button_Clicked(object sender, EventArgs e)
+    {
+		Close(_viewModel);
+    }
 }

@@ -12,7 +12,7 @@
 
         <Label Text="Name" FontSize="Medium"/>
 
-        <Entry Keyboard="Text" FontSize="Medium" HorizontalTextAlignment="Center"/>
+        <Entry Text="{Binding Name}" Keyboard="Text" FontSize="Medium" HorizontalTextAlignment="Center"/>
 
         <Label Text="Memory" FontSize="Medium"/>
 
@@ -116,26 +116,36 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
+                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <Label Grid.Row="0" Grid.Column="1" Text="Bit" FontSize="Medium"/>
+            <Label Grid.Row="0" Grid.Column="2" Text="Bit" FontSize="Medium" HorizontalTextAlignment="Center"/>
 
-            <Entry Grid.Row="1" Grid.Column="1" Keyboard="Numeric"
+            <Entry Grid.Row="1" Grid.Column="2" Keyboard="Numeric"
                    Text="{Binding Bit}"
                HorizontalTextAlignment="Center"
                FontSize="Medium"
                IsEnabled="{Binding IsBit}"/>
 
-            <Label Grid.Row="0" Grid.Column="0" Text="Offset" FontSize="Medium"/>
+            <Label Grid.Row="0" Grid.Column="1" Text="Offset" FontSize="Medium" HorizontalTextAlignment="Center"/>
 
-            <Entry Grid.Row="1" Grid.Column="0" Text="{Binding Offset}" 
+            <Entry Grid.Row="1" Grid.Column="1" Text="{Binding Offset}" 
                 Keyboard="Numeric" 
                 HorizontalTextAlignment="Center"
                 FontSize="Medium"/>
-    
+
+
+            <Label Grid.Row="0" Grid.Column="0" Text="DB" FontSize="Medium" HorizontalTextAlignment="Center"/>
+
+            <Entry Grid.Row="1" Grid.Column="0" Text="{Binding DB}" 
+                Keyboard="Numeric" 
+                HorizontalTextAlignment="Center"
+                FontSize="Medium"
+                   IsEnabled="{Binding IsDB}"/>
+
         </Grid>
         
-        <Button Text="OK" Command="{Binding Confirm}"/>
+        <Button Text="OK" Command="{Binding Confirm}" Clicked="Button_Clicked"/>
 
 
     </StackLayout>
