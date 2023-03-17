@@ -30,12 +30,21 @@ namespace Veverka.Models
         private string _Data;
         public string Data
         {
-            get => _Data;
+            get 
+            {
+                return S7.GetIntAt(Buffer, 0).ToString() ; 
+            }
+
             set
             {
                 SetProperty(ref _Data, value);
             }
         }
+
+        public List<string> Formats { get => new List<string>() { "BOOL", "INT", "INT +/-", "FLOAT" }; }
+
+        private string _SelectedFormat;
+        public string SelectedFormat { get => _SelectedFormat; set => SetProperty(ref _SelectedFormat, value); }
 
         public S7DataRow(S7Address address, ref S7Client client)
         {
@@ -46,16 +55,14 @@ namespace Veverka.Models
         public void ReadFromPLC()
         {
             if (addressFormatter.IsValid)
-                PlcClient.ReadArea(addressFormatter.Area,
+                PlcClient.ReadArea(
+                    addressFormatter.Area,
                     addressFormatter.DBNumber,
                     addressFormatter.Start,
                     addressFormatter.Amount,
                     addressFormatter.WordLen,
                     Buffer);
         }
-
-       
-
 
     }
 }

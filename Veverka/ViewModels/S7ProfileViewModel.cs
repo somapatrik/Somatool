@@ -18,21 +18,24 @@ namespace Veverka.ViewModels
 {
     public class S7ProfileViewModel : PrimeViewModel
     {
+        public S7Client PlcClient;
+        
         private bool _IsBusy;
         public bool IsBusy { get => _IsBusy; set => SetProperty(ref _IsBusy, value); }
 
         private S7Plc _plc;
         public S7Plc PLC { get => _plc; set => SetProperty(ref _plc, value); }
 
-        private ObservableCollection<S7Address> _Addresses;
-        public ObservableCollection<S7Address> Addresses { get => _Addresses; set => SetProperty(ref _Addresses, value); }
+        private ObservableCollection<S7DataRow> _Addresses;
+        public ObservableCollection<S7DataRow> Addresses { get => _Addresses; set => SetProperty(ref _Addresses, value); }
+
+        #region Commands
 
         public ICommand LoadAddresses { private set; get; }
         public ICommand AddAddress { private set; get; }
-
         public ICommand Read { private set; get; }
 
-        public S7Client PlcClient;
+        #endregion
 
         public S7ProfileViewModel(S7Plc plc)
         {
@@ -73,9 +76,9 @@ namespace Veverka.ViewModels
         {
             IsBusy = true;
 
-            ObservableCollection<S7Address> loadAdrresses = new ObservableCollection<S7Address>();
+            ObservableCollection<S7DataRow> loadAdrresses = new ObservableCollection<S7DataRow>();
 
-            (await DBV.GetAddresses(PLC.ID)).ForEach(loadAdrresses.Add);
+            (await DBV.GetAddresses(PLC.ID)).ForEach(a => loadAdrresses.Add(new S7DataRow(a, ref PlcClient)));
             Addresses = loadAdrresses;
 
             IsBusy = false;
@@ -89,6 +92,10 @@ namespace Veverka.ViewModels
         private void ReadHandler()
         {
             ConnectPlc();
+            foreach (S7DataRow addressRow in Addresses)
+            {
+                addressRow.ReadFromPLC();
+            }
 
         }
 

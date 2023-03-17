@@ -49,9 +49,9 @@
 
                 <CollectionView.ItemTemplate>
 
-                    <DataTemplate x:DataType="models:S7Address">
+                    <DataTemplate x:DataType="models:S7DataRow">
 
-                        <Frame Padding="5" Margin="0,0,0,3">
+                        <Frame Padding="5" Margin="0,0,0,5">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition/>
@@ -63,8 +63,19 @@
                                     <RowDefinition Height="auto"/>
                                 </Grid.RowDefinitions>
 
-                                <Label Text="{Binding DisplayName}"/>
-                                <Label Grid.Row="1" Text="{Binding RawAddress}" FontAttributes="Bold"/>
+                                <Label Text="{Binding Address.DisplayName}"/>
+                                <Label Grid.Row="1" Text="{Binding Address.RawAddress}" FontAttributes="Bold"/>
+
+                                <Picker Grid.Column="1" 
+                                        Grid.RowSpan="2"
+                                        ItemsSource="{Binding Formats}"
+                                        SelectedItem="{Binding SelectedFormat}"/>
+
+
+                                <Label Grid.Column="2" 
+                                       Grid.RowSpan="2" 
+                                       VerticalTextAlignment="Center" 
+                                       HorizontalTextAlignment="Center" Text="{Binding Data}"/>
 
                             </Grid>
                         </Frame>
