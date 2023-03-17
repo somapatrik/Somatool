@@ -1,4 +1,5 @@
-﻿using Sharp7;
+﻿using Android.Media.TV;
+using Sharp7;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,24 +25,15 @@ namespace Veverka.Models
                 SetProperty(ref _Address, value);
                 addressFormatter = new AddressFormatter() { Address = _Address.RawAddress };
                 Buffer = new byte[addressFormatter.BufferSize];
+                SetFormats();
             }
         }
 
         private string _Data;
-        public string Data
-        {
-            get 
-            {
-                return S7.GetIntAt(Buffer, 0).ToString() ; 
-            }
+        public string Data { get => _Data; set => SetProperty(ref _Data, value); }
 
-            set
-            {
-                SetProperty(ref _Data, value);
-            }
-        }
-
-        public List<string> Formats { get => new List<string>() { "BOOL", "INT", "INT +/-", "FLOAT" }; }
+        private List<string> _Formats;
+        public List<string> Formats { get => _Formats; set => SetProperty(ref _Formats, value); } 
 
         private string _SelectedFormat;
         public string SelectedFormat { get => _SelectedFormat; set => SetProperty(ref _SelectedFormat, value); }
@@ -52,9 +44,44 @@ namespace Veverka.Models
             Address = address;            
         }
 
+        private void SetFormats()
+        {
+            List<string> formats = new List<string>();
+            
+            if (addressFormatter.IsValid)
+            {
+                if (addressFormatter.IsBit)
+                {
+                    formats.Add("BOOL");
+                }
+                else if (addressFormatter.IsByte || addressFormatter.IsWord)
+                {
+                    formats.Add("BINARY");
+                    formats.Add("DECIMAL +/-");
+                    formats.Add("DECIMAL");
+                    //formats.Add("CHARACTER");
+                }
+                else if (addressFormatter.IsDouble)
+                {
+                    formats.Add("BINARY");
+                    formats.Add("DECIMAL +/-");
+                    formats.Add("DECIMAL");
+                    formats.Add("CHARACTER");
+                    //formats.Add("FLOAT");
+                }
+                else if (addressFormatter.IsString)
+                {
+                    //formats.Add("STRING");
+                }
+            }
+
+            Formats = formats;
+
+        }
+
         public void ReadFromPLC()
         {
-            if (addressFormatter.IsValid)
+            if (addressFormatter.IsValid) 
                 PlcClient.ReadArea(
                     addressFormatter.Area,
                     addressFormatter.DBNumber,
@@ -62,7 +89,83 @@ namespace Veverka.Models
                     addressFormatter.Amount,
                     addressFormatter.WordLen,
                     Buffer);
+
+            PresentData();                
         }
+
+        public void PresentData()
+        {
+            switch (SelectedFormat)
+            {
+                case "BOOL":
+                    GetBoolS();
+                    break;
+                case "BINARY":
+                    GetBinS();
+                    break;
+                case "DECIMAL":
+                    GetUDecS();
+                    break;
+                case "DECIMAL +/-":
+                    GetSDecS();
+                    break;
+                case "FLOAT":
+                    GetFloatS();
+                    break;
+            }
+                
+        }
+
+        public void GetBoolS()
+        {
+            Data = S7.GetBitAt(Buffer, 0, 0).ToString();
+        }
+
+        public void GetBinS()
+        {
+            Data = string.Join(" ", Buffer.Select(x => Convert.ToString(x, 2).PadLeft(8, '0')));
+        }
+
+        public void GetSDecS()
+        {
+            if (addressFormatter.IsByte) 
+            { 
+                Data = S7.GetSIntAt(Buffer, 0).ToString();
+            }
+            else if (addressFormatter.IsWord)
+            {
+                Data = S7.GetIntAt(Buffer, 0).ToString();
+            }
+            else if (addressFormatter.IsDouble)
+            {
+                Data = S7.GetDIntAt(Buffer, 0).ToString();
+            }
+        }
+
+        public void GetUDecS()
+        {
+            if (addressFormatter.IsByte)
+            {
+                Data = S7.GetUSIntAt(Buffer, 0).ToString();
+            }
+            else if (addressFormatter.IsWord)
+            {
+                Data = S7.GetUIntAt(Buffer, 0).ToString();
+            }
+            else if (addressFormatter.IsDouble)
+            {
+                Data = S7.GetUDIntAt(Buffer, 0).ToString();
+            }
+
+        }
+
+        public void GetFloatS()
+        {
+            if (addressFormatter.IsDouble)
+                Data = S7.GetRealAt(Buffer, 0).ToString();
+        }
+
+
 
     }
 }

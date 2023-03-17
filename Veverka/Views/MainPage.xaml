@@ -93,7 +93,8 @@
             <!-- PLC list -->
             <CollectionView ItemsSource="{Binding Plcs}" 
                                 SelectionMode="None"
-                                SelectedItem="{Binding SelectedPlc}">
+                                SelectedItem="{Binding SelectedPlc}"
+                            ItemsLayout="VerticalGrid,1">
 
                     <CollectionView.ItemTemplate>
 

@@ -11,4 +11,10 @@ public partial class S7ProfilePage : ContentPage
 		InitializeComponent();
 		BindingContext = viewModel = new S7ProfileViewModel(plc);
 	}
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+		viewModel.OnAppearing();
+    }
 }

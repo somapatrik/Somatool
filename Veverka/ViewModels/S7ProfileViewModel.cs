@@ -49,6 +49,12 @@ namespace Veverka.ViewModels
             //IsBusy = true;
         }
 
+        public void OnAppearing()
+        {
+            // LoadAddressesHandler();
+            IsBusy = true;
+        }
+
         public async void AddressPopup()
         {
             var popup = new AddressPopup();
@@ -76,10 +82,10 @@ namespace Veverka.ViewModels
         {
             IsBusy = true;
 
-            ObservableCollection<S7DataRow> loadAdrresses = new ObservableCollection<S7DataRow>();
-
-            (await DBV.GetAddresses(PLC.ID)).ForEach(a => loadAdrresses.Add(new S7DataRow(a, ref PlcClient)));
-            Addresses = loadAdrresses;
+            //ObservableCollection<S7DataRow> loadAdrresses = new ObservableCollection<S7DataRow>();
+            Addresses = new ObservableCollection<S7DataRow>();
+            (await DBV.GetAddresses(PLC.ID)).ForEach(a => Addresses.Add(new S7DataRow(a, ref PlcClient)));
+            //Addresses = loadAdrresses;
 
             IsBusy = false;
         }
