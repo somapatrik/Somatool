@@ -17,13 +17,9 @@
 
             <StackLayout Grid.Row="1"
                                  Orientation="Vertical" 
-                                 Padding="20,10" 
+                                 Padding="20,20" 
                                  Spacing="10" 
-                                 VerticalOptions="CenterAndExpand">
-
-                <!-- Name -->
-                <Label Text="Name"/>
-                <Entry Text="{Binding Name}" HorizontalTextAlignment="Center" MaxLength="20"/>
+                                 VerticalOptions="StartAndExpand">
 
                 <!-- Unreachable -->
                 <Frame BackgroundColor="{StaticResource GithubRed}" Padding="5,0" HorizontalOptions="End">
@@ -41,28 +37,42 @@
                     </Label>
                 </Frame>
 
-                <!-- IP -->
+                <!-- Name IP -->
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
+
+                    <Label Text="Name"/>
+                    <Entry Grid.Row="1" Text="{Binding Name}" HorizontalTextAlignment="Center" MaxLength="20"/>
+
+                    <Label Grid.Column="1" Text="IP"/>
                     
-                    <Label Text="IP"/>
-                    
-                    <Entry Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding IP}" HorizontalTextAlignment="Center"
+                    <Entry Grid.Row="1" Grid.Column="1" Text="{Binding IP}" HorizontalTextAlignment="Center"
                            Keyboard="Telephone"
                            MaxLength="15"/>
                 </Grid>
 
                 <!-- S7 Connection -->
-                <Frame Grid.Column="1" BackgroundColor="{StaticResource GithubRed}" Padding="5,0" HorizontalOptions="End">
-                    <Label Text="S7 Connect" TextColor="White"/>
-                </Frame>
+                <!--<Frame Grid.Column="1" BackgroundColor="{StaticResource GithubRed}" Padding="5,0" HorizontalOptions="End">
+                    <Frame.Triggers>
+                        <DataTrigger TargetType="Frame" Binding="{Binding IsS7Connection}" Value="true">
+                            <Setter Property="BackgroundColor" Value="{StaticResource GithubGreen}"/>
+                        </DataTrigger>
+                    </Frame.Triggers>
+                    <Label Text="S7 Connection" TextColor="White">
+                        --><!--<Label.Triggers>
+                            <DataTrigger TargetType="Label" Binding="{Binding pingIP}" Value="true">
+                                <Setter Property="Text" Value="Reachable IP"/>
+                            </DataTrigger>
+                        </Label.Triggers>--><!--
+                    </Label>
+                </Frame>-->
 
                 <!-- Rack Slot -->
                 <Grid>
@@ -79,8 +89,15 @@
                     <Label Text="Rack"/>
                     <Label Grid.Column="1" Text="Slot"/>
 
-                    <Entry Grid.Row="1" Grid.Column="0"  HorizontalTextAlignment="Center" Keyboard="Numeric" />
-                    <Entry Grid.Row="1" Grid.Column="1"  HorizontalTextAlignment="Center" Keyboard="Numeric"/>
+                    <Entry Text="{Binding Rack}" 
+                           Grid.Row="1" Grid.Column="0"  
+                           HorizontalTextAlignment="Center" 
+                           Keyboard="Numeric" />
+
+                    <Entry Text="{Binding Slot}"
+                           Grid.Row="1" Grid.Column="1"  
+                           HorizontalTextAlignment="Center" 
+                           Keyboard="Numeric"/>
 
                 </Grid>
 
@@ -95,8 +112,7 @@
                         ItemDisplayBinding="{Binding Name}"
                         SelectedItem="{Binding SelectedGroup}"/>
 
-
-                <Button Grid.Row="1" Text="Create" Command="{Binding SavePlc}"/>
+                <Button Text="Save" Command="{Binding SavePlc}"/>
                 
             </StackLayout>
 

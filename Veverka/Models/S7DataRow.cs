@@ -67,7 +67,7 @@ namespace Veverka.Models
                     formats.Add("DECIMAL +/-");
                     formats.Add("DECIMAL");
                     formats.Add("CHARACTER");
-                    //formats.Add("FLOAT");
+                    formats.Add("FLOAT");
                 }
                 else if (addressFormatter.IsString)
                 {

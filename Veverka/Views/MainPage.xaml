@@ -130,7 +130,7 @@
                         </Frame>
                     </DataTemplate>
 
-                    </CollectionView.ItemTemplate>
+                    </CollectionView.ItemTemplate>   
 
 
                 </CollectionView>

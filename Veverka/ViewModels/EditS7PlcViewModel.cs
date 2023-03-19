@@ -1,4 +1,5 @@
 ﻿using Microsoft.Maui.Graphics.Text;
+using Sharp7;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -32,7 +33,6 @@ namespace Veverka.ViewModels
             }
         }
 
-
         private string _IP;
         public string IP 
         { 
@@ -58,9 +58,17 @@ namespace Veverka.ViewModels
         private string _Description;
         public string Description { get => _Description; set => SetProperty(ref _Description, value); }
 
+        private int _Rack;
+        public int Rack { get => _Rack; set => SetProperty(ref _Rack, value); }
+
+        private int _Slot;
+        public int Slot { get => _Slot; set => SetProperty(ref _Slot, value); }
+
+        private bool _IsS7Connection;
+        public bool IsS7Connection { get => _IsS7Connection; set => SetProperty(ref _IsS7Connection, value); }
+
         private ObservableCollection<PlcGroup> _Groups;
         public ObservableCollection<PlcGroup> Groups { get => _Groups; set => SetProperty(ref _Groups, value); }
-
 
         private PlcGroup _SelectedGroup;
         public PlcGroup SelectedGroup { get => _SelectedGroup; set => SetProperty(ref _SelectedGroup, value); }
@@ -68,10 +76,18 @@ namespace Veverka.ViewModels
 
         public ICommand SavePlc { private set; get; }
 
+        private List<string> UsedIP;
+
         public EditS7PlcViewModel()
         {
             BindCommands();
             LoadGroups();
+            LoadUsedIPs();
+        }
+
+        private async void LoadUsedIPs()
+        {
+            UsedIP = (await DBV.GetAllPlcs()).Select(p => p.IP).ToList();
         }
 
         private async void LoadGroups()
@@ -94,8 +110,14 @@ namespace Veverka.ViewModels
         {
             bool checkName = !string.IsNullOrEmpty(Name);
             bool checkIP = isIP;
+            bool checkRackSlot = Rack >= 0 && Slot >= 0;
 
-            return checkIP && checkName;
+            bool checkIPName = false;
+            if (checkIP)
+                checkIPName = !UsedIP.Contains(IP);
+
+
+            return checkIP && checkName && checkRackSlot && checkIPName ;
         }
 
         private void RefreshCans()
@@ -139,5 +161,24 @@ namespace Veverka.ViewModels
             pingIP = pingReply.Status == IPStatus.Success;
 
         }
+    
+        private async Task<bool> TestS7()
+        {
+            bool testConnect = false;
+
+            try
+            {
+                S7Client client = new S7Client();
+                testConnect = client.ConnectTo(IP, Rack, Slot) == 1;
+            }
+            catch
+            {
+
+            }
+
+            //IsS7Connection = testConnect;
+            return testConnect;
+        }
+
     }
 }
