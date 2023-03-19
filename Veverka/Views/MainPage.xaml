@@ -107,9 +107,14 @@
                             <Grid>
                                 <Grid.GestureRecognizers>
                                     
-                                    <TapGestureRecognizer 
+                                    <!--<TapGestureRecognizer 
                                          Command="{Binding PlcOpen, Source={RelativeSource AncestorType={x:Type viewModels:MainViewModel}}}"
-                                         CommandParameter="{Binding .}"/>
+                                         CommandParameter="{Binding .}"/>-->
+                                    
+                                    <SwipeGestureRecognizer 
+                                        Direction="Left" 
+                                        Command="{Binding PlcOpen, Source={RelativeSource AncestorType={x:Type viewModels:MainViewModel}}}"/>
+                                    
                                     
                                 </Grid.GestureRecognizers>
                                 

@@ -37,6 +37,8 @@ namespace Veverka.ViewModels
 
         #endregion
 
+        Timer TimeUpdate;
+
         public S7ProfileViewModel(S7Plc plc)
         {
             PLC = plc;
@@ -46,7 +48,12 @@ namespace Veverka.ViewModels
             AddAddress = new Command(AddressPopup);
             Read = new Command(ReadHandler);
 
-            //IsBusy = true;
+            TimeUpdate = new Timer(TimerTick, null, 0, 1000);
+        }
+
+        private void TimerTick(object state)
+        {
+
         }
 
         public void OnAppearing()
