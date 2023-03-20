@@ -19,7 +19,7 @@
         <StackLayout>
 
             <!-- Group menu -->
-            <Frame Style="{StaticResource FrameTop}" Margin="0,.1,0,0">
+            <Frame Style="{StaticResource FrameTop}" Margin="0,.1,0,.1">
 
                 <CollectionView x:Name="MyCollectionView"
                                     ItemsSource="{Binding Groups}" 
@@ -88,7 +88,7 @@
                             <SwipeView.LeftItems>
                                 <SwipeItems>
                                     <SwipeItem Text="Delete"
-                                               BackgroundColor="OrangeRed"
+                                               BackgroundColor="Red"
                                                Command="{Binding PlcDelete, Source={RelativeSource AncestorType={x:Type viewModels:MainViewModel}}}"
                                                CommandParameter="{Binding .}"/>
                                 </SwipeItems>

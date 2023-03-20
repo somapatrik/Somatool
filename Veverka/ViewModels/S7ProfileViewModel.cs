@@ -26,6 +26,9 @@ namespace Veverka.ViewModels
         private S7Plc _plc;
         public S7Plc PLC { get => _plc; set => SetProperty(ref _plc, value); }
 
+        private bool _IsConnected;
+        public bool IsConnected { get => _IsConnected; set => SetProperty(ref _IsConnected, value); }
+
         private ObservableCollection<S7DataRow> _Addresses;
         public ObservableCollection<S7DataRow> Addresses { get => _Addresses; set => SetProperty(ref _Addresses, value); }
 
@@ -81,6 +84,7 @@ namespace Veverka.ViewModels
                     };
 
                     await DBV.CreateAddress(s7Address);
+                    LoadAddressesHandler();
                 }
             }
         }

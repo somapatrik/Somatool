@@ -14,67 +14,73 @@
     <RefreshView x:DataType="viewModels:S7ProfileViewModel" 
                  IsRefreshing="{Binding IsBusy}"
                  Command="{Binding LoadAddresses}">
-        
-
-                <Grid>
-
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="auto"/>
-                    </Grid.RowDefinitions>
-
-                    <StackLayout Orientation="Vertical">
-                        <Label Text="{Binding PLC.IP}"/>
-                        <Label Text="Status"/>
-                    </StackLayout>
-                    
-                    <ScrollView Grid.Row="1">
-                        <CollectionView ItemsSource="{Binding Addresses}" 
-                                        SelectionMode="None">
-
-                            <CollectionView.ItemTemplate>
-
-                                <DataTemplate x:DataType="models:S7DataRow">
-
-                                    <Frame Padding="5" Margin="0,0,0,5">
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition/>
-                                                <ColumnDefinition/>
-                                                <ColumnDefinition/>
-                                            </Grid.ColumnDefinitions>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="auto"/>
-                                                <RowDefinition Height="auto"/>
-                                            </Grid.RowDefinitions>
-
-                                            <Label Text="{Binding Address.DisplayName}"/>
-                                            <Label Grid.Row="1" Text="{Binding Address.RawAddress}" FontAttributes="Bold"/>
-
-                                            <Picker Grid.Column="1" 
-                                            Grid.RowSpan="2"
-                                            ItemsSource="{Binding Formats}"
-                                            SelectedItem="{Binding SelectedFormat}"/>
 
 
-                                            <Label Grid.Column="2" 
-                                           Grid.RowSpan="2" 
-                                           VerticalTextAlignment="Center" 
-                                           HorizontalTextAlignment="Center" Text="{Binding Data}"/>
+        <Grid>
 
-                                        </Grid>
-                                    </Frame>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
 
-                                </DataTemplate>
-                            </CollectionView.ItemTemplate>
+            <Grid Grid.Row="0">
+                <Grid.RowDefinitions>
 
-                        </CollectionView>
-                    </ScrollView>
-                
-                    <Button Grid.Row="2" Text="Read" Command="{Binding Read}"/>
+                </Grid.RowDefinitions>
+            </Grid>
 
-                </Grid>
+            <StackLayout Orientation="Vertical" HorizontalOptions="CenterAndExpand">
+                <Label Text="{Binding PLC.IP}" Style="{StaticResource ConncetionStatusOK}"/>
+                <Label Text="S7 Connection" Style="{StaticResource ConncetionStatusOK}"/>
+            </StackLayout>
+
+            <ScrollView Grid.Row="1">
+                <CollectionView ItemsSource="{Binding Addresses}" 
+                                    SelectionMode="None">
+
+                    <CollectionView.ItemTemplate>
+
+                        <DataTemplate x:DataType="models:S7DataRow">
+
+                            <Frame Padding="5" Margin="0,0,0,5">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Label Text="{Binding Address.DisplayName}"/>
+                                    <Label Grid.Row="1" Text="{Binding Address.RawAddress}" FontAttributes="Bold"/>
+
+                                    <Picker Grid.Column="1" 
+                                        Grid.RowSpan="2"
+                                        ItemsSource="{Binding Formats}"
+                                        SelectedItem="{Binding SelectedFormat}"/>
+
+
+                                    <Label Grid.Column="2" 
+                                        Grid.RowSpan="2" 
+                                        VerticalTextAlignment="Center" 
+                                        HorizontalTextAlignment="Center" Text="{Binding Data}"/>
+
+                                </Grid>
+                            </Frame>
+
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+
+                </CollectionView>
+            </ScrollView>
+
+            <Button Grid.Row="2" Text="Read" Command="{Binding Read}" CornerRadius="0"/>
+
+        </Grid>
 
 
     </RefreshView>
