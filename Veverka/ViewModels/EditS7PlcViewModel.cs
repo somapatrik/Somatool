@@ -1,4 +1,5 @@
-﻿using Microsoft.Maui.Graphics.Text;
+﻿using AndroidX.ConstraintLayout.Widget;
+using Microsoft.Maui.Graphics.Text;
 using Sharp7;
 using System;
 using System.Collections.Generic;
@@ -17,8 +18,26 @@ namespace Veverka.ViewModels
 {
     public class EditS7PlcViewModel : PrimeViewModel
     {
+        private bool _Edit;
+        public bool Edit { get => _Edit; set => SetProperty(ref _Edit, value); }
+
         private S7Plc _plc;
-        public S7Plc Plc { get => _plc; set => SetProperty(ref _plc, value); }
+        public S7Plc Plc 
+        { 
+            get => _plc;
+            set
+            {
+                SetProperty(ref _plc, value);
+                Name = _plc.Name;
+                IP = _plc.IP;
+                Rack = _plc.Rack;
+                Slot = _plc.Slot;
+                Description = _plc.Description;
+                SelectedGroup = Groups.FirstOrDefault(g => g.ID == _plc.Group_ID);
+            }
+        }
+
+        #region Input fields
 
         private string _Name;
         public string Name { get => _Name; set { SetProperty(ref _Name, value); RefreshCans(); } }
@@ -73,6 +92,7 @@ namespace Veverka.ViewModels
         private PlcGroup _SelectedGroup;
         public PlcGroup SelectedGroup { get => _SelectedGroup; set => SetProperty(ref _SelectedGroup, value); }
 
+        #endregion
 
         public ICommand SavePlc { private set; get; }
 
@@ -113,9 +133,17 @@ namespace Veverka.ViewModels
             bool checkRackSlot = Rack >= 0 && Slot >= 0;
 
             bool checkIPName = false;
-            if (checkIP)
-                checkIPName = !UsedIP.Contains(IP);
 
+            if (Edit)
+            {
+                // IP is the same or completely different
+                checkIPName = Plc.IP == IP || !UsedIP.Contains(IP);
+            }
+            else
+            {
+                if (checkIP)
+                    checkIPName = !UsedIP.Contains(IP);
+            }
 
             return checkIP && checkName && checkRackSlot && checkIPName ;
         }
@@ -127,15 +155,33 @@ namespace Veverka.ViewModels
 
         private async void SavePlcHandler()
         {
-            S7Plc savePlc = new S7Plc()
+            if (!Edit) 
             {
-                Name = Name,
-                IP = IP,
-                Description = Description,
-                Group_ID = SelectedGroup == null ? 0 : SelectedGroup.ID
-            };
+                S7Plc savePlc = new S7Plc()
+                {
+                    Name = Name,
+                    IP = IP,
+                    Rack = Rack,
+                    Slot = Slot,
+                    Description = Description,
+                    Group_ID = SelectedGroup == null ? 0 : SelectedGroup.ID
+                };
 
-            await DBV.CreatePlc(savePlc);
+                await DBV.CreatePlc(savePlc);
+               
+            }
+            else
+            {
+                Plc.Name = Name;
+                Plc.IP = IP;
+                Plc.Rack = Rack;
+                Plc.Slot = Slot;
+                Plc.Description = Description;
+                Plc.Group_ID = SelectedGroup == null ? 0 : SelectedGroup.ID;
+
+                await DBV.EditPlc(Plc);
+            }
+
             await Shell.Current.GoToAsync("..");
         }
 

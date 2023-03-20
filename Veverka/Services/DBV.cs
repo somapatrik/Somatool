@@ -70,6 +70,17 @@ namespace Veverka.Services
             return await Database.Table<S7Plc>().Where(x => x.Name == Name).FirstOrDefaultAsync();
         }
 
+        public static async Task<int> DeletePlc(S7Plc plc)
+        {
+           (await GetAddresses(plc.ID)).ForEach(async r => await DeleteAddress(r));
+           return await Database.DeleteAsync(plc);
+        }
+
+        public static async Task<int> EditPlc(S7Plc plc)
+        {
+           return await Database.UpdateAsync(plc);
+        }
+
         #endregion
 
         #region PLC Group
@@ -110,6 +121,11 @@ namespace Veverka.Services
             await InitDB();
 
             return await Database.Table<S7Address>().Where(a => a.PLC_ID == PLC_ID).ToListAsync();
+        }
+
+        public static async Task<int> DeleteAddress(S7Address address)
+        {
+            return await Database.DeleteAsync(address);
         }
 
         #endregion)

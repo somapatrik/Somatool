@@ -47,6 +47,8 @@ namespace Veverka.ViewModels
         public ICommand CreateGroup { private set; get; }
         public ICommand SelectGroup { private set; get; }
         public ICommand PlcOpen { private set; get; }
+        public ICommand PlcDelete { private set; get; }
+        public ICommand PlcEdit { private set; get; }
 
         public MainViewModel()
         {           
@@ -55,18 +57,30 @@ namespace Veverka.ViewModels
             Refresh = new Command(RefreshHandler);
             SelectGroup = new Command(SelectGroupHandler);
             PlcOpen = new Command(PlcOpenHandler);
-            //LoadMyIP();
+            PlcDelete = new Command(PlcDeleteHandler);
+            PlcEdit = new Command(PlcEditHandler);
         }
-
-        //private void LoadMyIP()
-        //{
-        //    string hostName = Dns.GetHostName();
-        //    MyIP = Dns.GetHostByName(hostName).AddressList[0].ToString();
-        //}
 
         private async void PlcOpenHandler(object sender)
         {
             await Shell.Current.Navigation.PushAsync(new S7ProfilePage((S7Plc)sender));
+        }
+
+        private async void PlcDeleteHandler(object sender)
+        {
+            if (await Shell.Current.DisplayAlert("Delete PLC", "All data related to this PLC will be deleted.", "OK", "Cancel")) { 
+                await DBV.DeletePlc((S7Plc)sender);
+                RefreshHandler();
+            }
+        }
+
+        private async void PlcEditHandler(object sender)
+        {
+            S7Plc plc = (S7Plc)sender;
+            EditS7PlcPage editPage = new EditS7PlcPage();
+            await Shell.Current.Navigation.PushAsync(editPage);
+            
+            editPage.SetEdit(plc);
         }
 
         private async void SelectGroupHandler(object sender)
