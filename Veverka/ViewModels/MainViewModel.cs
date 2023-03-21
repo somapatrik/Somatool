@@ -70,7 +70,7 @@ namespace Veverka.ViewModels
         {
             if (await Shell.Current.DisplayAlert("Delete PLC", "All data related to this PLC will be deleted.", "OK", "Cancel")) { 
                 await DBV.DeletePlc((S7Plc)sender);
-                RefreshHandler();
+                await RefreshPlcs();
             }
         }
 

@@ -52,6 +52,8 @@ namespace Veverka.ViewModels
             Read = new Command(ReadHandler);
 
             TimeUpdate = new Timer(TimerTick, null, 0, 1000);
+
+            IsBusy = true;
         }
 
         private void TimerTick(object state)
@@ -62,7 +64,7 @@ namespace Veverka.ViewModels
         public void OnAppearing()
         {
             // LoadAddressesHandler();
-            IsBusy = true;
+             IsBusy = true;
         }
 
         public async void AddressPopup()
@@ -84,7 +86,7 @@ namespace Veverka.ViewModels
                     };
 
                     await DBV.CreateAddress(s7Address);
-                    LoadAddressesHandler();
+                    IsBusy = true;
                 }
             }
         }
@@ -103,7 +105,7 @@ namespace Veverka.ViewModels
 
         private void ConnectPlc()
         {
-            PlcClient.ConnectTo(PLC.IP, 0, 2);
+            PlcClient.ConnectTo(PLC.IP, PLC.Rack, PLC.Slot);
         }
 
         private void ReadHandler()
