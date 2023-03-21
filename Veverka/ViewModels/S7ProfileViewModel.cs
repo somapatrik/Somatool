@@ -21,7 +21,9 @@ namespace Veverka.ViewModels
     public class S7ProfileViewModel : PrimeViewModel
     {
         public S7Client PlcClient;
-        
+
+        AutoResetEvent autoEvent = new AutoResetEvent(false);
+
         private bool _IsBusy;
         public bool IsBusy { get => _IsBusy; set => SetProperty(ref _IsBusy, value); }
 
@@ -53,14 +55,13 @@ namespace Veverka.ViewModels
         }
 
         private int _CpuStatus;
-        public int CpuStatus { get => _CpuStatus; set => SetProperty(ref _CpuStatus, value); }
+        public int CpuStatus { get => _CpuStatus; set { SetProperty(ref _CpuStatus, value); RefreshCans(); } }
 
         #region Commands
 
         public ICommand LoadAddresses { private set; get; }
         public ICommand AddAddress { private set; get; }
         public ICommand Read { private set; get; }
-
         public ICommand ConnectToPlc { private set; get; }
         public ICommand DisconnectFromPlc { private set; get; }
 
@@ -80,7 +81,7 @@ namespace Veverka.ViewModels
             ConnectToPlc = new Command(ConnectPlc, CanConnect);
 
 
-            TimeUpdate = new Timer(TimerTick, null, 0, 3000);
+            TimeUpdate = new Timer(TimerTick, autoEvent, 0, 3000);
 
         }
 
@@ -112,12 +113,16 @@ namespace Veverka.ViewModels
 
         private void TimerTick(object state)
         {
-            //StopTimer();
-
-            CPUStatus();
-            IsS7Connected();
-            
-            //StartTimer();
+            try 
+            { 
+                CPUStatus();
+                IsS7Connected();
+            }
+            catch
+            {
+                CpuStatus = 0;
+                IsConnected = false;
+            }
         }
 
         #endregion
