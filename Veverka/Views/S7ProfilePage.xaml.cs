@@ -17,4 +17,10 @@ public partial class S7ProfilePage : ContentPage
         base.OnAppearing();
 		viewModel.OnAppearing();
     }
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        viewModel.OnDisappearing();
+    }
 }

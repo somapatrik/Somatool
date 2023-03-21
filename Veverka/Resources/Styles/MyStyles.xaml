@@ -11,6 +11,10 @@
         <Setter Property="TextColor" Value="white"/>
         <Setter Property="HorizontalTextAlignment" Value="Center"/>
     </Style>
+
+    <Style x:Key="ConnectionStatusNOK" TargetType="Label" BasedOn="{StaticResource ConncetionStatusOK}">
+        <Setter Property="BackgroundColor" Value="{StaticResource GithubRed}"/>
+    </Style>
     
     <Style x:Key="MemoryFrameUnselected" TargetType="Frame">
         <Setter Property="BackgroundColor" Value="White"/>

@@ -24,16 +24,70 @@
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
 
-            <Grid Grid.Row="0">
+            <Grid Grid.Row="0" Padding="5" ColumnSpacing="5">
                 <Grid.RowDefinitions>
-
+                    <RowDefinition/>
                 </Grid.RowDefinitions>
-            </Grid>
 
-            <StackLayout Orientation="Vertical" HorizontalOptions="CenterAndExpand">
-                <Label Text="{Binding PLC.IP}" Style="{StaticResource ConncetionStatusOK}"/>
-                <Label Text="S7 Connection" Style="{StaticResource ConncetionStatusOK}"/>
-            </StackLayout>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackLayout Orientation="Vertical" Grid.Column="1" Spacing="5">
+
+
+                    <Frame Grid.Row="1" 
+                           Grid.Column="1" 
+                           Padding="5"
+                           BackgroundColor="{StaticResource GithubRed}">
+
+                        <Frame.Triggers>
+                            <DataTrigger TargetType="Frame" Binding="{Binding IsConnected}" Value="True">
+                                <Setter Property="BackgroundColor" Value="{StaticResource GithubGreen}"/>
+                            </DataTrigger>
+                        </Frame.Triggers>
+
+                        <Label Text="S7" 
+                               TextColor="White"
+                               HorizontalOptions="CenterAndExpand" 
+                               VerticalOptions="CenterAndExpand" />
+
+                    </Frame>
+
+                    <Frame Grid.Row="1" 
+                           Grid.Column="1" 
+                           Padding="5"
+                           BackgroundColor="{StaticResource GithubRed}">
+
+                        <Frame.Triggers>
+                            <DataTrigger TargetType="Frame" Binding="{Binding CpuStatus}" Value="8">
+                                <Setter Property="BackgroundColor" Value="{StaticResource GithubGreen}"/>
+                            </DataTrigger>
+                        </Frame.Triggers>
+
+                        <Label Text="CPU" 
+                               TextColor="White"
+                               HorizontalOptions="CenterAndExpand" 
+                               VerticalOptions="CenterAndExpand">
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label" Binding="{Binding CpuStatus}" Value="8">
+                                    <Setter Property="Text" Value="RUN"/>
+                                </DataTrigger>
+                                <DataTrigger TargetType="Label" Binding="{Binding CpuStatus}" Value="4">
+                                    <Setter Property="Text" Value="STOP"/>
+                                </DataTrigger>
+                                <DataTrigger TargetType="Label" Binding="{Binding CpuStatus}" Value="2">
+                                    <Setter Property="Text" Value="?"/>
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
+
+                    </Frame>
+
+                </StackLayout>
+
+            </Grid>
 
             <ScrollView Grid.Row="1">
                 <CollectionView ItemsSource="{Binding Addresses}" 
@@ -78,8 +132,10 @@
                 </CollectionView>
             </ScrollView>
 
-            <Button Grid.Row="2" Text="Read" Command="{Binding Read}" CornerRadius="0"/>
-
+            <StackLayout Grid.Row="2" Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                <Button Text="Connect" Command="{Binding ConnectToPlc}"/>
+                <Button Text="Read" Command="{Binding Read}" CornerRadius="0"/>
+            </StackLayout>
         </Grid>
 
 
