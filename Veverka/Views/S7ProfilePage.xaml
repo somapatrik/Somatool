@@ -37,7 +37,7 @@
                 <StackLayout Orientation="Vertical" Grid.Column="1" Spacing="5">
 
 
-                    <Frame Grid.Row="1" 
+                    <!--<Frame Grid.Row="1" 
                            Grid.Column="1" 
                            Padding="5"
                            BackgroundColor="{StaticResource GithubRed}">
@@ -53,7 +53,7 @@
                                HorizontalOptions="CenterAndExpand" 
                                VerticalOptions="CenterAndExpand" />
 
-                    </Frame>
+                    </Frame>-->
 
                     <Frame Grid.Row="1" 
                            Grid.Column="1" 
@@ -89,6 +89,7 @@
 
             </Grid>
 
+            <!-- Data rows -->
             <ScrollView Grid.Row="1">
                 <CollectionView ItemsSource="{Binding Addresses}" 
                                     SelectionMode="None">
@@ -132,9 +133,9 @@
                 </CollectionView>
             </ScrollView>
 
-            <StackLayout Grid.Row="2" Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+            <StackLayout Grid.Row="2" Padding="10,20" Spacing="5" Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
                 <Button Text="Connect" Command="{Binding ConnectToPlc}"/>
-                <Button Text="Read" Command="{Binding Read}" CornerRadius="0"/>
+                <Button Text="Read" Command="{Binding Read}" />
             </StackLayout>
         </Grid>
 

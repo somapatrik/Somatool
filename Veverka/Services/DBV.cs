@@ -123,6 +123,11 @@ namespace Veverka.Services
             return await Database.Table<S7Address>().Where(a => a.PLC_ID == PLC_ID).ToListAsync();
         }
 
+        public static async Task<int> UpdateAddress(S7Address address)
+        {
+            return await Database.UpdateAsync(address);
+        }
+
         public static async Task<int> DeleteAddress(S7Address address)
         {
             return await Database.DeleteAsync(address);

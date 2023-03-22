@@ -69,7 +69,7 @@ namespace Veverka.ViewModels
 
         Timer TimeUpdate;
 
-        int UpdateTime = 3000;
+        int UpdateTime = 1000;
 
         public S7ProfileViewModel(S7Plc plc)
         {
@@ -78,12 +78,12 @@ namespace Veverka.ViewModels
             PlcClient = new S7Client();
             LoadAddresses = new Command(LoadAddressesHandler);
             AddAddress = new Command(AddressPopup);
-            Read = new Command(ReadHandler);
+            Read = new Command(ReadHandler, CanRead);
             DisconnectFromPlc = new Command(DisconnectPlc);
             ConnectToPlc = new Command(ConnectPlc, CanConnect);
 
 
-            TimeUpdate = new Timer(TimerTick, autoEvent, 0, UpdateTime);
+            TimeUpdate = new Timer(TimerTick, autoEvent, 500, UpdateTime);
 
         }
 
@@ -117,17 +117,13 @@ namespace Veverka.ViewModels
         {
             try 
             {
-                MainThread.BeginInvokeOnMainThread(() => {
-                    CPUStatus();
-                    IsS7Connected();
-                });
+                CPUStatus();
+                IsS7Connected();
             }
             catch
             {
-                MainThread.BeginInvokeOnMainThread(() => { 
-                    CpuStatus = 0;
-                    IsConnected = false;
-                });
+                CpuStatus = 0;
+                IsConnected = false;
             }
         }
 
@@ -159,7 +155,11 @@ namespace Veverka.ViewModels
 
         private void RefreshCans()
         {
-            ((Command)ConnectToPlc).ChangeCanExecute();
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                ((Command)ConnectToPlc).ChangeCanExecute();
+                ((Command)Read).ChangeCanExecute();
+            });
             //((Command)DisconnectFromPlc).ChangeCanExecute();
         }
 
@@ -227,6 +227,11 @@ namespace Veverka.ViewModels
         private void DisconnectPlc()
         {
             PlcClient.Disconnect();
+        }
+
+        private bool CanRead()
+        {
+            return IsConnected;
         }
 
         private void ReadHandler()

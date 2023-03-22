@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Veverka.Classes;
+using Veverka.Services;
 using Veverka.ViewModels;
 
 namespace Veverka.Models
@@ -26,6 +27,7 @@ namespace Veverka.Models
                 addressFormatter = new AddressFormatter() { Address = _Address.RawAddress };
                 Buffer = new byte[addressFormatter.BufferSize];
                 SetFormats();
+                LoadSelectedFormat();
             }
         }
 
@@ -36,12 +38,32 @@ namespace Veverka.Models
         public List<string> Formats { get => _Formats; set => SetProperty(ref _Formats, value); } 
 
         private string _SelectedFormat;
-        public string SelectedFormat { get => _SelectedFormat; set => SetProperty(ref _SelectedFormat, value); }
+        public string SelectedFormat 
+        { 
+            get => _SelectedFormat;
+            set
+            {
+                SetProperty(ref _SelectedFormat, value);
+                UpdateAddress();
+            }
+        }
 
         public S7DataRow(S7Address address, ref S7Client client)
         {
             PlcClient = client;
             Address = address;            
+        }
+
+        private void LoadSelectedFormat()
+        {
+            //if (!string.IsNullOrEmpty(Address.DataFormat))
+                SelectedFormat = Formats.Contains(Address.DataFormat) ? Address.DataFormat : Formats[0];
+        }
+
+        private async void UpdateAddress()
+        {
+            _Address.DataFormat = SelectedFormat;
+            await DBV.UpdateAddress(Address);
         }
 
         private void SetFormats()
