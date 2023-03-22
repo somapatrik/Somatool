@@ -58,19 +58,19 @@ namespace Veverka.ViewModels
         }
 
         private string _AsName;
-        public string AsName { get => _AsName; set => SetProperty(ref _AsName, value); }
+        public string AsName { get => string.IsNullOrEmpty(_AsName) ? "Name" : _AsName; set => SetProperty(ref _AsName, value); }
 
         private string _ModuleName;
-        public string ModuleName { get => _ModuleName; set => SetProperty(ref _ModuleName, value); }
+        public string ModuleName { get => string.IsNullOrEmpty(_ModuleName) ? "Module name" : _ModuleName; set => SetProperty(ref _ModuleName, value); }
 
         private string _ModuleType;
-        public string ModuleType { get => _ModuleType; set => SetProperty(ref _ModuleType, value); }
+        public string ModuleType { get => string.IsNullOrEmpty(_ModuleType) ? "Module type" : _ModuleType; set => SetProperty(ref _ModuleType, value); }
 
         private string _Serial;
-        public string Serial { get => _Serial; set => SetProperty(ref _Serial, value); }
+        public string Serial { get => string.IsNullOrEmpty(_Serial) ? "Serial number" : _Serial; set => SetProperty(ref _Serial, value); }
 
         private string _Order;
-        public string Order { get => _Order; set => SetProperty(ref _Order, value); }
+        public string Order { get => string.IsNullOrEmpty(_Order) ? "Order number" : _Order; set => SetProperty(ref _Order, value); }
 
 
 

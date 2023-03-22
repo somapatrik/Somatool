@@ -12,7 +12,7 @@ namespace Veverka.ViewModels
 
         #region Collections
 
-        private ObservableCollection<string> _MemoryTypes = new ObservableCollection<string>() { "I", "O", "M", "DB" };
+        private ObservableCollection<string> _MemoryTypes = new ObservableCollection<string>() { "I", "Q", "M", "DB" };
         public ObservableCollection<string> MemoryTypes { get => _MemoryTypes; }
         
         private ObservableCollection<string> _MemorySizes = new ObservableCollection<string>() 
