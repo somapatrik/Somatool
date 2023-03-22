@@ -55,7 +55,7 @@ namespace Veverka.ViewModels
         }
 
         private int _CpuStatus;
-        public int CpuStatus { get => _CpuStatus; set { SetProperty(ref _CpuStatus, value); RefreshCans(); } }
+        public int CpuStatus { get => _CpuStatus; set { SetProperty(ref _CpuStatus, value); } }
 
         #region Commands
 
@@ -69,6 +69,8 @@ namespace Veverka.ViewModels
 
         Timer TimeUpdate;
 
+        int UpdateTime = 3000;
+
         public S7ProfileViewModel(S7Plc plc)
         {
             PLC = plc;
@@ -81,7 +83,7 @@ namespace Veverka.ViewModels
             ConnectToPlc = new Command(ConnectPlc, CanConnect);
 
 
-            TimeUpdate = new Timer(TimerTick, autoEvent, 0, 3000);
+            TimeUpdate = new Timer(TimerTick, autoEvent, 0, UpdateTime);
 
         }
 
@@ -103,7 +105,7 @@ namespace Veverka.ViewModels
 
         private void StartTimer()
         {
-            TimeUpdate.Change(0, 1000);
+            TimeUpdate.Change(0, UpdateTime);
         }
 
         private void StopTimer()
@@ -114,14 +116,18 @@ namespace Veverka.ViewModels
         private void TimerTick(object state)
         {
             try 
-            { 
-                CPUStatus();
-                IsS7Connected();
+            {
+                MainThread.BeginInvokeOnMainThread(() => {
+                    CPUStatus();
+                    IsS7Connected();
+                });
             }
             catch
             {
-                CpuStatus = 0;
-                IsConnected = false;
+                MainThread.BeginInvokeOnMainThread(() => { 
+                    CpuStatus = 0;
+                    IsConnected = false;
+                });
             }
         }
 
@@ -130,7 +136,6 @@ namespace Veverka.ViewModels
         private void IsS7Connected()
         {
             IsConnected = CpuStatus != 0;
-           
         }
 
         private void CPUStatus()
@@ -217,6 +222,7 @@ namespace Veverka.ViewModels
         private void ConnectPlc()
         {
             PlcClient.ConnectTo(PLC.IP, PLC.Rack, PLC.Slot);
+            //StartTimer();
         }
         private void DisconnectPlc()
         {
