@@ -1,5 +1,6 @@
 ﻿//using Android.Accounts;
 //using Android.OS;
+using CommunityToolkit.Maui.Alerts;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -63,7 +64,9 @@ namespace Veverka.ViewModels
 
         private async void PlcOpenHandler(object sender)
         {
-            await Shell.Current.Navigation.PushAsync(new S7ProfilePage((S7Plc)sender));
+            S7ProfilePage plcPage = new S7ProfilePage((S7Plc)sender);
+
+            await Shell.Current.Navigation.PushAsync(plcPage);
         }
 
         private async void PlcDeleteHandler(object sender)

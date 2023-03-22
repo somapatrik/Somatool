@@ -107,6 +107,7 @@
                                     <SwipeItem Text="Delete"
                                                BackgroundColor="Red"/>
                                 </SwipeView.LeftItems>
+                              
 
                                 <Frame Padding="5" Margin="0,0,0,3">
                                     <Grid>
@@ -116,17 +117,19 @@
                                             <ColumnDefinition/>
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
-                                            <RowDefinition Height="auto"/>
-                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition />
+                                            <RowDefinition />
                                         </Grid.RowDefinitions>
-
-                                        <Label Text="{Binding Address.DisplayName}"/>
+                                        
+                                    <Label Text="{Binding Address.DisplayName}"/>
                                         <Label Grid.Row="1" Text="{Binding Address.RawAddress}" FontAttributes="Bold"/>
 
                                         <Picker Grid.Column="1" 
-                                            Grid.RowSpan="2"
-                                            ItemsSource="{Binding Formats}"
-                                            SelectedItem="{Binding SelectedFormat}"/>
+                                                Grid.RowSpan="2"
+                                                HorizontalTextAlignment="Center"
+                                                VerticalOptions="EndAndExpand"
+                                                ItemsSource="{Binding Formats}"
+                                                SelectedItem="{Binding SelectedFormat}"/>
 
 
                                         <Label Grid.Column="2" 

@@ -183,9 +183,11 @@ namespace Veverka.ViewModels
             }
             else
             {
-                address += addressSizeShort + Offset.ToString();
+                //address += addressSizeShort + Offset.ToString();
                 if (IsBit)
-                    address += "." + Bit.ToString();
+                    address += Offset.ToString() + "." + Bit.ToString();
+                else
+                    address += addressSizeShort + Offset.ToString(); ;
             }
 
             outAddress = address;
