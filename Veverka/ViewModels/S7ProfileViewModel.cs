@@ -22,13 +22,13 @@ namespace Veverka.ViewModels
     {
         public S7Client PlcClient;
 
+        private S7Plc _plc;
+        public S7Plc PLC { get => _plc; set => SetProperty(ref _plc, value); }
+
         AutoResetEvent autoEvent = new AutoResetEvent(false);
 
         private bool _IsBusy;
         public bool IsBusy { get => _IsBusy; set => SetProperty(ref _IsBusy, value); }
-
-        private S7Plc _plc;
-        public S7Plc PLC { get => _plc; set => SetProperty(ref _plc, value); }
 
         private bool _IsConnected;
         public bool IsConnected 
@@ -40,6 +40,9 @@ namespace Veverka.ViewModels
                 RefreshCans();
             } 
         }
+
+        private int _CpuStatus;
+        public int CpuStatus { get => _CpuStatus; set { SetProperty(ref _CpuStatus, value); } }
 
         private ObservableCollection<S7DataRow> _Addresses;
         public ObservableCollection<S7DataRow> Addresses { get => _Addresses; set => SetProperty(ref _Addresses, value); }
@@ -54,8 +57,22 @@ namespace Veverka.ViewModels
             }
         }
 
-        private int _CpuStatus;
-        public int CpuStatus { get => _CpuStatus; set { SetProperty(ref _CpuStatus, value); } }
+        private string _AsName;
+        public string AsName { get => _AsName; set => SetProperty(ref _AsName, value); }
+
+        private string _ModuleName;
+        public string ModuleName { get => _ModuleName; set => SetProperty(ref _ModuleName, value); }
+
+        private string _ModuleType;
+        public string ModuleType { get => _ModuleType; set => SetProperty(ref _ModuleType, value); }
+
+        private string _Serial;
+        public string Serial { get => _Serial; set => SetProperty(ref _Serial, value); }
+
+        private string _Order;
+        public string Order { get => _Order; set => SetProperty(ref _Order, value); }
+
+
 
         #region Commands
 
@@ -67,9 +84,13 @@ namespace Veverka.ViewModels
 
         #endregion
 
+        #region Timer property
+
         Timer TimeUpdate;
 
         int UpdateTime = 1000;
+
+        #endregion
 
         public S7ProfileViewModel(S7Plc plc)
         {
@@ -119,6 +140,7 @@ namespace Veverka.ViewModels
             {
                 CPUStatus();
                 IsS7Connected();
+                //OrderNumber();
             }
             catch
             {
@@ -129,10 +151,7 @@ namespace Veverka.ViewModels
 
         #endregion
 
-        private void IsS7Connected()
-        {
-            IsConnected = CpuStatus != 0;
-        }
+        #region Timer update methods
 
         private void CPUStatus()
         {
@@ -140,6 +159,34 @@ namespace Veverka.ViewModels
             PlcClient.PlcGetStatus(ref status);
             CpuStatus = status;
         }
+
+        private void IsS7Connected()
+        {
+            IsConnected = CpuStatus != 0;
+        }
+
+        private void GetPlcDetails()
+        {
+            S7Client.S7CpuInfo cpuInfo = new S7Client.S7CpuInfo();
+            PlcClient.GetCpuInfo(ref cpuInfo);
+            AsName = cpuInfo.ASName;
+            ModuleName = cpuInfo.ModuleName;
+            ModuleType = cpuInfo.ModuleTypeName;
+            Serial = cpuInfo.SerialNumber;
+
+            S7Client.S7CpInfo cpInfo = new S7Client.S7CpInfo();
+            PlcClient.GetCpInfo(ref cpInfo);
+
+            S7Client.S7Protection protection = new S7Client.S7Protection();
+            PlcClient.GetProtection(ref protection);
+
+            S7Client.S7OrderCode orderCode = new S7Client.S7OrderCode();
+            PlcClient.GetOrderCode(ref orderCode);
+            Order = orderCode.Code;
+
+        }
+
+        #endregion
 
         private async Task tryPing()
         {
@@ -160,7 +207,6 @@ namespace Veverka.ViewModels
                 ((Command)ConnectToPlc).ChangeCanExecute();
                 ((Command)Read).ChangeCanExecute();
             });
-            //((Command)DisconnectFromPlc).ChangeCanExecute();
         }
 
         #region Popup
@@ -217,12 +263,12 @@ namespace Veverka.ViewModels
         {
             return IsConnected;
         }
-
-
         private void ConnectPlc()
         {
-            PlcClient.ConnectTo(PLC.IP, PLC.Rack, PLC.Slot);
-            //StartTimer();
+            if (PlcClient.ConnectTo(PLC.IP, PLC.Rack, PLC.Slot) == 0) 
+            { 
+                GetPlcDetails();
+            }
         }
         private void DisconnectPlc()
         {
@@ -236,7 +282,7 @@ namespace Veverka.ViewModels
 
         private void ReadHandler()
         {
-            ConnectPlc();
+            //ConnectPlc();
             foreach (S7DataRow addressRow in Addresses)
             {
                 addressRow.ReadFromPLC();
