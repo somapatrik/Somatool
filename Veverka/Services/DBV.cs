@@ -96,7 +96,6 @@ namespace Veverka.Services
             return await Database.Table<PlcGroup>().Where(g => g.ID == ID).FirstOrDefaultAsync();
         }
 
-
         public static async Task CreatePlcGroup(PlcGroup group)
         {
             await Database.InsertAsync(group);
@@ -105,6 +104,31 @@ namespace Veverka.Services
         public static async Task<List<PlcGroup>> GetAllPlcGroups()
         {
             return await Database.Table<PlcGroup>().ToListAsync();
+        }
+
+        public static async Task<int> DeleteGroup(PlcGroup group)
+        {
+            return await Database.DeleteAsync(group);
+        }
+
+        public static async Task RemoveGroupFromPlc(PlcGroup group)
+        {
+            (await GetAllPlcs(group.ID)).ForEach(async plc => { plc.Group_ID = 0; await EditPlc(plc); });
+        }
+
+        public static async Task MoveToAnotherGroup(int idFrom, int idTo)
+        {
+            (await Database.Table<S7Plc>().Where(plc => plc.Group_ID == idFrom).ToListAsync())
+                .ForEach(async x => 
+                {
+                    x.Group_ID = idTo;
+                    await EditPlc(x);
+                });
+        }
+
+        public static async Task<int> CountInGroup(PlcGroup group)
+        {
+            return await Database.Table<S7Plc>().Where(plc => plc.Group_ID == group.ID).CountAsync();
         }
 
         #endregion

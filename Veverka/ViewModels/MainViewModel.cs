@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -47,6 +48,7 @@ namespace Veverka.ViewModels
         public ICommand CreatePlc { private set; get; }
         public ICommand CreateGroup { private set; get; }
         public ICommand SelectGroup { private set; get; }
+        public ICommand DeleteGroup { private set; get; }
         public ICommand PlcOpen { private set; get; }
         public ICommand PlcDelete { private set; get; }
         public ICommand PlcEdit { private set; get; }
@@ -55,6 +57,7 @@ namespace Veverka.ViewModels
         {           
             CreatePlc = new Command(CreatePlcHandler);
             CreateGroup = new Command(CreateGroupHandler);
+            DeleteGroup = new Command(DeleteGroupHandler);
             Refresh = new Command(RefreshHandler);
             SelectGroup = new Command(SelectGroupHandler);
             PlcOpen = new Command(PlcOpenHandler);
@@ -84,6 +87,20 @@ namespace Veverka.ViewModels
             await Shell.Current.Navigation.PushAsync(editPage);
             
             editPage.SetEdit(plc);
+        }
+
+        private async void DeleteGroupHandler()
+        {
+            if (SelectedGroup !=null && 
+                await Shell.Current.DisplayAlert("Delete " + SelectedGroup.Name, "Delete group and remove it from all respective PLCs?", "Delete", "Cancel"))
+            {
+                await DBV.RemoveGroupFromPlc(SelectedGroup);
+                await DBV.DeleteGroup(SelectedGroup);
+                
+                SelectedGroup = null;
+                await LoadGroups();
+                await RefreshPlcs();
+            }
         }
 
         private async void SelectGroupHandler(object sender)
