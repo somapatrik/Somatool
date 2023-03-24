@@ -104,8 +104,13 @@
                         <DataTemplate x:DataType="models:S7DataRow">
                             <SwipeView>
                                 <SwipeView.LeftItems>
-                                    <SwipeItem Text="Delete"
+                                    
+                                    <SwipeItem IconImageSource="Images/close_50.svg"
                                                BackgroundColor="Red"/>
+                                    
+                                    <SwipeItem IconImageSource="Images/edit_24.svg"
+                                               BackgroundColor="LightBlue"/>
+                                    
                                 </SwipeView.LeftItems>
                               
 
