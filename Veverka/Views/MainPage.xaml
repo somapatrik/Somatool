@@ -11,7 +11,7 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="New PLC" Command="{Binding CreatePlc}" />
         <ToolbarItem Text="Create group" Command="{Binding CreateGroup}"/>
-        <ToolbarItem Text="Delete group" Command="{Binding DeleteGroup}"/>
+        <ToolbarItem Text="Delete group" Command="{Binding DeleteGroup}" Order="Secondary"/>
     </ContentPage.ToolbarItems>
     
 
@@ -154,10 +154,10 @@
                    Text="DEVELOPMENT VERSION" 
                    HorizontalTextAlignment="Center"
                    TextColor="Black"
-                   Padding="5"
+                   Padding="7"
                    Margin="0,3,0,0"
                    BackgroundColor="{StaticResource BootstrapWarning}"
-                   FontSize="Medium"/>
+                   FontSize="Default"/>
 
         </Grid>
 
