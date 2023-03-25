@@ -82,6 +82,8 @@ namespace Veverka.ViewModels
         public ICommand ConnectToPlc { private set; get; }
         public ICommand DisconnectFromPlc { private set; get; }
 
+        public ICommand DeleteSignal { private set; get; }
+
         #endregion
 
         #region Timer property
@@ -102,6 +104,7 @@ namespace Veverka.ViewModels
             Read = new Command(ReadHandler, CanRead);
             DisconnectFromPlc = new Command(DisconnectPlc);
             ConnectToPlc = new Command(ConnectPlc, CanConnect);
+            DeleteSignal = new Command(DeleteSignalHandler);
 
 
             TimeUpdate = new Timer(TimerTick, autoEvent, 500, UpdateTime);
@@ -288,6 +291,16 @@ namespace Veverka.ViewModels
                 addressRow.ReadFromPLC();
             }
 
+        }
+
+        private async void DeleteSignalHandler(object sender)
+        {
+            S7DataRow adr = (S7DataRow)sender;
+            if (await Shell.Current.DisplayAlert("Delete " + adr.Address.RawAddress + "?", null, "Delete", "Cancel"))
+            {
+                await DBV.DeleteAddress(adr.Address);
+                await RefreshAddresses();
+            }
         }
 
     }

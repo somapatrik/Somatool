@@ -95,7 +95,10 @@
                         <SwipeView>
                             <SwipeView.LeftItems>
                                 <SwipeItems>
+                                    
+                                    
                                     <SwipeItem Text="Delete"
+                                               IconImageSource="Images/close_50.svg"
                                                BackgroundColor="Red"
                                                Command="{Binding PlcDelete, Source={RelativeSource AncestorType={x:Type viewModels:MainViewModel}}}"
                                                CommandParameter="{Binding .}"/>
@@ -103,8 +106,9 @@
                             </SwipeView.LeftItems>
                             <SwipeView.RightItems>
                                 <SwipeItems>
-                                    <SwipeItem Text="Edit"
-                                               BackgroundColor="LightBlue"
+                                    <SwipeItem Text="Edit" 
+                                        IconImageSource="Images/edit_24.svg"
+                                               BackgroundColor="{StaticResource BootstrapWarning}"
                                                Command="{Binding PlcEdit, Source={RelativeSource AncestorType={x:Type viewModels:MainViewModel}}}"
                                                CommandParameter="{Binding .}"/>
                                 </SwipeItems>

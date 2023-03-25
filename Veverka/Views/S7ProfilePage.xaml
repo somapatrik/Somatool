@@ -102,16 +102,17 @@
                     <CollectionView.ItemTemplate>
 
                         <DataTemplate x:DataType="models:S7DataRow">
+                            
                             <SwipeView>
-                                <SwipeView.LeftItems>
-                                    
+                                
+                                <SwipeView.RightItems>
+
                                     <SwipeItem IconImageSource="Images/close_50.svg"
-                                               BackgroundColor="Red"/>
-                                    
-                                    <SwipeItem IconImageSource="Images/edit_24.svg"
-                                               BackgroundColor="LightBlue"/>
-                                    
-                                </SwipeView.LeftItems>
+                                               BackgroundColor="Red"
+                                               Command="{Binding DeleteSignal, Source={RelativeSource AncestorType={x:Type viewModels:S7ProfileViewModel}}}"
+                                               CommandParameter="{Binding .}"/>
+
+                                </SwipeView.RightItems>
                               
 
                                 <Frame Padding="5" Margin="0,0,0,3">
@@ -122,8 +123,8 @@
                                             <ColumnDefinition/>
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
-                                            <RowDefinition />
-                                            <RowDefinition />
+                                            <RowDefinition/>
+                                            <RowDefinition/>
                                         </Grid.RowDefinitions>
                                         
                                     <Label Text="{Binding Address.DisplayName}"/>
@@ -132,7 +133,7 @@
                                         <Picker Grid.Column="1" 
                                                 Grid.RowSpan="2"
                                                 HorizontalTextAlignment="Center"
-                                                VerticalOptions="EndAndExpand"
+                                                VerticalOptions="CenterAndExpand"
                                                 ItemsSource="{Binding Formats}"
                                                 SelectedItem="{Binding SelectedFormat}"/>
 
@@ -140,10 +141,12 @@
                                         <Label Grid.Column="2" 
                                             Grid.RowSpan="2" 
                                             VerticalTextAlignment="Center" 
-                                            HorizontalTextAlignment="Center" Text="{Binding Data}"/>
+                                            HorizontalTextAlignment="Center" 
+                                               Text="{Binding Data}"/>
 
                                     </Grid>
                                 </Frame>
+                                
                             </SwipeView>
 
                         </DataTemplate>
