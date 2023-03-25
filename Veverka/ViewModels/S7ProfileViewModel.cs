@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Maui.Views;
-using Java.Net;
-using Javax.Security.Auth;
+
 using Sharp7;
 using System;
 using System.Collections.Generic;
@@ -72,6 +71,8 @@ namespace Veverka.ViewModels
         private string _Order;
         public string Order { get => string.IsNullOrEmpty(_Order) ? "Order number" : _Order; set => SetProperty(ref _Order, value); }
 
+        private S7DataRow _selectedRow;
+        public S7DataRow selectedRow { get => _selectedRow; set => SetProperty(ref _selectedRow, value); }
 
 
         #region Commands
@@ -81,8 +82,7 @@ namespace Veverka.ViewModels
         public ICommand Read { private set; get; }
         public ICommand ConnectToPlc { private set; get; }
         public ICommand DisconnectFromPlc { private set; get; }
-
-        public ICommand DeleteSignal { private set; get; }
+        public ICommand DeleteRowAdr { private set; get; }
 
         #endregion
 
@@ -104,7 +104,7 @@ namespace Veverka.ViewModels
             Read = new Command(ReadHandler, CanRead);
             DisconnectFromPlc = new Command(DisconnectPlc);
             ConnectToPlc = new Command(ConnectPlc, CanConnect);
-            DeleteSignal = new Command(DeleteSignalHandler);
+            DeleteRowAdr = new Command(DeleteSignalHandler);
 
 
             TimeUpdate = new Timer(TimerTick, autoEvent, 500, UpdateTime);
@@ -293,7 +293,7 @@ namespace Veverka.ViewModels
 
         }
 
-        private async void DeleteSignalHandler(object sender)
+        public async void DeleteSignalHandler(object sender)
         {
             S7DataRow adr = (S7DataRow)sender;
             if (await Shell.Current.DisplayAlert("Delete " + adr.Address.RawAddress + "?", null, "Delete", "Cancel"))

@@ -99,7 +99,7 @@
 
     <Style TargetType="Page" ApplyToDerivedTypes="True">
         <Setter Property="Padding" Value="0"/>
-        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource GithubLight}, Dark={StaticResource GithubDim}}" />
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource GithubDim}}" />
     </Style>
 
     <Style TargetType="Shell" ApplyToDerivedTypes="True">

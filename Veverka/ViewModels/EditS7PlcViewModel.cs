@@ -1,15 +1,7 @@
-﻿using AndroidX.ConstraintLayout.Widget;
-using Microsoft.Maui.Graphics.Text;
-using Sharp7;
-using System;
-using System.Collections.Generic;
+﻿using Sharp7;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Veverka.Models;
 using Veverka.Services;

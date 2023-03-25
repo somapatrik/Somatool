@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             
              xmlns:viewModels="clr-namespace:Veverka.ViewModels"
+             xmlns:views="clr-namespace:Veverka.Views"
              xmlns:models="clr-namespace:Veverka.Models"
+             x:DataType="viewModels:S7ProfileViewModel"
              x:Class="Veverka.Views.S7ProfilePage"
              Title="{Binding PLC.Name}">
 
@@ -11,11 +13,8 @@
         <ToolbarItem Text="New address" Command="{Binding AddAddress}"/>
     </ContentPage.ToolbarItems>
 
-    <RefreshView x:DataType="viewModels:S7ProfileViewModel" 
-                 IsRefreshing="{Binding IsBusy}"
+    <RefreshView IsRefreshing="{Binding IsBusy}"
                  Command="{Binding LoadAddresses}">
-
-
         <Grid>
 
             <Grid.RowDefinitions>
@@ -95,65 +94,66 @@
             </Grid>
 
             <!-- Data rows -->
-            <ScrollView Grid.Row="1">
-                <CollectionView ItemsSource="{Binding Addresses}" 
-                                SelectionMode="None">
+            <CollectionView Grid.Row="1"  
+                            ItemsSource="{Binding Addresses}" 
+                            SelectionMode="None"
+                            SelectedItem="{Binding selectedRow}">
 
-                    <CollectionView.ItemTemplate>
+                <CollectionView.ItemTemplate>
 
-                        <DataTemplate x:DataType="models:S7DataRow">
-                            
-                            <SwipeView>
-                                
-                                <SwipeView.RightItems>
+                    <DataTemplate x:DataType="models:S7DataRow">
 
-                                    <SwipeItem IconImageSource="Images/close_50.svg"
-                                               BackgroundColor="Red"
-                                               Command="{Binding DeleteSignal, Source={RelativeSource AncestorType={x:Type viewModels:S7ProfileViewModel}}}"
-                                               CommandParameter="{Binding .}"/>
+                        <SwipeView>
 
-                                </SwipeView.RightItems>
-                              
+                            <SwipeView.LeftItems>
 
-                                <Frame Padding="5" Margin="0,0,0,3">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition/>
-                                            <ColumnDefinition/>
-                                            <ColumnDefinition/>
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                        </Grid.RowDefinitions>
-                                        
-                                    <Label Text="{Binding Address.DisplayName}"/>
-                                        <Label Grid.Row="1" Text="{Binding Address.RawAddress}" FontAttributes="Bold"/>
+                                <SwipeItem IconImageSource="Images/close_50.svg"
+                                           BackgroundColor="Red"
+                                           Command="{Binding DeleteRowAdr, Source={RelativeSource AncestorType={x:Type viewModels:S7ProfileViewModel}}}"
+                                           CommandParameter="{Binding .}"/>
 
-                                        <Picker Grid.Column="1" 
-                                                Grid.RowSpan="2"
-                                                HorizontalTextAlignment="Center"
-                                                VerticalOptions="CenterAndExpand"
-                                                ItemsSource="{Binding Formats}"
-                                                SelectedItem="{Binding SelectedFormat}"/>
+                            </SwipeView.LeftItems>
+                            <!--Command="{Binding BindingContext.DeleteSignal, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
+                                       CommandParameter="{Binding .}"-->
+
+                            <Frame Padding="5" Margin="0,0,0,3">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
+
+                                <Label Text="{Binding Address.DisplayName}"/>
+                                <Label Grid.Row="1" Text="{Binding Address.RawAddress}" FontAttributes="Bold"/>
+
+                                    <Picker Grid.Column="1" 
+                                            Grid.RowSpan="2"
+                                            HorizontalTextAlignment="Center"
+                                            VerticalOptions="CenterAndExpand"
+                                            ItemsSource="{Binding Formats}"
+                                            SelectedItem="{Binding SelectedFormat}"/>
 
 
-                                        <Label Grid.Column="2" 
+                                    <Label Grid.Column="2" 
                                             Grid.RowSpan="2" 
                                             VerticalTextAlignment="Center" 
                                             HorizontalTextAlignment="Center" 
-                                               Text="{Binding Data}"/>
+                                            Text="{Binding Data}"/>
 
-                                    </Grid>
-                                </Frame>
-                                
-                            </SwipeView>
+                            </Grid>
+                            </Frame>
 
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
+                        </SwipeView>
 
-                </CollectionView>
-            </ScrollView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+            </CollectionView>
 
             <StackLayout Grid.Row="2" Padding="10,20" Spacing="5" Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
                 <Button Text="Connect" Command="{Binding ConnectToPlc}"/>

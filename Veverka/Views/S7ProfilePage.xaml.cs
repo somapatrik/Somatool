@@ -23,4 +23,9 @@ public partial class S7ProfilePage : ContentPage
         base.OnDisappearing();
         viewModel.OnDisappearing();
     }
+
+    private void SwipeItem_Clicked(object sender, EventArgs e)
+    {
+        viewModel.DeleteSignalHandler (sender);
+    }
 }
