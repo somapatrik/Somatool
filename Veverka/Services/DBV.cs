@@ -15,7 +15,7 @@ namespace Veverka.Services
 
         static SQLiteAsyncConnection Database;
 
-        public static string DatabaseFilename = "TodoSQLite.db3";
+        public static string DatabaseFilename = "veverka.db3";
 
         public static SQLite.SQLiteOpenFlags Flags =
             // open the database in read/write mode

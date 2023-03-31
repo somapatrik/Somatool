@@ -1,7 +1,5 @@
-﻿using Android.App;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
-using Veverka.Models;
 
 namespace Veverka.ViewModels
 {

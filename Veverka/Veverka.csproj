@@ -31,26 +31,30 @@
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-maccatalyst|AnyCPU'">
 	  <ApplicationId>com.somapatrik.somatool</ApplicationId>
-	  <ApplicationDisplayVersion>0.1.0</ApplicationDisplayVersion>
+	  <ApplicationDisplayVersion>0.1.1</ApplicationDisplayVersion>
 	  <ApplicationTitle>Somatool</ApplicationTitle>
+	  <ApplicationVersion>2</ApplicationVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-maccatalyst|AnyCPU'">
 	  <ApplicationId>com.somapatrik.somatool</ApplicationId>
-	  <ApplicationDisplayVersion>0.1.0</ApplicationDisplayVersion>
+	  <ApplicationDisplayVersion>0.1.1</ApplicationDisplayVersion>
 	  <ApplicationTitle>Somatool</ApplicationTitle>
+	  <ApplicationVersion>2</ApplicationVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-android33.0|AnyCPU'">
 	  <ApplicationId>com.somapatrik.somatool</ApplicationId>
-	  <ApplicationDisplayVersion>0.1.0</ApplicationDisplayVersion>
+	  <ApplicationDisplayVersion>0.1.1</ApplicationDisplayVersion>
 	  <ApplicationTitle>Somatool</ApplicationTitle>
+	  <ApplicationVersion>2</ApplicationVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-android33.0|AnyCPU'">
 	  <ApplicationId>com.somapatrik.somatool</ApplicationId>
-	  <ApplicationDisplayVersion>0.1.0</ApplicationDisplayVersion>
+	  <ApplicationDisplayVersion>0.1.1</ApplicationDisplayVersion>
 	  <ApplicationTitle>Somatool</ApplicationTitle>
+	  <ApplicationVersion>2</ApplicationVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
