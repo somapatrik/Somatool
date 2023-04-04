@@ -106,46 +106,46 @@
                         <SwipeView>
 
                             <SwipeView.LeftItems>
-
-                                <SwipeItem IconImageSource="Images/close_50.svg"
-                                           BackgroundColor="Red"
-                                           Command="{Binding DeleteRowAdr, Source={RelativeSource AncestorType={x:Type viewModels:S7ProfileViewModel}}}"
-                                           CommandParameter="{Binding .}"/>
+                                <SwipeItems>
+                                    <SwipeItem x:Name="{Binding Address.ID}"
+                                        IconImageSource="Images/close_50.svg"
+                                               BackgroundColor="Red"
+                                               Command="{Binding DeleteRowAdr, Source={RelativeSource AncestorType={x:Type viewModels:S7ProfileViewModel}}}"
+                                               CommandParameter="{Binding .}"/>
+                                </SwipeItems>
 
                             </SwipeView.LeftItems>
-                            <!--Command="{Binding BindingContext.DeleteSignal, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
-                                       CommandParameter="{Binding .}"-->
 
                             <Frame Padding="5" Margin="0,0,0,3">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="auto"/>
-                                    <RowDefinition Height="auto"/>
-                                </Grid.RowDefinitions>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                    </Grid.RowDefinitions>
 
-                                <Label Text="{Binding Address.DisplayName}"/>
-                                <Label Grid.Row="1" Text="{Binding Address.RawAddress}" FontAttributes="Bold"/>
+                                    <Label Text="{Binding Address.DisplayName}"/>
+                                    <Label Grid.Row="1" Text="{Binding Address.RawAddress}" FontAttributes="Bold"/>
 
-                                    <Picker Grid.Column="1" 
-                                            Grid.RowSpan="2"
-                                            HorizontalTextAlignment="Center"
-                                            VerticalOptions="CenterAndExpand"
-                                            ItemsSource="{Binding Formats}"
-                                            SelectedItem="{Binding SelectedFormat}"/>
+                                        <Picker Grid.Column="1" 
+                                                Grid.RowSpan="2"
+                                                HorizontalTextAlignment="Center"
+                                                VerticalOptions="CenterAndExpand"
+                                                ItemsSource="{Binding Formats}"
+                                                SelectedItem="{Binding SelectedFormat}"/>
 
 
-                                    <Label Grid.Column="2" 
-                                            Grid.RowSpan="2" 
-                                            VerticalTextAlignment="Center" 
-                                            HorizontalTextAlignment="Center" 
-                                            Text="{Binding Data}"/>
+                                        <Label Grid.Column="2" 
+                                                Grid.RowSpan="2" 
+                                                VerticalTextAlignment="Center" 
+                                                HorizontalTextAlignment="Center" 
+                                                Text="{Binding Data}"/>
 
-                            </Grid>
+                                </Grid>
                             </Frame>
 
                         </SwipeView>

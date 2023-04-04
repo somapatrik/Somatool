@@ -26,6 +26,7 @@ public partial class S7ProfilePage : ContentPage
 
     private void SwipeItem_Clicked(object sender, EventArgs e)
     {
+        
         viewModel.DeleteSignalHandler (sender);
     }
 }
