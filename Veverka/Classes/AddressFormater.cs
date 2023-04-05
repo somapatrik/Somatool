@@ -195,34 +195,64 @@ namespace Veverka.Classes
         // TODO: Only one is needed to be true
         private void CheckAddress()
         {
-            ibit = InputBit.IsMatch(RawAddress);
-            ibyte = InputByte.IsMatch(RawAddress);
-            iword = InputWord.IsMatch(RawAddress);
-            idouble = InputDouble.IsMatch(RawAddress);
+            if 
+            (
+                (ibit = InputBit.IsMatch(RawAddress)) ||
+                (ibyte = InputByte.IsMatch(RawAddress)) ||
+                (iword = InputWord.IsMatch(RawAddress)) ||
+                (idouble = InputDouble.IsMatch(RawAddress))
+            )
+            {
+                _IsInput = ibit || ibyte || iword || idouble;
+                SetValid();
+                return;
+            }
 
-            qbit = OutputBit.IsMatch(RawAddress);
-            qbyte = OutputByte.IsMatch(RawAddress);
-            qword = OutputWord.IsMatch(RawAddress);
-            qdouble = OutputDouble.IsMatch(RawAddress);
+            if 
+            (
+                (qbit = OutputBit.IsMatch(RawAddress)) ||
+                (qbyte = OutputByte.IsMatch(RawAddress)) ||
+                (qword = OutputWord.IsMatch(RawAddress)) ||
+                (qdouble = OutputDouble.IsMatch(RawAddress))
+            )
+            {
+                _IsOutput = qbit || qbyte || qword || qdouble;
+                SetValid();
+                return;
+            }
 
-            mbit = MerkerBit.IsMatch(RawAddress);
-            mbyte = MerkerByte.IsMatch(RawAddress);
-            mword = MerkerWord.IsMatch(RawAddress);
-            mdouble = MerkerDouble.IsMatch(RawAddress);
+            if
+            (
+                (mbit = MerkerBit.IsMatch(RawAddress)) ||
+                (mbyte = MerkerByte.IsMatch(RawAddress)) ||
+                (mword = MerkerWord.IsMatch(RawAddress)) ||
+                (mdouble = MerkerDouble.IsMatch(RawAddress))
+            )
+            {
+                _IsMerker = mbit || mbyte || mword || mdouble;
+                SetValid();
+                return;
+            }
 
-            dbbit = DBBit.IsMatch(RawAddress);
-            dbbyte = DBByte.IsMatch(RawAddress);
-            dbword = DBWord.IsMatch(RawAddress);
-            dbdouble = DBDouble.IsMatch(RawAddress);
-            dbs7string = DBS7String.IsMatch(RawAddress);
+            if
+            (
+                (dbbit = DBBit.IsMatch(RawAddress)) ||
+                (dbbyte = DBByte.IsMatch(RawAddress)) ||
+                (dbword = DBWord.IsMatch(RawAddress)) ||
+                (dbdouble = DBDouble.IsMatch(RawAddress)) ||
+                (dbs7string = DBS7String.IsMatch(RawAddress))
+            )
+            { 
+                _IsDB = dbbit || dbbyte || dbword || dbdouble || dbs7string;
+                SetValid();
+                return;
+            }
 
-            _IsInput = ibit || ibyte || iword || idouble;
-            _IsOutput = qbit || qbyte || qword || qdouble;
-            _IsMerker = mbit || mbyte || mword || mdouble;
-            _IsDB = dbbit || dbbyte || dbword || dbdouble || dbs7string;
+        }
 
+        private void SetValid()
+        {
             _Valid = _IsInput ^ _IsOutput ^ _IsMerker ^ _IsDB;
-
         }
 
         private void FormaterToInfo()
