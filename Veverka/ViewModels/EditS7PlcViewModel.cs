@@ -51,7 +51,7 @@ namespace Veverka.ViewModels
             set
             {
                 SetProperty(ref _IP, value);
-                if (!string.IsNullOrEmpty(_IP) && TryIP())
+                if ((!string.IsNullOrEmpty(_IP) ) && TryIP())
                     tryPing();
                 else
                     pingIP = false;
@@ -195,9 +195,16 @@ namespace Veverka.ViewModels
             options.DontFragment = true;
 
             IPAddress pingAdr = IPAddress.Parse(IP);
-            PingReply pingReply = await pingSender.SendPingAsync(pingAdr,200);
-            pingIP = pingReply.Status == IPStatus.Success;
-
+            
+            try
+            {
+                PingReply pingReply = await pingSender.SendPingAsync(pingAdr,200);
+                pingIP = pingReply.Status == IPStatus.Success;
+            }
+            catch
+            {
+                pingIP = false;
+            }
         }
     
         private async Task<bool> TestS7()
