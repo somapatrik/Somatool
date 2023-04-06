@@ -49,6 +49,8 @@ namespace Veverka.Classes
         private bool _IsMerker;
         private bool _IsDB;
 
+        private bool _SkipValid;
+
         #endregion
 
         #region Public properties
@@ -67,6 +69,16 @@ namespace Veverka.Classes
         public int Bit => _Bit;
         public int StringLen => _StringLen;
         public int DBNumber => _DBNumber; 
+
+        public bool SkipValid
+        {
+            set
+            {
+                _SkipValid = value;
+                _Valid = _SkipValid;
+            }
+            get => _SkipValid;
+        }
         
 
         public S7Area Area;
@@ -143,7 +155,6 @@ namespace Veverka.Classes
 
         #endregion
 
-
         private void GetDBNumber()
         {
             int.TryParse(RawAddress.Split('.')[0].Substring(2), out _DBNumber);
@@ -192,10 +203,9 @@ namespace Veverka.Classes
             _Bit = Bit;
         }
 
-        // TODO: Only one is needed to be true
         private void CheckAddress()
         {
-            if 
+            if
             (
                 (ibit = InputBit.IsMatch(RawAddress)) ||
                 (ibyte = InputByte.IsMatch(RawAddress)) ||
@@ -203,10 +213,11 @@ namespace Veverka.Classes
                 (idouble = InputDouble.IsMatch(RawAddress))
             )
             {
-                _IsInput = ibit || ibyte || iword || idouble;
-                SetValid();
+                _IsInput = true;
+                _Valid = true;
                 return;
             }
+
 
             if 
             (
@@ -216,8 +227,8 @@ namespace Veverka.Classes
                 (qdouble = OutputDouble.IsMatch(RawAddress))
             )
             {
-                _IsOutput = qbit || qbyte || qword || qdouble;
-                SetValid();
+                _IsOutput = true;
+                _Valid = true;
                 return;
             }
 
@@ -229,8 +240,8 @@ namespace Veverka.Classes
                 (mdouble = MerkerDouble.IsMatch(RawAddress))
             )
             {
-                _IsMerker = mbit || mbyte || mword || mdouble;
-                SetValid();
+                _IsMerker = true;
+                _Valid = true;
                 return;
             }
 
@@ -243,12 +254,13 @@ namespace Veverka.Classes
                 (dbs7string = DBS7String.IsMatch(RawAddress))
             )
             { 
-                _IsDB = dbbit || dbbyte || dbword || dbdouble || dbs7string;
-                SetValid();
+                _IsDB = true;
+                _Valid = true;
                 return;
             }
 
         }
+
 
         private void SetValid()
         {

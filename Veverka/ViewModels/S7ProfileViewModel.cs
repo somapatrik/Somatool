@@ -1,14 +1,9 @@
 ﻿using CommunityToolkit.Maui.Views;
 
 using Sharp7;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Net.NetworkInformation;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Veverka.Classes;
 using Veverka.Models;

@@ -181,7 +181,11 @@ namespace Veverka.Models
                 Data = S7.GetRealAt(Buffer, 0).ToString();
         }
 
-
+        public void GetString()
+        {
+            if (addressFormatter.is)
+            Data = S7.GetStringAt(Buffer, 0);
+        }
 
     }
 }
