@@ -215,21 +215,55 @@ namespace Veverka.ViewModels
             AddressPopupViewModel addressViewModel = (AddressPopupViewModel) await Shell.Current.ShowPopupAsync(popup);
             
             if (addressViewModel != null) 
-            { 
-                AddressFormatter formatter = new AddressFormatter() { Address = addressViewModel.outAddress };
-                
-                if (formatter.IsValid)
-                {
-                    S7Address s7Address = new S7Address()
-                    {
-                        PLC_ID = PLC.ID,
-                        DisplayName = addressViewModel.Name,
-                        RawAddress = formatter.Address
-                    };
+            {
+                // AddressFormatter formatter = new AddressFormatter() { Address = addressViewModel.outAddress };
 
-                    await DBV.CreateAddress(s7Address);
-                    IsBusy = true;
+                //if (formatter.IsValid)
+                //{
+                //    S7Address s7Address = new S7Address()
+                //    {
+                //        PLC_ID = PLC.ID,
+                //        DisplayName = addressViewModel.Name,
+                //        RawAddress = formatter.Address
+                //    };
+
+                //    await DBV.CreateAddress(s7Address);
+                //    IsBusy = true;
+                //}
+
+                int size = 0;
+                switch (addressViewModel.SelectedMemorySize.ToUpper())
+                {
+                    case "BIT":
+                    case "BYTE":
+                        size = 1;
+                        break;
+                    case "WORD":
+                        size = 2;
+                        break;
+                    case "DOUBLE":
+                        size = 4;
+                        break;
+                    case "STRING":
+                        size = addressViewModel.Length;
+                        break;
                 }
+
+                S7Address s7Address = new S7Address()
+                {
+                    PLC_ID = PLC.ID,
+                    DisplayName = addressViewModel.Name,
+                    RawAddress = addressViewModel.outAddress,
+                    MemoryType = addressViewModel.SelectedMemoryType.ToUpper(),
+                    SizeType = addressViewModel.SelectedMemorySize.ToUpper(),
+                    MemorySize = size,
+                    DBNumber = addressViewModel.DB,
+                    Offset = addressViewModel.Offset,
+                    Bit = addressViewModel.Bit
+                };
+
+                await DBV.CreateAddress(s7Address);
+                IsBusy = true;
             }
         }
 

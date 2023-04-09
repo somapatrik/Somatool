@@ -9,7 +9,7 @@ namespace Veverka.Models
     {
         private S7Client PlcClient;
         private byte[] Buffer;
-        private AddressFormatter addressFormatter;
+        //private AddressFormatter addressFormatter;
 
         private S7Address _Address;
         public S7Address Address 
@@ -18,8 +18,8 @@ namespace Veverka.Models
             set
             {
                 SetProperty(ref _Address, value);
-                addressFormatter = new AddressFormatter() { Address = _Address.RawAddress };
-                Buffer = new byte[addressFormatter.BufferSize];
+                //addressFormatter = new AddressFormatter() { Address = _Address.RawAddress };
+                Buffer = new byte[_Address.MemorySize]; //new byte[addressFormatter.BufferSize];
                 SetFormats();
                 LoadSelectedFormat();
             }
@@ -50,7 +50,7 @@ namespace Veverka.Models
 
         private void LoadSelectedFormat()
         {
-            //if (!string.IsNullOrEmpty(Address.DataFormat))
+            if (Formats.Count > 0)
                 SelectedFormat = Formats.Contains(Address.DataFormat) ? Address.DataFormat : Formats[0];
         }
 
@@ -64,32 +64,32 @@ namespace Veverka.Models
         {
             List<string> formats = new List<string>();
             
-            if (addressFormatter.IsValid)
-            {
-                if (addressFormatter.IsBit)
+           // if (addressFormatter.IsValid)
+           // {
+                if (_Address.IsBit)
                 {
                     formats.Add("BOOL");
                 }
-                else if (addressFormatter.IsByte || addressFormatter.IsWord)
+                else if (_Address.IsByte || _Address.IsWord)
                 {
                     formats.Add("BINARY");
                     formats.Add("DECIMAL +/-");
                     formats.Add("DECIMAL");
                     //formats.Add("CHARACTER");
                 }
-                else if (addressFormatter.IsDouble)
+                else if (_Address.IsDouble)
                 {
                     formats.Add("BINARY");
                     formats.Add("DECIMAL +/-");
                     formats.Add("DECIMAL");
-                    formats.Add("CHARACTER");
+                    //formats.Add("CHARACTER");
                     formats.Add("FLOAT");
                 }
-                else if (addressFormatter.IsString)
+                else if (_Address.IsString)
                 {
-                    //formats.Add("STRING");
+                    formats.Add("STRING");
                 }
-            }
+           // }
 
             Formats = formats;
 
@@ -97,13 +97,13 @@ namespace Veverka.Models
 
         public void ReadFromPLC()
         {
-            if (addressFormatter.IsValid) 
+            //if (addressFormatter.IsValid) 
                 PlcClient.ReadArea(
-                    addressFormatter.Area,
-                    addressFormatter.DBNumber,
-                    addressFormatter.Start,
-                    addressFormatter.Amount,
-                    addressFormatter.WordLen,
+                    _Address.Area,
+                    _Address.DBNumber,
+                    _Address.Start,
+                    _Address.Amount,
+                    _Address.WordLength,
                     Buffer);
 
             PresentData();                
@@ -144,15 +144,15 @@ namespace Veverka.Models
 
         public void GetSDecS()
         {
-            if (addressFormatter.IsByte) 
+            if (_Address.IsByte) 
             { 
                 Data = S7.GetSIntAt(Buffer, 0).ToString();
             }
-            else if (addressFormatter.IsWord)
+            else if (_Address.IsWord)
             {
                 Data = S7.GetIntAt(Buffer, 0).ToString();
             }
-            else if (addressFormatter.IsDouble)
+            else if (_Address.IsDouble)
             {
                 Data = S7.GetDIntAt(Buffer, 0).ToString();
             }
@@ -160,15 +160,15 @@ namespace Veverka.Models
 
         public void GetUDecS()
         {
-            if (addressFormatter.IsByte)
+            if (_Address.IsByte)
             {
                 Data = S7.GetUSIntAt(Buffer, 0).ToString();
             }
-            else if (addressFormatter.IsWord)
+            else if (_Address.IsWord)
             {
                 Data = S7.GetUIntAt(Buffer, 0).ToString();
             }
-            else if (addressFormatter.IsDouble)
+            else if (_Address.IsDouble)
             {
                 Data = S7.GetUDIntAt(Buffer, 0).ToString();
             }
@@ -177,14 +177,14 @@ namespace Veverka.Models
 
         public void GetFloatS()
         {
-            if (addressFormatter.IsDouble)
+            if (_Address.IsDouble)
                 Data = S7.GetRealAt(Buffer, 0).ToString();
         }
 
         public void GetString()
         {
-            if (addressFormatter.is)
-            Data = S7.GetStringAt(Buffer, 0);
+            //if (addressFormatter.is)
+            //Data = S7.GetStringAt(Buffer, 0);
         }
 
     }

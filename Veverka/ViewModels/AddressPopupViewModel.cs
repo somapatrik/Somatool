@@ -18,7 +18,8 @@ namespace Veverka.ViewModels
             "Bit", 
             "Byte", 
             "Word", 
-            "Double" 
+            "Double",
+            "String"
         };
         public ObservableCollection<string> MemorySizes { get => _MemorySizes; }
 
@@ -57,6 +58,7 @@ namespace Veverka.ViewModels
             {
                 SetProperty(ref _SelectedMemorySize, value);
                 IsBit = _SelectedMemorySize.ToUpper() == "BIT";
+                IsString = _SelectedMemorySize.ToUpper() == "STRING";
                 RefreshCan();
             }
         }
@@ -94,6 +96,17 @@ namespace Veverka.ViewModels
             }
         }
 
+        private int _Length;
+        public int Length
+        {
+            get => _Length;
+            set
+            {
+                SetProperty(ref _Length, value);
+                RefreshCan();
+            }
+        }
+
         #endregion
 
         private bool _IsBit;
@@ -101,6 +114,9 @@ namespace Veverka.ViewModels
 
         private bool _IsDB;
         public bool IsDB { get => _IsDB; set => SetProperty(ref _IsDB, value); }
+
+        private bool _IsString;
+        public bool IsString { get => _IsString; set => SetProperty(ref _IsString, value); }
 
         #region Commands
 
@@ -115,6 +131,8 @@ namespace Veverka.ViewModels
             SelectMemory = new Command(SelectMemoryHandler);
             SelectSize = new Command(SelectSizeHandler);
             Confirm = new Command(ConfirmHandler, CanOk);
+
+            DB = 1;
         }
         private void SelectSizeHandler(object sender)
         {
@@ -138,9 +156,10 @@ namespace Veverka.ViewModels
                 && Offset >= 0;
 
             bool bitCheck = IsBit ? Bit >= 0 && Bit <= 7 : true;
-            bool dbCheck = IsDB ? DB >= 0 : true;
+            bool dbCheck = IsDB ? DB >= 1 : true;
+            bool stringCheck = IsString ? Length > 2 && Length <= 50 : true; 
 
-            return selectedAll && bitCheck && dbCheck;
+            return selectedAll && bitCheck && dbCheck && stringCheck;
                 
         }
 
@@ -171,21 +190,39 @@ namespace Veverka.ViewModels
                 case "DOUBLE":
                     addressSizeShort += "D";
                     break;
+                case "STRING":
+                    addressSizeShort += "S";
+                    break;
             }
 
             if (IsDB) 
             { 
+                // DB5.DBW5
                 address += DB.ToString() + ".DB" + addressSizeShort + Offset.ToString();
+                
+                //DB5.DBX5.1
                 if (IsBit)
                     address += "." + Bit.ToString();
+
+                if (IsString)
+                    address += "," + Length.ToString();
             }
             else
             {
-                //address += addressSizeShort + Offset.ToString();
-                if (IsBit)
+
+                // IW5 | I5.1
+                if (IsBit) 
+                { 
                     address += Offset.ToString() + "." + Bit.ToString();
+                }
                 else
-                    address += addressSizeShort + Offset.ToString(); ;
+                {
+                    address += addressSizeShort + Offset.ToString();
+
+                    // IS5,3
+                    if (IsString)
+                        address += "," + Length.ToString();
+                }
             }
 
             outAddress = address;
