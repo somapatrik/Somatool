@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Veverka.Views.DevelopmentPage"
+             Title="About project">
+    <VerticalStackLayout>
+        
+        <Label 
+            Text="Welcome"
+            FontSize="Title"
+            Margin="0,20,0,5"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center"/>
+
+
+        <Label 
+            Text="This project is in early development. There WILL be errors, so please do not use this app in dangerous situations."
+            Margin="10"
+            FontSize="Default"
+            HorizontalTextAlignment="Start"
+            VerticalOptions="Center" />
+
+        <Label 
+            Text="I would appreciate feedback, my access to PLCs is limited. Which is good because I no longer bare responsibility for production like you."
+            Margin="10"
+            FontSize="Default"
+            VerticalOptions="Center"  />
+
+        <Button 
+            Text="List of issues"
+            Margin="10"
+            FontSize="Default"
+            VerticalOptions="Center"
+            Clicked="Button_Clicked"/>
+
+
+
+
+    </VerticalStackLayout>
+</ContentPage>

@@ -155,13 +155,18 @@
              
             <!-- Development version -->
             <Label Grid.Row="2" 
-                   Text="DEVELOPMENT VERSION" 
+                   Text="PROJECT INFORMATION" 
                    HorizontalTextAlignment="Center"
                    TextColor="Black"
                    Padding="7"
                    Margin="0,3,0,0"
                    BackgroundColor="{StaticResource BootstrapWarning}"
-                   FontSize="Default"/>
+                   FontSize="Default"
+                   >
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding OpenDevel}"/>
+                </Label.GestureRecognizers>
+            </Label>
 
         </Grid>
 

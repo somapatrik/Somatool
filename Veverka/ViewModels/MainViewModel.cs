@@ -52,6 +52,7 @@ namespace Veverka.ViewModels
         public ICommand PlcOpen { private set; get; }
         public ICommand PlcDelete { private set; get; }
         public ICommand PlcEdit { private set; get; }
+        public ICommand OpenDevel { private set; get; }
 
         public MainViewModel()
         {           
@@ -63,6 +64,7 @@ namespace Veverka.ViewModels
             PlcOpen = new Command(PlcOpenHandler);
             PlcDelete = new Command(PlcDeleteHandler);
             PlcEdit = new Command(PlcEditHandler);
+            OpenDevel = new Command(OpenDevelopment);
         }
 
         private async void PlcOpenHandler(object sender)
@@ -186,6 +188,11 @@ namespace Veverka.ViewModels
 
             if (preSelected != 0)
                 SelectedGroup = Groups.FirstOrDefault(g => g.ID == preSelected);
+        }
+
+        private async void OpenDevelopment()
+        {
+            await Shell.Current.Navigation.PushAsync(new DevelopmentPage());
         }
     }
 }
