@@ -128,7 +128,7 @@
                                         <RowDefinition Height="auto"/>
                                     </Grid.RowDefinitions>
 
-                                    <Label Text="{Binding Address.DisplayName}" />
+                                    <Label Text="{Binding Address.DisplayName}" VerticalTextAlignment="Start"/>
                                     <Label Grid.Row="1" Text="{Binding Address.RawAddress}" FontAttributes="Bold" VerticalTextAlignment="End"/>
 
                                         <Picker Grid.Column="1" 
@@ -141,7 +141,7 @@
 
                                         <Label Grid.Column="1" 
                                                 Grid.ColumnSpan="2" 
-                                                VerticalTextAlignment="Center" 
+                                                VerticalTextAlignment="Start" 
                                                 HorizontalTextAlignment="End" 
                                                 Text="{Binding Data}"
                                                 LineBreakMode="HeadTruncation"/>

@@ -128,6 +128,9 @@ namespace Veverka.Models
                 case "FLOAT":
                     GetFloatS();
                     break;
+                case "STRING":
+                    GetString();
+                    break;
             }
                 
         }
@@ -183,8 +186,7 @@ namespace Veverka.Models
 
         public void GetString()
         {
-            //if (addressFormatter.is)
-            //Data = S7.GetStringAt(Buffer, 0);
+            Data = S7.GetStringAt(Buffer, 0);
         }
 
     }
