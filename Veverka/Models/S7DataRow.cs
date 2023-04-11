@@ -97,7 +97,8 @@ namespace Veverka.Models
 
         public void ReadFromPLC()
         {
-            //if (addressFormatter.IsValid) 
+            try 
+            {  
                 PlcClient.ReadArea(
                     _Address.Area,
                     _Address.DBNumber,
@@ -106,7 +107,14 @@ namespace Veverka.Models
                     _Address.WordLength,
                     Buffer);
 
-            PresentData();                
+                PresentData();
+
+            }
+            catch
+            {
+                Data = "<Error>";
+            }
+                            
         }
 
         public void PresentData()
